@@ -3,13 +3,99 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  --border: #e1e1e1;
+  --deactivate: #c3c3c3;
+  --darkgrey: #737373;
+  --main: #ff9501;
+  --header: 100px
+}
+
+* {
+  box-sizing: border-box;
+  outline: none;
+  margin: 0;
+}
+
+p {
+  font-size: 1rem;
+}
+
+html {
+  text-size-adjust: none;
+  -webkit-text-size-adjust: none;
+  -ms-text-size-adjust: none;
+}
+
+.container {
+  margin: auto;
+  background-color: #ededed;
+  margin-top: var(--header);
+  width: 100vw;
+  height: 120vh;
+  overflow-y: scroll;
+}
+
+header {
+  border-bottom: 1px solid var(--border);
+  position: fixed;
+  height: var(--header);
+  background-color: white;
+  z-index: 1;
+  align-items: center;
+  justify-items: center;
+}
+
+.search-bar {
+  margin: auto;
+  height: 50px;
+  width: 600px;
+  border: 1px solid var(--border);
+  border-radius: 2rem;
+  box-shadow: 0 4px 10px var(--border);
+  background-color: white;
+}
+
+.search-item:nth-child(2)::before,
+.search-item:nth-child(3)::before {
+  content: "";
+  position: absolute;
+  top: 20%;
+  left: 0;
+  /* Moves the border between the two cells */
+  width: 2px;
+  height: 60%;
+  background-color: var(--border);
+}
+
+.search-item {
+  position: relative;
+}
+
+.search-item:hover {
+  background-color: #edededb4;
+  border-radius: 2rem;
+}
+
+.search-item:nth-child(1):hover+.search-item:nth-child(2)::before {
+  opacity: 0;
+}
+
+.search-item:nth-child(2):hover+.search-item:nth-child(3)::before {
+  opacity: 0;
+}
+
+.search-item:nth-child(2):hover::before {
+  opacity: 0;
+}
+
+.search-item:nth-child(3):hover::before {
+  opacity: 0;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-quicksand: var(--font-quicksand-sans);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -23,4 +109,53 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+.mobile {
+  display: none;
+}
+
+.nav-bar {
+  position: fixed;
+  bottom: 0;
+  width: 100vw;
+  height: 90px;
+  border-top: 1px solid var(--border);
+  background-color: white;
+}
+
+.nav-bar p {
+  color: var(--deactivate);
+  font-size: 0.8rem;
+  margin-top: 0.2rem;
+}
+
+.nav-icon {
+  width: 24px;
+  height: 24px;
+  color: var(--deactivate);
+}
+
+@media (max-width: 640px) {
+  header {
+    border-bottom: none;
+  }
+
+  .web {
+    display: none;
+  }
+
+  .mobile {
+    display: block;
+  }
+
+  .search-bar {
+    width: 100%;
+    height: 60px;
+    align-content: center;
+  }
+
+  .container {
+    margin-bottom: 100px;
+  }
 }
