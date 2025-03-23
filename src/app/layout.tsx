@@ -3,7 +3,8 @@ import Image from "next/image"
 import { Quicksand } from "next/font/google"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faReact, faGithub } from "@fortawesome/free-brands-svg-icons"
-import { faFontAwesome } from '@fortawesome/free-regular-svg-icons'
+import { faFontAwesome, faBookmark, faCalendar, faUser } from '@fortawesome/free-regular-svg-icons'
+import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons'
 import "./globals.css"
 
 const quicksand = Quicksand({
@@ -34,6 +35,30 @@ export default function RootLayout({
           <a href="https://fontawesome.com/" target="_blank"><FontAwesomeIcon className='nav-icon' icon={faFontAwesome} /></a>
           <a href="https://github.com/soon-y/art" target="_blank"><FontAwesomeIcon className='nav-icon' icon={faGithub} /></a>
         </footer>
+        <div className='mobile nav-bar pt-3 pb-8'>
+                <div className='flex flex-row items-center justify-center'>
+                  <div className='flex-1 flex flex-col items-center justify-center '>
+                    <FontAwesomeIcon className='nav-icon' icon={faMagnifyingGlass} />
+                    <p>Explore</p>
+                  </div>
+                  <div className='flex-1 flex flex-col items-center justify-center '>
+                    <FontAwesomeIcon className='nav-icon' icon={faBookmark} />
+                    <p>Saved</p>
+                  </div>
+                  <div className='flex-1 flex flex-col items-center justify-center '>
+                    <FontAwesomeIcon className='nav-icon' icon={faCalendar} />
+                    <p>e</p>
+                  </div>
+                  <div className='flex-1 flex flex-col items-center justify-center '>
+                    <Image src='/ar.svg' width={30} height={24} alt='ar' />
+                    <p>Docent</p>
+                  </div>
+                  <div className='flex-1 flex flex-col items-center justify-center '>
+                    <FontAwesomeIcon className='nav-icon' icon={faUser} />
+                    <p>Profile</p>
+                  </div>
+                </div>
+              </div>
       </body>
     </html>
   );

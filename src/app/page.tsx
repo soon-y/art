@@ -2,7 +2,7 @@
 import Image from 'next/image'
 import { useState, useEffect, useRef } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faBookmark, faCalendar, faCircleUser, faUser } from '@fortawesome/free-regular-svg-icons'
+import { faCircleUser } from '@fortawesome/free-regular-svg-icons'
 import { faMagnifyingGlass, faLocationDot, faChevronRight, faChevronLeft } from '@fortawesome/free-solid-svg-icons'
 import Calendar from '@/components/Calendar'
 import NumInput from '@/components/NumInput'
@@ -132,30 +132,6 @@ export default function Home() {
         <div className='content-wrapper p-6 xl:px-16 lg:px-8 w-screen'>
           <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-x-5 gap-y-8'>
 
-          </div>
-        </div>
-      </div>
-      <div className='mobile nav-bar pt-3 pb-8'>
-        <div className='flex flex-row items-center justify-center'>
-          <div className='flex-1 flex flex-col items-center justify-center '>
-            <FontAwesomeIcon className='nav-icon' icon={faMagnifyingGlass} />
-            <p>Explore</p>
-          </div>
-          <div className='flex-1 flex flex-col items-center justify-center '>
-            <FontAwesomeIcon className='nav-icon' icon={faBookmark} />
-            <p>Saved</p>
-          </div>
-          <div className='flex-1 flex flex-col items-center justify-center '>
-            <FontAwesomeIcon className='nav-icon' icon={faCalendar} />
-            <p>e</p>
-          </div>
-          <div className='flex-1 flex flex-col items-center justify-center '>
-            <Image src='/ar.svg' width={30} height={24} alt='ar' />
-            <p>Docent</p>
-          </div>
-          <div className='flex-1 flex flex-col items-center justify-center '>
-            <FontAwesomeIcon className='nav-icon' icon={faUser} />
-            <p>Profile</p>
           </div>
         </div>
       </div>
