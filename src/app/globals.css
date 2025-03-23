@@ -102,6 +102,14 @@ header {
   cursor: pointer;
 }
 
+.web-who-box {
+  left: calc(50% + (var(--serachbar-width))/3);
+}
+
+.web-where-box {
+  left: calc((100% - (var(--serachbar-width)))/2);
+}
+
 .search-item:nth-child(1):hover+.search-item:nth-child(2)::before {
   opacity: 0;
 }
