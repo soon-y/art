@@ -12,14 +12,17 @@ export default function Home() {
   const [showWhen, setWhen] = useState<boolean>(false)
   const [showWho, setWho] = useState<boolean>(false)
   const [searchClicked, setsearchClicked] = useState<boolean>(false)
-  const [when, setWhenValue] = useState<string>('Add dates')
   const [whoNum, setWhoNum] = useState<number>(0)
   const whereRef = useRef<HTMLDivElement>(null)
   const whenRef = useRef<HTMLDivElement>(null)
   const whoRef = useRef<HTMLDivElement>(null)
   const today = new Date()
-  const [month, setMonth] = useState<number>(2)
+  const [month, setMonth] = useState<number>(today.getMonth())
   const [year, setYear] = useState<number>(today.getFullYear())
+  const [whenDay, setWhenDay] = useState<number>(0)
+  const [whenMonth, setWhenMonth] = useState<number>(today.getMonth())
+  const [whenYear, setWhenYear] = useState<number>(today.getFullYear())
+  const months: string[] = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
 
   const increment = () => {
     if (month === 11) {
@@ -85,15 +88,17 @@ export default function Home() {
                 onMouseOver={(e) => e.currentTarget.style.backgroundColor = showWhen ? 'trnaparent' : '#d5d5d5b4'}
                 onMouseLeave={(e) => e.currentTarget.style.backgroundColor = showWhen ? 'white' : 'transparent'} >
                 <h3>When</h3>
-                <p>{when}</p>
+                {whenDay === 0 && <p>Add date</p>}
+                {whenDay !== 0 && <p>{whenDay} {months[whenMonth]} {whenYear}</p>}
                 {showWhen &&
                   <div className='web px-4 py-3' style={{
                     backgroundColor: 'white', width: '380px', borderRadius: '2rem', zIndex: 100,
                     boxShadow: '0 4px 10px rgba(0,0,0,0.4)', position: 'fixed', top: '148px', left: '50%', transform: 'translateX(-50%)',
                   }}>
-                    {!(month === today.getMonth() && year === today.getFullYear()) && <FontAwesomeIcon onClick={decrement} icon={faChevronLeft} style={{ position: 'absolute', top: '2rem', left: '2rem' }} />}
-                    <FontAwesomeIcon onClick={increment} icon={faChevronRight} style={{ position: 'absolute', top: '2rem', right: '2rem' }} />
-                    <Calendar year={year} month={month} setValue={setWhenValue}/>
+                    {!(month === today.getMonth() && year === today.getFullYear()) && 
+                    <FontAwesomeIcon onClick={decrement} icon={faChevronLeft} className='p-6' style={{ position: 'absolute', top: '4px', left: 0 }} />}
+                    <FontAwesomeIcon onClick={increment} icon={faChevronRight} className='p-6' style={{ position: 'absolute', top: '4px', right: 0 }} />
+                    <Calendar year={year} month={month} selDay={whenDay} selMonth={whenMonth} selYear={whenYear} setDay={setWhenDay} setMonth={setWhenMonth} setYear={setWhenYear} />
                   </div>}
               </div>
               <div className={`search-item ${showWho ? 'clicked' : ''}`} ref={whoRef} onClick={() => { setWho(true) }} style={{
@@ -155,10 +160,10 @@ export default function Home() {
         </div>
       </div>
       {showWhere &&
-        <div className='web p-3 web-where-box rounded-3xl' style={{
+        <div className='web p-3 web-where-box rounded-4xl' style={{
           overflowY: 'scroll',
-          backgroundColor: 'white', width: '400px', maxHeight: '50%', height: 'auto', zIndex: 100,
-          boxShadow: '0 4px 10px rgba(0,0,0,0.4)', position: 'fixed', top: '148px', transform: 'translateX(0%)',
+          backgroundColor: 'white', width: '300px', maxHeight: '50%', height: 'auto', zIndex: 100,
+          boxShadow: '0 4px 10px rgba(0,0,0,0.4)', position: 'fixed', top: '148px'
         }}>
           <div className='flex items-center hover:bg-gray-100 p-3 rounded-3xl'>
             <FontAwesomeIcon icon={faLocationDot} className='pr-2' /> <p>postcode</p>

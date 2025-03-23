@@ -3,10 +3,15 @@ import { useState, useEffect } from 'react'
 interface props {
   year: number
   month: number
-  setValue: React.Dispatch<React.SetStateAction<string>>
+  selDay: number
+  selMonth: number
+  selYear: number
+  setDay: React.Dispatch<React.SetStateAction<number>>
+  setMonth: React.Dispatch<React.SetStateAction<number>>
+  setYear: React.Dispatch<React.SetStateAction<number>>
 }
 
-const Calendar: React.FC<props> = ({ year, month, setValue }) => {
+const Calendar: React.FC<props> = ({ year, month, selDay, selMonth, selYear, setDay, setMonth, setYear }) => {
   const months: string[] = [
     "January", "February", "March", "April", "May", "June",
     "July", "August", "September", "October", "November", "December"
@@ -20,7 +25,16 @@ const Calendar: React.FC<props> = ({ year, month, setValue }) => {
   const [clickedIndex, setClickedIndex] = useState<number | null>(null)
 
   useEffect(() => {
+
+    console.log((selMonth === month && selYear === year ))
+
     updateDateArray()
+    if((selMonth === month && selYear === year )) {
+      setClickedIndex(selDay + theFirstDayOfWeek - 1)
+      console.log("same")
+    }else{
+      setClickedIndex(null)
+    }
   }, [year, month])
 
   const updateDateArray = () => {
@@ -41,7 +55,9 @@ const Calendar: React.FC<props> = ({ year, month, setValue }) => {
   const updateValue = (day: string, index: number) => {
     if (day !== '') {
       setClickedIndex(index)
-      setValue(day + " " + months[month] + " " + year)
+      setDay(parseInt(day))
+      setMonth(month)
+      setYear(year)
     }
   }
 
@@ -54,7 +70,7 @@ const Calendar: React.FC<props> = ({ year, month, setValue }) => {
         ))}
         {daysInMonth.map((day, index) => (
           <p key={index} style={{
-            cursor: day === '' ? 'auto' : 'pointer',
+            cursor: day === '' ? 'auto' : 'pointer', msTransitionDuration: '300ms', transitionDuration: '300ms', WebkitTransitionDuration: '300ms',
             fontSize: '1rem', textAlign: 'center', margin: '0.1rem', padding: '0.6rem 0.1rem', borderRadius: '50%',
             border: hoveredIndex === index || clickedIndex === index ? '2px solid black' : '2px solid white',
             background: clickedIndex === index ? 'black' : 'none',
