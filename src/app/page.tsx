@@ -1,22 +1,17 @@
 "use client"
 import Image from 'next/image'
 import { useState, useEffect, useRef } from 'react'
-import { usePathname, useRouter } from "next/navigation"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBookmark, faCalendar, faCircleUser, faUser } from '@fortawesome/free-regular-svg-icons'
 import { faMagnifyingGlass, faLocationDot, faChevronRight, faChevronLeft } from '@fortawesome/free-solid-svg-icons'
-import Exhibition from '@/components/Exhibition'
 import Calendar from '@/components/Calendar'
 import NumInput from '@/components/NumInput'
 
 export default function Home() {
-  // const router = useRouter()
-  // const pathname = usePathname()
   const [showWhere, setWhere] = useState<boolean>(false)
   const [showWhen, setWhen] = useState<boolean>(false)
   const [showWho, setWho] = useState<boolean>(false)
   const [searchClicked, setsearchClicked] = useState<boolean>(false)
-  const [where, setWhereValue] = useState<string>('Search')
   const [when, setWhenValue] = useState<string>('Add dates')
   const [whoNum, setWhoNum] = useState<number>(0)
   const whereRef = useRef<HTMLDivElement>(null)
@@ -170,7 +165,6 @@ export default function Home() {
           </div>
         </div>}
       {searchClicked &&
-
         <div className='mobile' style={{
           position: 'fixed', top: 0, left: 0, zIndex: 100,
           width: '100vw', height: '100vh', backgroundColor: 'white'
