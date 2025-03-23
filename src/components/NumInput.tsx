@@ -23,14 +23,14 @@ const NumInput: React.FC<props> = ({ initial, setValue }) => {
     <div className="p-3 flex justify-center items-center">
       <button
         onClick={decrement}
-        disabled={value === 0}
+        disabled={value === 0} style={{ msTransitionDuration: '300ms', transitionDuration: '300ms', WebkitTransitionDuration: '300ms' }}
         className={`text-xl border border-gray-300 text-gray-600 px-3 py-[3px] hover:border-gray-500 rounded-full cursor-pointer ${
           value === 0 ? "opacity-0 cursor-not-allowed" : ""}`}
           >−
       </button>
       <span className="w-16 text-center font-semibold "> {value} </span>
       <button
-        onClick={increment}
+        onClick={increment} style={{ msTransitionDuration: '300ms', transitionDuration: '300ms', WebkitTransitionDuration: '300ms' }}
         className="text-xl border border-gray-300 text-gray-600 px-3 py-[3px] hover:border-gray-500 rounded-full cursor-pointer"
       >+
       </button>
