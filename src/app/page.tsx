@@ -16,7 +16,7 @@ export default function Home() {
   const [openWho, setOpenWho] = useState<boolean>(false)
   const [searchClicked, setsearchClicked] = useState<boolean>(false)
   const [whoNum, setWhoNum] = useState<number>(0)
-  const [whereTo, setWhereTo] = useState<string>("")
+  const [whereTo, setWhereTo] = useState<string>('')
   const whereRef = useRef<HTMLDivElement>(null)
   const whenRef = useRef<HTMLDivElement>(null)
   const whoRef = useRef<HTMLDivElement>(null)
