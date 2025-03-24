@@ -104,7 +104,7 @@ export default function Home() {
                 onMouseOver={(e) => e.currentTarget.style.backgroundColor = showWhere ? 'trnaparent' : '#d5d5d5b4'}
                 onMouseLeave={(e) => e.currentTarget.style.backgroundColor = showWhere ? 'white' : 'transparent'} >
                 <h3>Where</h3>
-                <input type="text" placeholder='Search' value={whereTo}/>
+                <input type="text" placeholder='Search' onChange={(e) => setWhereTo(e.target.value)} value={whereTo}/>
 
                 {showWhere &&
                   <div className='web p-3 web-where-box rounded-4xl' style={{
@@ -179,7 +179,7 @@ export default function Home() {
               {!openWhere && <h3>Where</h3>}
               {openWhere && <h2>Where to?</h2>}
               <div>
-                {!openWhere && whereTo === '' && <p>I'm flexible</p>}
+                {!openWhere && whereTo === "" && <p>I'm flexible</p>}
 
               </div>
             </div>
@@ -204,7 +204,7 @@ export default function Home() {
           <div id='tabWho' className='cursor-pointer shadow-xl rounded-xl p-4 bg-white' style={{ margin: '1rem 0' }} onClick={openTab}>
             <div className='flex justify-between'>
               {!openWho && <h3>Who</h3>}
-              {openWho && <h2>Who's coming?</h2>}
+              {openWho && <h2>Who&apos;s coming?</h2>}
               <div>
                 {whoNum === 0 && <p>Add number</p>}
                 {whoNum > 0 && !openWho && <h3>{whoNum}</h3>}
