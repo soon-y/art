@@ -29,7 +29,7 @@ const Calendar: React.FC<props> = ({ year, month, selDay, selMonth, selYear, set
     console.log((selMonth === month && selYear === year ))
 
     updateDateArray()
-    if((selMonth === month && selYear === year )) {
+    if((selMonth === month && selYear === year && selDay !==0 )) {
       setClickedIndex(selDay + theFirstDayOfWeek - 1)
       console.log("same")
     }else{
@@ -61,6 +61,11 @@ const Calendar: React.FC<props> = ({ year, month, selDay, selMonth, selYear, set
     }
   }
 
+  const reset = () =>{
+    setClickedIndex(null)
+    setDay(0)
+  }
+
   return (
     <div className='w-[100%]'>
       <div className='font-bold text-center p-3 text-base'>{months[month]} {year}</div>
@@ -81,6 +86,7 @@ const Calendar: React.FC<props> = ({ year, month, selDay, selMonth, selYear, set
             onMouseLeave={() => setHoveredIndex(null)} >{day}</p>
         ))}
       </div>
+      {clickedIndex && <p className='px-4 pb-1' style={{float:'right'}} onClick={reset}> reset </p>}
     </div>
   )
 }
