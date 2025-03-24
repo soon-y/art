@@ -26,7 +26,7 @@ const Calendar: React.FC<props> = ({ year, month, selDay, selMonth, selYear, set
   const today = new Date()
 
   useEffect(() => {
-      updateDateArray()
+    updateDateArray()
     if ((selMonth === month && selYear === year && selDay !== 0)) {
       setClickedIndex(selDay + theFirstDayOfWeek - 1)
     } else {
@@ -71,13 +71,13 @@ const Calendar: React.FC<props> = ({ year, month, selDay, selMonth, selYear, set
           <p style={{ fontSize: '0.9rem', textAlign: 'center', paddingBottom: '0.5rem' }} key={index}>{day}</p>
         ))}
         {daysInMonth.map((day, index) => (
-          <button key={index} disabled={ selMonth === month && selYear === year && index < today.getDate() + theFirstDayOfWeek-1 || day == '' } style={{
-            msTransitionDuration: '300ms', transitionDuration: '300ms', WebkitTransitionDuration: '300ms',
+          <button key={index} disabled={today.getMonth() === month && today.getFullYear() === year && index < today.getDate() + theFirstDayOfWeek - 1 || day == ''} style={{
             fontSize: '1rem', textAlign: 'center', borderRadius: '50%', width: '100%', aspectRatio: day === '' ? 0 : 1,
-            border: hoveredIndex === index && !(selMonth === month && selYear === year && index < today.getDate() + theFirstDayOfWeek-1) ? '2px solid black' : 'none',
+            border: hoveredIndex === index && !(today.getMonth() === month && today.getFullYear() === year && index < today.getDate() + theFirstDayOfWeek - 1) ? '2px solid black' : 'none',
             background: clickedIndex === index ? 'black' : 'none',
-            color: selMonth === month && selYear === year && index < today.getDate() + theFirstDayOfWeek - 1 ? 'var(--deactivate)' : (clickedIndex === index ? 'white' : 'black')
-          }} 
+            color: today.getMonth() === month && today.getFullYear() === year && index < today.getDate() + theFirstDayOfWeek - 1 ? 'var(--deactivate)' : (clickedIndex === index ? 'white' : 'black')
+          }}
+            className='duration-500'
             onClick={() => updateValue(day, index)}
             onMouseOver={() => day !== '' ? setHoveredIndex(index) : setHoveredIndex(null)}
             onMouseLeave={() => setHoveredIndex(null)} >{day}</button>
