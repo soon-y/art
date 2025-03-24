@@ -25,14 +25,10 @@ const Calendar: React.FC<props> = ({ year, month, selDay, selMonth, selYear, set
   const [clickedIndex, setClickedIndex] = useState<number | null>(null)
 
   useEffect(() => {
-
-    console.log((selMonth === month && selYear === year ))
-
-    updateDateArray()
-    if((selMonth === month && selYear === year && selDay !==0 )) {
+      updateDateArray()
+    if ((selMonth === month && selYear === year && selDay !== 0)) {
       setClickedIndex(selDay + theFirstDayOfWeek - 1)
-      console.log("same")
-    }else{
+    } else {
       setClickedIndex(null)
     }
   }, [year, month])
@@ -61,7 +57,7 @@ const Calendar: React.FC<props> = ({ year, month, selDay, selMonth, selYear, set
     }
   }
 
-  const reset = () =>{
+  const reset = () => {
     setClickedIndex(null)
     setDay(0)
   }
@@ -74,19 +70,19 @@ const Calendar: React.FC<props> = ({ year, month, selDay, selMonth, selYear, set
           <p style={{ fontSize: '0.9rem', textAlign: 'center', paddingBottom: '0.5rem' }} key={index}>{day}</p>
         ))}
         {daysInMonth.map((day, index) => (
-          <p key={index} style={{
+          <button key={index} style={{
             cursor: day === '' ? 'auto' : 'pointer', msTransitionDuration: '300ms', transitionDuration: '300ms', WebkitTransitionDuration: '300ms',
-            fontSize: '1rem', textAlign: 'center', margin: '0.1rem', padding: '0.6rem 0.1rem', borderRadius: '50%',
+            fontSize: '1rem', textAlign: 'center', borderRadius: '50%', width: '100%', aspectRatio: day === '' ? 0 : 1,
             border: hoveredIndex === index || clickedIndex === index ? '2px solid black' : '2px solid white',
             background: clickedIndex === index ? 'black' : 'none',
             color: clickedIndex === index ? 'white' : 'black',
           }}
             onClick={() => updateValue(day, index)}
             onMouseOver={() => day !== '' ? setHoveredIndex(index) : setHoveredIndex(null)}
-            onMouseLeave={() => setHoveredIndex(null)} >{day}</p>
+            onMouseLeave={() => setHoveredIndex(null)} >{day}</button>
         ))}
+        {selDay !== 0 && <p className='px-4 pb-1' onClick={reset}> reset </p>}
       </div>
-      {clickedIndex && <p className='px-4 pb-1' style={{float:'right'}} onClick={reset}> reset </p>}
     </div>
   )
 }
