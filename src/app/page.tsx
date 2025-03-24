@@ -16,7 +16,7 @@ export default function Home() {
   const [openWho, setOpenWho] = useState<boolean>(false)
   const [searchClicked, setsearchClicked] = useState<boolean>(false)
   const [whoNum, setWhoNum] = useState<number>(0)
-  const [whereTo, setWhereTo] = useState<string|null>(null)
+  const [whereTo, setWhereTo] = useState<string>('')
   const whereRef = useRef<HTMLDivElement>(null)
   const whenRef = useRef<HTMLDivElement>(null)
   const whoRef = useRef<HTMLDivElement>(null)
@@ -104,7 +104,7 @@ export default function Home() {
                 onMouseOver={(e) => e.currentTarget.style.backgroundColor = showWhere ? 'trnaparent' : '#d5d5d5b4'}
                 onMouseLeave={(e) => e.currentTarget.style.backgroundColor = showWhere ? 'white' : 'transparent'} >
                 <h3>Where</h3>
-                <input type="text" placeholder='Search' onChange={(e) => setWhereTo(e.target.value)} value={whereTo || ""}/>
+                <input type="text" placeholder='Search' onChange={(e) => setWhereTo(e.target.value)} value={whereTo}/>
 
                 {showWhere &&
                   <div className='web p-3 web-where-box rounded-4xl' style={{
@@ -179,7 +179,7 @@ export default function Home() {
               {!openWhere && <h3>Where</h3>}
               {openWhere && <h2>Where to?</h2>}
               <div>
-                {!openWhere && whereTo === null && <p>I'm flexible</p>}
+                {!openWhere && whereTo === '' && <p>I&apos;m flexible</p>}
 
               </div>
             </div>
