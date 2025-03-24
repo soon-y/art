@@ -11,8 +11,12 @@ export default function Home() {
   const [showWhere, setWhere] = useState<boolean>(false)
   const [showWhen, setWhen] = useState<boolean>(false)
   const [showWho, setWho] = useState<boolean>(false)
+  const [openWhere, setOpenWhere] = useState<boolean>(false)
+  const [openWhen, setOpenWhen] = useState<boolean>(false)
+  const [openWho, setOpenWho] = useState<boolean>(false)
   const [searchClicked, setsearchClicked] = useState<boolean>(false)
   const [whoNum, setWhoNum] = useState<number>(0)
+  const [whereTo, setWhereTo] = useState<string>("")
   const whereRef = useRef<HTMLDivElement>(null)
   const whenRef = useRef<HTMLDivElement>(null)
   const whoRef = useRef<HTMLDivElement>(null)
@@ -61,6 +65,26 @@ export default function Home() {
     }
   }, [])
 
+  const openTab = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (e.currentTarget.id === 'tabWhere') {
+      setOpenWhere(true)
+    } else {
+      setOpenWhere(false)
+    }
+
+    if (e.currentTarget.id === 'tabWhen') {
+      setOpenWhen(true)
+    } else {
+      setOpenWhen(false)
+    }
+
+    if (e.currentTarget.id === 'tabWho') {
+      setOpenWho(true)
+    } else {
+      setOpenWho(false)
+    }
+  }
+
   return (
     <>
       <div className='flex flex-col w-screen h-auto'>
@@ -95,8 +119,8 @@ export default function Home() {
                     backgroundColor: 'white', width: '380px', borderRadius: '2rem', zIndex: 100,
                     boxShadow: '0 4px 10px rgba(0,0,0,0.4)', position: 'fixed', top: '148px', left: '50%', transform: 'translateX(-50%)',
                   }}>
-                    {!(month === today.getMonth() && year === today.getFullYear()) && 
-                    <FontAwesomeIcon onClick={decrement} icon={faChevronLeft} className='p-6' style={{ position: 'absolute', top: '4px', left: 0 }} />}
+                    {!(month === today.getMonth() && year === today.getFullYear()) &&
+                      <FontAwesomeIcon onClick={decrement} icon={faChevronLeft} className='p-6' style={{ position: 'absolute', top: '4px', left: 0 }} />}
                     <FontAwesomeIcon onClick={increment} icon={faChevronRight} className='p-6' style={{ position: 'absolute', top: '4px', right: 0 }} />
                     <Calendar year={year} month={month} selDay={whenDay} selMonth={whenMonth} selYear={whenYear} setDay={setWhenDay} setMonth={setWhenMonth} setYear={setWhenYear} />
                   </div>}
@@ -118,7 +142,7 @@ export default function Home() {
                   </div>}
               </div>
             </div>
-            <FontAwesomeIcon icon={faMagnifyingGlass} className='search-icon' style={{
+            <FontAwesomeIcon icon={faMagnifyingGlass} className='web search-icon' style={{
               color: 'white', padding: '0.8rem', borderRadius: '50%', transform: 'translate(0%,-50%)'
             }} />
           </div>
@@ -146,10 +170,53 @@ export default function Home() {
           </div>
         </div>}
       {searchClicked &&
-        <div className='mobile' style={{
-          position: 'fixed', top: 0, left: 0, zIndex: 100,
-          width: '100vw', height: '100vh', backgroundColor: 'white'
+        <div className='mobile pt-8 p-4  bg-gray-100 sm:p-16 sm:pt-8' style={{
+          position: 'fixed', top: 0, left: 0, zIndex: 100, width: '100vw', height: '100vh'
         }}>
+          <div id='tabWhere' className='cursor-pointer shadow-xl rounded-xl p-4 bg-white' style={{ margin: '1rem 0' }} onClick={openTab}>
+            <div className='flex justify-between'>
+              {!openWhere && <h3>Where</h3>}
+              {openWhere && <h2>Where to?</h2>}
+              <div>
+                {!openWhere && whereTo === '' && <p>I'm flexible</p>}
+
+              </div>
+            </div>
+          </div>
+          <div id='tabWhen' className='cursor-pointer shadow-xl rounded-xl p-4 bg-white' style={{ margin: '1rem 0' }} onClick={openTab}>
+            <div className='flex justify-between'>
+              {!openWhen && <h3>When</h3>}
+              {openWhen && <h2>When are you available?</h2>}
+              <div>
+                {whenDay === 0 && !openWhen && <p>Add date</p>}
+                {whenDay !== 0 && !openWhen && <h3>{whenDay} {months[whenMonth]} {whenYear}</h3>}
+              </div>
+            </div>
+            {openWhen &&
+              <div style={{ position: 'relative' }}>
+                {!(month === today.getMonth() && year === today.getFullYear()) &&
+                  <FontAwesomeIcon onClick={decrement} icon={faChevronLeft} className='p-4' style={{ position: 'absolute', top: '4px', left: 0 }} />}
+                <FontAwesomeIcon onClick={increment} icon={faChevronRight} className='p-4' style={{ position: 'absolute', top: '4px', right: 0 }} />
+                <Calendar year={year} month={month} selDay={whenDay} selMonth={whenMonth} selYear={whenYear} setDay={setWhenDay} setMonth={setWhenMonth} setYear={setWhenYear} />
+              </div>}
+          </div>
+          <div id='tabWho' className='cursor-pointer shadow-xl rounded-xl p-4 bg-white' style={{ margin: '1rem 0' }} onClick={openTab}>
+            <div className='flex justify-between'>
+              {!openWho && <h3>Who</h3>}
+              {openWho && <h2>Who's coming?</h2>}
+              <div>
+                {whoNum === 0 && <p>Add number</p>}
+                {whoNum > 0 && !openWho && <h3>{whoNum}</h3>}
+              </div>
+            </div>
+            {openWho &&
+              <div>
+                <NumInput setValue={setWhoNum} initial={whoNum} />
+              </div>}
+          </div>
+          <div onClick={() => {setsearchClicked(false)}} className='cursor-pointer bg-gray-300 p-4 text-center rounded-xl hover:bg-gray-400' style={{ 
+            width: '100%' 
+             }}>search</div>
         </div>
       }
     </>
