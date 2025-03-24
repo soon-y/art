@@ -104,7 +104,18 @@ export default function Home() {
                 onMouseOver={(e) => e.currentTarget.style.backgroundColor = showWhere ? 'trnaparent' : '#d5d5d5b4'}
                 onMouseLeave={(e) => e.currentTarget.style.backgroundColor = showWhere ? 'white' : 'transparent'} >
                 <h3>Where</h3>
-                <input type="text" placeholder='Search' />
+                <input type="text" placeholder='Search' value={whereTo}/>
+
+                {showWhere &&
+                  <div className='web p-3 web-where-box rounded-4xl' style={{
+                    overflowY: 'scroll',
+                    backgroundColor: 'white', width: '300px', maxHeight: '50%', height: 'auto', zIndex: 100,
+                    boxShadow: '0 4px 10px rgba(0,0,0,0.4)', position: 'fixed', top: '148px'
+                  }}>
+                    <div className='cursor-pointer flex items-center hover:bg-gray-100 p-3 rounded-3xl' onClick={() => { setWhereTo('Hamburg') }}>
+                      <FontAwesomeIcon icon={faLocationDot} className='pr-2' /> <p>Hamburg</p>
+                    </div>
+                  </div>}
               </div>
               <div className={`search-item ${showWhen ? 'clicked' : ''}`} ref={whenRef} onClick={() => { setWhen(true) }} style={{
                 backgroundColor: showWhen ? "white" : "transparent"
@@ -159,16 +170,6 @@ export default function Home() {
           </div>
         </div>
       </div>
-      {showWhere &&
-        <div className='web p-3 web-where-box rounded-4xl' style={{
-          overflowY: 'scroll',
-          backgroundColor: 'white', width: '300px', maxHeight: '50%', height: 'auto', zIndex: 100,
-          boxShadow: '0 4px 10px rgba(0,0,0,0.4)', position: 'fixed', top: '148px'
-        }}>
-          <div className='flex items-center hover:bg-gray-100 p-3 rounded-3xl'>
-            <FontAwesomeIcon icon={faLocationDot} className='pr-2' /> <p>postcode</p>
-          </div>
-        </div>}
       {searchClicked &&
         <div className='mobile pt-8 p-4  bg-gray-100 sm:p-16 sm:pt-8' style={{
           position: 'fixed', top: 0, left: 0, zIndex: 100, width: '100vw', height: '100vh'
@@ -214,9 +215,9 @@ export default function Home() {
                 <NumInput setValue={setWhoNum} initial={whoNum} />
               </div>}
           </div>
-          <div onClick={() => {setsearchClicked(false)}} className='cursor-pointer bg-gray-300 p-4 text-center rounded-xl hover:bg-gray-400' style={{ 
-            width: '100%' 
-             }}>search</div>
+          <div onClick={() => { setsearchClicked(false) }} className='cursor-pointer bg-gray-300 p-4 text-center rounded-xl hover:bg-gray-400' style={{
+            width: '100%'
+          }}>search</div>
         </div>
       }
     </>
