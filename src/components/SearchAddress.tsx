@@ -13,21 +13,27 @@ interface props {
 }
 
 type Place = {
-  id: string
-  place_name: string
+  bbox: [number, number, number, number]
   center: [number, number]
+  context: {
+    id: string
+    mapbox_id: string
+    text: string
+  }[]
   geometry: {
     type: string
     coordinates: [number, number]
   }
+  id: string
+  place_name: string
+  place_type: string
   properties: {
-    [key: string]: any
+    mapbox_id: string
+    [key: string]: string | number | boolean | null
   }
-  context: {
-    id: string
-    text: string
-    wikidata?: string
-  }[]
+  relevance: number
+  text: string
+  type: string
 }
 
 const SearchAddress: React.FC<props> = ({ showWhere, openWhere, whereTo, setWhereTo }) => {
@@ -42,6 +48,7 @@ const SearchAddress: React.FC<props> = ({ showWhere, openWhere, whereTo, setWher
     )
     const data = await response.json()
     setPlaces(data.features) // Store the results in state
+    console.log(data)
   }
 
   useEffect(() => {
