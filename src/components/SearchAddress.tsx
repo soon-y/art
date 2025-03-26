@@ -12,9 +12,27 @@ interface props {
   setWhereTo: React.Dispatch<React.SetStateAction<string>>
 }
 
+type Place = {
+  id: string
+  place_name: string
+  center: [number, number]
+  geometry: {
+    type: string
+    coordinates: [number, number]
+  }
+  properties: {
+    [key: string]: any
+  }
+  context: {
+    id: string
+    text: string
+    wikidata?: string
+  }[]
+}
+
 const SearchAddress: React.FC<props> = ({ showWhere, openWhere, whereTo, setWhereTo }) => {
   const [query, setQuery] = useState(whereTo)
-  const [places, setPlaces] = useState([])
+  const [places, setPlaces] = useState<Place[]>([])
 
   // Fetch the search results from Mapbox Geocoding API
   const searchAddress = async (q: string) => {
@@ -53,7 +71,7 @@ const SearchAddress: React.FC<props> = ({ showWhere, openWhere, whereTo, setWher
           boxShadow: '0 1px 10px rgba(0,0,0,0.1)', position: 'fixed', top: '148px'
         }}>
           {places.length > 0 ?
-            (places.map((place: any) => (
+            (places.map((place) => (
               <div key={place.id} className='duration-500 cursor-pointer flex items-center hover:bg-gray-100 p-3 rounded-3xl' onClick={() => {
                 setQuery(place.place_name)
                 setWhereTo(place.place_name.split(", ").slice(0, 2).join(", "))
@@ -66,7 +84,7 @@ const SearchAddress: React.FC<props> = ({ showWhere, openWhere, whereTo, setWher
 
       {openWhere &&
         <div className='mobile'>
-          {(places.map((place: any) => (
+          {(places.map((place) => (
             <div key={place.id} className='duration-500 cursor-pointer flex items-center hover:bg-gray-100 p-3 rounded-3xl' onClick={() => {
               setQuery(place.place_name)
               setWhereTo(place.place_name.split(", ").slice(0, 2).join(", "))
