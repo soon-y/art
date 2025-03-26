@@ -8,9 +8,9 @@
   --darkgrey: #737373;
   --main: #ff9501;
   --header: 170px;
-  --header-mobile: 140px;
+  --header-mobile: 120px;
   --nav-height:78px;
-  --serachbar-width: 740px;
+  --searchbar-width: 740px;
 }
 
 * {
@@ -21,15 +21,26 @@
 
 p {
   font-size: 1rem;
+  color: var(--foreground);
+  font-weight: 500;
 }
 
 h2 {
   font-size: 1.4rem;
   font-weight: 700;
+  color: var(--foreground);
 }
 
 h3 {
   font-weight: 700;
+}
+
+button {
+  cursor: pointer;
+}
+
+button:disabled {
+  cursor: auto;
 }
 
 html {
@@ -44,6 +55,7 @@ footer {
 
 .content-wrapper {
   margin-top: var(--header);
+  background-color: white;
 }
 
 header {
@@ -60,12 +72,13 @@ header {
 .search-bar {
   margin: 1rem auto;
   height: 60px;
-  width: var(--serachbar-width);
+  width: var(--searchbar-width);
   border: 1px solid var(--border);
   border-radius: 2rem;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+  box-shadow: 0 1px 10px rgba(0,0,0,0.1);
   background-color: white;
   overflow: hidden;
+  font-weight: 500;
 }
 
 .search-item:nth-child(2)::before,
@@ -87,6 +100,8 @@ header {
   align-content: center;
   font-size: 0.9rem;
   border-radius: 2rem;
+  transition-duration: 500ms;
+  -webkit-animation-duration: 500mx;
 }
 
 .search-item:hover {
@@ -99,7 +114,7 @@ header {
   z-index: 1000;
   position: absolute;
   top: 105px;
-  left: calc(50% + (var(--serachbar-width))/2 - 3.3rem);
+  left: calc(50% + (var(--searchbar-width))/2 - 3.3rem);
 }
 
 .search-icon:hover {
@@ -108,11 +123,11 @@ header {
 }
 
 .web-who-box {
-  left: calc(50% + (var(--serachbar-width))/3);
+  left: calc(50% + (var(--searchbar-width))/3);
 }
 
 .web-where-box {
-  left: calc((100% - (var(--serachbar-width)))/2);
+  left: calc((100% - (var(--searchbar-width)))/2);
 }
 
 .search-item:nth-child(1):hover+.search-item:nth-child(2)::before {
@@ -168,6 +183,12 @@ body {
 
 .mobile {
   display: none;
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+.mobile::-webkit-scrollbar {
+  display: none;
 }
 
 .nav-bar {
@@ -177,13 +198,14 @@ body {
   height: var(--nav-height);
   border-top: 1px solid var(--border);
   background-color: white;
-  padding: 0.8rem 1rem;
+  padding: 0.8rem 0;
 }
 
 .nav-bar p {
-  color: var(--darkgrey);
-  font-size: 0.8rem;
+  color: var(--deactivate);
+  font-size: 0.7rem;
   margin-top: 0.2rem;
+  font-weight: 800;
 }
 
 .nav-icon {
@@ -215,6 +237,7 @@ body {
     margin-top: var(--header-mobile);
     margin-bottom: calc(var(--nav-height) + 20px);
     padding: 0 1.6rem;
+    background-color: white;
   }
 
   .search-bar {
