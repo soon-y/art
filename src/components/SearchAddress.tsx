@@ -48,7 +48,6 @@ const SearchAddress: React.FC<props> = ({ showWhere, openWhere, whereTo, setWher
     )
     const data = await response.json()
     setPlaces(data.features) // Store the results in state
-    console.log(data)
   }
 
   useEffect(() => {
@@ -75,7 +74,7 @@ const SearchAddress: React.FC<props> = ({ showWhere, openWhere, whereTo, setWher
         <div className='web p-3 web-where-box rounded-4xl' style={{
           overflowY: 'scroll',
           backgroundColor: 'white', width: 'var(--searchbar-width)', maxHeight: '500px', height: 'auto', zIndex: 100,
-          boxShadow: '0 1px 10px rgba(0,0,0,0.1)', position: 'fixed', top: '148px'
+          boxShadow: '0 1px 10px rgba(0,0,0,0.1)', position: 'fixed', top: 'var(--header-mobile)'
         }}>
           {places.length > 0 ?
             (places.map((place) => (
