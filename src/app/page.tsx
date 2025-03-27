@@ -1,9 +1,7 @@
 'use client'
 
-import Image from 'next/image'
 import { useState, useEffect, useRef } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCircleUser } from '@fortawesome/free-regular-svg-icons'
 import { faMagnifyingGlass, faChevronRight, faChevronLeft } from '@fortawesome/free-solid-svg-icons'
 import Calendar from '@/components/Calendar'
 import NumInput from '@/components/NumInput'
@@ -71,71 +69,62 @@ export default function Home() {
   const openTab = (e: React.MouseEvent<HTMLDivElement>) => {
     if (e.currentTarget.id === 'tabWhere') { setOpenWhere(true) } else { setOpenWhere(false) }
     if (e.currentTarget.id === 'tabWhen') { setOpenWhen(true) } else { setOpenWhen(false) }
-    if (e.currentTarget.id === 'tabWho') { setOpenWho(true) } else {
-      setOpenWho(false)
-    }
+    if (e.currentTarget.id === 'tabWho') { setOpenWho(true) } else { setOpenWho(false) }
   }
 
   return (
     <>
-      <div className='flex flex-col w-screen h-auto'>
-        <header className='p-6 xl:px-16 lg:px-8 w-screen'>
-          <div className='web w-[100%] grid grid-cols-[70px_1fr_30px] gap-1 items-center'>
-            <Image src='/art.svg' alt='art logo' width={70} height={35} priority />
-            <div></div>
-            <div>
-              <FontAwesomeIcon icon={faCircleUser} style={{ color: 'var(--darkgrey)', backgroundColor: 'rgba(255,255,255,0.5)', borderRadius: '50%', fontSize: '2rem' }} />
+      <div className='w-screen h-auto'>
+        <div className='web search-bar-area header-top'>
+          <div className='search-bar grid grid-cols-[1fr_1fr_1fr]' style={{ backgroundColor: showWhere || showWhen || showWho ? '#edededb4' : 'white' }}>
+            <div className={`search-item ${showWhere ? 'clicked' : ''}`} ref={whereRef} onClick={() => { setWhere(true) }} style={{
+              backgroundColor: showWhere ? "white" : "transparent"
+            }}
+              onMouseOver={(e) => e.currentTarget.style.backgroundColor = showWhere ? 'trnaparent' : '#d5d5d5b4'}
+              onMouseLeave={(e) => e.currentTarget.style.backgroundColor = showWhere ? 'white' : 'transparent'} >
+              <h3>Where</h3>
+              <SearchAddress showWhere={showWhere} openWhere={openWhere} whereTo={whereTo} setWhereTo={setWhereTo} />
+            </div>
+            <div className={`search-item ${showWhen ? 'clicked' : ''}`} ref={whenRef} onClick={() => { setWhen(true) }} style={{
+              backgroundColor: showWhen ? "white" : "transparent"
+            }}
+              onMouseOver={(e) => e.currentTarget.style.backgroundColor = showWhen ? 'trnaparent' : '#d5d5d5b4'}
+              onMouseLeave={(e) => e.currentTarget.style.backgroundColor = showWhen ? 'white' : 'transparent'} >
+              <h3>When</h3>
+              {whenDay === 0 ? <p style={{ color: 'gray' }}>Add date</p> : <p>{whenDay} {months[whenMonth]} {whenYear}</p>}
+              {showWhen &&
+                <div className='web px-4 py-3' style={{
+                  backgroundColor: 'white', width: '380px', borderRadius: '2rem', zIndex: 100,
+                  boxShadow: '0 1px 10px rgba(0,0,0,0.1)', position: 'fixed', top: 'var(--header-mobile)', left: '50%', transform: 'translateX(-50%)',
+                }}>
+                  {!(month === today.getMonth() && year === today.getFullYear()) &&
+                    <FontAwesomeIcon onClick={decrement} icon={faChevronLeft} className='p-6' style={{ position: 'absolute', top: '4px', left: 0 }} />}
+                  <FontAwesomeIcon onClick={increment} icon={faChevronRight} className='p-6' style={{ position: 'absolute', top: '4px', right: 0 }} />
+                  <Calendar year={year} month={month} selDay={whenDay} selMonth={whenMonth} selYear={whenYear} setDay={setWhenDay} setMonth={setWhenMonth} setYear={setWhenYear} />
+                </div>}
+            </div>
+            <div className={`search-item ${showWho ? 'clicked' : ''}`} ref={whoRef} onClick={() => { setWho(true) }} style={{
+              backgroundColor: showWho ? "white" : "transparent"
+            }}
+              onMouseOver={(e) => e.currentTarget.style.backgroundColor = showWho ? 'trnaparent' : '#d5d5d5b4'}
+              onMouseLeave={(e) => e.currentTarget.style.backgroundColor = showWho ? 'white' : 'transparent'} >
+              <h3>Who</h3>
+              {whoNum === 0 ? <p style={{ color: 'gray' }}>Add number</p> : <p>{whoNum}</p>}
+              {showWho &&
+                <div className='web web-who-box' style={{
+                  backgroundColor: 'white', width: 'auto', height: '60px', borderRadius: '2rem', zIndex: 100,
+                  boxShadow: '0 1px 10px rgba(0,0,0,0.1)', position: 'fixed', top: 'var(--header-mobile)', transform: 'translateX(-75%)',
+                }}>
+                  <NumInput setValue={setWhoNum} initial={whoNum} />
+                </div>}
             </div>
           </div>
-          <div>
-            <div className='web search-bar grid grid-cols-[1fr_1fr_1fr]' style={{ backgroundColor: showWhere || showWhen || showWho ? '#edededb4' : 'white' }}>
-              <div className={`search-item ${showWhere ? 'clicked' : ''}`} ref={whereRef} onClick={() => { setWhere(true) }} style={{
-                backgroundColor: showWhere ? "white" : "transparent"
-              }}
-                onMouseOver={(e) => e.currentTarget.style.backgroundColor = showWhere ? 'trnaparent' : '#d5d5d5b4'}
-                onMouseLeave={(e) => e.currentTarget.style.backgroundColor = showWhere ? 'white' : 'transparent'} >
-                <h3>Where</h3>
-                <SearchAddress showWhere={showWhere} openWhere={openWhere} whereTo={whereTo} setWhereTo={setWhereTo} />
-              </div>
-              <div className={`search-item ${showWhen ? 'clicked' : ''}`} ref={whenRef} onClick={() => { setWhen(true) }} style={{
-                backgroundColor: showWhen ? "white" : "transparent"
-              }}
-                onMouseOver={(e) => e.currentTarget.style.backgroundColor = showWhen ? 'trnaparent' : '#d5d5d5b4'}
-                onMouseLeave={(e) => e.currentTarget.style.backgroundColor = showWhen ? 'white' : 'transparent'} >
-                <h3>When</h3>
-                {whenDay === 0 ? <p style={{ color: 'gray' }}>Add date</p> : <p>{whenDay} {months[whenMonth]} {whenYear}</p>}
-                {showWhen &&
-                  <div className='web px-4 py-3' style={{
-                    backgroundColor: 'white', width: '380px', borderRadius: '2rem', zIndex: 100,
-                    boxShadow: '0 1px 10px rgba(0,0,0,0.1)', position: 'fixed', top: '148px', left: '50%', transform: 'translateX(-50%)',
-                  }}>
-                    {!(month === today.getMonth() && year === today.getFullYear()) &&
-                      <FontAwesomeIcon onClick={decrement} icon={faChevronLeft} className='p-6' style={{ position: 'absolute', top: '4px', left: 0 }} />}
-                    <FontAwesomeIcon onClick={increment} icon={faChevronRight} className='p-6' style={{ position: 'absolute', top: '4px', right: 0 }} />
-                    <Calendar year={year} month={month} selDay={whenDay} selMonth={whenMonth} selYear={whenYear} setDay={setWhenDay} setMonth={setWhenMonth} setYear={setWhenYear} />
-                  </div>}
-              </div>
-              <div className={`search-item ${showWho ? 'clicked' : ''}`} ref={whoRef} onClick={() => { setWho(true) }} style={{
-                backgroundColor: showWho ? "white" : "transparent"
-              }}
-                onMouseOver={(e) => e.currentTarget.style.backgroundColor = showWho ? 'trnaparent' : '#d5d5d5b4'}
-                onMouseLeave={(e) => e.currentTarget.style.backgroundColor = showWho ? 'white' : 'transparent'} >
-                <h3>Who</h3>
-                {whoNum === 0 ? <p style={{ color: 'gray' }}>Add number</p> : <p>{whoNum}</p>}
-                {showWho &&
-                  <div className='web web-who-box' style={{
-                    backgroundColor: 'white', width: 'auto', height: '60px', borderRadius: '2rem', zIndex: 100,
-                    boxShadow: '0 1px 10px rgba(0,0,0,0.1)', position: 'fixed', top: '148px', transform: 'translateX(-75%)',
-                  }}>
-                    <NumInput setValue={setWhoNum} initial={whoNum} />
-                  </div>}
-              </div>
-            </div>
-            <FontAwesomeIcon icon={faMagnifyingGlass} className='web search-icon duration-500' style={{
-              color: 'white', padding: '0.8rem', borderRadius: '50%', transform: 'translate(0%,-50%)'
-            }} />
-          </div>
-          <div className='mobile search-bar cursor-pointer' onClick={() => { setsearchClicked(true) }}>
+          <FontAwesomeIcon icon={faMagnifyingGlass} className='web search-icon duration-500' style={{
+            color: 'white', padding: '0.8rem', borderRadius: '50%', transform: 'translate(0%,-50%)'
+          }} />
+        </div>
+        <div className='mobile px-6 xl:px-16 lg:px-8 search-bar-area header-top' style={{ top: '0px', paddingTop: '40px'}}>
+          <div className='search-bar cursor-pointer' onClick={() => { setsearchClicked(true) }}>
             <div>
               {whereTo === '' && whoNum === 0 && whenDay === 0 ?
                 <div className='flex flex-row  justify-center items-center'>
@@ -153,10 +142,20 @@ export default function Home() {
                 </div>}
             </div>
           </div>
-        </header>
+        </div>
         <div className='content-wrapper p-6 xl:px-16 lg:px-8 w-screen'>
           <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-x-5 gap-y-8'>
             <Exhibition />
+            <Exhibition />
+            <Exhibition />
+            <Exhibition />
+            <Exhibition />
+            <Exhibition />
+            <Exhibition />
+            <Exhibition />
+            <Exhibition />
+            <Exhibition />
+
           </div>
         </div>
       </div>
