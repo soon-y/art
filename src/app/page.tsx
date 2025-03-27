@@ -123,11 +123,11 @@ export default function Home() {
             color: 'white', padding: '0.8rem', borderRadius: '50%', transform: 'translate(0%,-50%)'
           }} />
         </div>
-        <div className='mobile px-6 xl:px-16 lg:px-8 search-bar-area header-top' style={{ top: '0px', paddingTop: '40px'}}>
+        <div className='mobile px-6 xl:px-16 lg:px-8 search-bar-area header-top' style={{ top: '0px', paddingTop: '60px'}}>
           <div className='search-bar cursor-pointer' onClick={() => { setsearchClicked(true) }}>
             <div>
               {whereTo === '' && whoNum === 0 && whenDay === 0 ?
-                <div className='flex flex-row  justify-center items-center'>
+                <div className='flex flex-row justify-center items-center'>
                   <FontAwesomeIcon className='w-4' icon={faMagnifyingGlass} />
                   <p className='p-2'>Start your search</p>
                 </div> :
