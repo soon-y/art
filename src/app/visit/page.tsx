@@ -7,7 +7,7 @@ import Link from 'next/link'
 export default function Home() {
   return (
     <div className='w-screen min-h-screen'>
-      <div className='content-wrapper-wo-searchbar p-6 xl:px-16 lg:px-8'>
+      <div className='content-wrapper-wo-searchbar pt-12 p-6 xl:px-16 lg:px-8'>
         <div className="pb-4 flex justify-between items-center w-full">
           <h1>Visits</h1>
         </div>

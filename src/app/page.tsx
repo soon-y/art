@@ -160,7 +160,7 @@ export default function Home() {
         </div>
       </div>
       {searchClicked &&
-        <div className='mobile pt-8 p-4 sm:p-16 sm:pt-8 bg-gray-100 overflow-y-auto' style={{
+        <div className='mobile pt-12 p-4 sm:p-16 sm:pt-8 bg-gray-100 overflow-y-auto' style={{
           position: 'fixed', top: 0, left: 0, zIndex: 10, width: '100vw', height: '100vh'
         }}>
           <div id='tabWhere' className='cursor-pointer shadow-[0_1px_10px_rgba(0,0,0,0.1)] rounded-xl p-4 bg-white' style={{ margin: '1rem 0' }} onClick={openTab}>
