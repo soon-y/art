@@ -1,10 +1,10 @@
 import { NextResponse } from 'next/server'
 import prisma from '@/lib/prisma'
 
-export async function PATCH(request: Request, { params }: { params: { id: string } }) {
+export async function PATCH(req: Request, { params }: { params: { id: string } }) {
   try {
     const { id } = params
-    const exhibitionId = parseInt(id, 10) // Ensure the id is treated as a number
+    const exhibitionId = parseInt(id, 10)
 
     if (isNaN(exhibitionId)) {
       return NextResponse.json({ error: 'Invalid exhibition ID' }, { status: 400 })
