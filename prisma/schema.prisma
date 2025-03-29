@@ -1,0 +1,19 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Exhibition {
+  id      Int     @id @default(autoincrement())
+  name    String
+  title   String
+  price   Float
+  imgID   Int
+  content String
+  bookmark Boolean
+  address String
+}
