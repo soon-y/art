@@ -8,6 +8,17 @@ import NumInput from '@/components/NumInput'
 import SearchAddress from '@/components/SearchAddress'
 import Exhibition from '@/components/Exhibition'
 
+interface Exhibition {
+  id: number
+  name: string
+  title: string
+  price: number
+  imgID: number
+  content: string
+  bookmark: boolean
+  address: string
+}
+
 export default function Home() {
   const [showWhere, setWhere] = useState<boolean>(false)
   const [showWhen, setWhen] = useState<boolean>(false)
@@ -28,26 +39,14 @@ export default function Home() {
   const [whenMonth, setWhenMonth] = useState<number>(today.getMonth())
   const [whenYear, setWhenYear] = useState<number>(today.getFullYear())
   const months: string[] = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
-
-  const increment = () => {
-    if (month === 11) {
-      setMonth(0)
-      setYear((prev) => prev + 1)
-    } else {
-      setMonth((prev) => prev + 1)
-    }
-  }
-
-  const decrement = () => {
-    if (month === 0) {
-      setMonth(11)
-      setYear((prev) => prev - 1)
-    } else {
-      setMonth((prev) => prev - 1)
-    }
-  }
+  const [exhibitions, setExhibitions] = useState<Exhibition[]>([])
 
   useEffect(() => {
+    fetch('/api/exhibition') // Fetch from API route
+      .then((res) => res.json())
+      .then((data) => setExhibitions(data))
+      .catch((error) => console.error('Error fetching exhibitions:', error))
+
     function handleClickOutside(event: MouseEvent) {
       if (whereRef.current && !whereRef.current.contains(event.target as Node)) {
         setWhere(false)
@@ -70,6 +69,24 @@ export default function Home() {
     if (e.currentTarget.id === 'tabWhere') { setOpenWhere(true) } else { setOpenWhere(false) }
     if (e.currentTarget.id === 'tabWhen') { setOpenWhen(true) } else { setOpenWhen(false) }
     if (e.currentTarget.id === 'tabWho') { setOpenWho(true) } else { setOpenWho(false) }
+  }
+
+  const increment = () => {
+    if (month === 11) {
+      setMonth(0)
+      setYear((prev) => prev + 1)
+    } else {
+      setMonth((prev) => prev + 1)
+    }
+  }
+
+  const decrement = () => {
+    if (month === 0) {
+      setMonth(11)
+      setYear((prev) => prev - 1)
+    } else {
+      setMonth((prev) => prev - 1)
+    }
   }
 
   return (
@@ -145,17 +162,9 @@ export default function Home() {
         </div>
         <div className='content-wrapper p-6 xl:px-16 lg:px-8 w-screen'>
           <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-x-5 gap-y-8'>
-            <Exhibition />
-            <Exhibition />
-            <Exhibition />
-            <Exhibition />
-            <Exhibition />
-            <Exhibition />
-            <Exhibition />
-            <Exhibition />
-            <Exhibition />
-            <Exhibition />
-
+            {exhibitions.map((exhibition) => (
+            <Exhibition key={exhibition.id} json={exhibition} update={setExhibitions}/>
+            ))}
           </div>
         </div>
       </div>
