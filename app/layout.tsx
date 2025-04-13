@@ -32,7 +32,7 @@ export default function RootLayout({ children, }: Readonly<{ children: React.Rea
         >
           <main className="min-h-screen flex flex-col items-center">
             <Header />
-            <div className="w-screen min-h-screen pb-1 pt-8 md:pb-0 md:pt-24 px-6 lg:px-20 xl:px-28">
+            <div className="w-screen min-h-screen pb-1 pt-10 md:pb-0 md:pt-24 px-6 lg:px-20 xl:px-28">
               {children}
             </div>
             <Footer />

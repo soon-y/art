@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { X, Smile, Play, Pause } from 'lucide-react'
 import { useState, useEffect } from 'react'
 import { Slider } from '@/components/ui/slider'
+import { usePathname } from 'next/navigation'
 
 export default function Home() {
   const [on, setOn] = useState<boolean>(false)
@@ -47,7 +48,7 @@ export default function Home() {
         />
 
         <Link href={'/docent'}>
-          <X className="text-white fixed top-10 right-6" size={24} />
+          <X className="text-white fixed top-14 right-6" size={24} />
         </Link>
 
         {!on ?
@@ -55,7 +56,7 @@ export default function Home() {
             onClick={() => setOn(true)}>
           </div> :
           <div>
-            <div className='font-sans text-xl text-white fixed top-10 left-[50%] transform -translate-x-1/2'>
+            <div className='font-sans text-lg text-white fixed top-14 left-[50%] transform -translate-x-1/2'>
               {convertTime()}
             </div>
             <div className='fixed bottom-10 w-[86vw] ml-[10vw] grid grid-cols-[1fr_40px] gap-4 items-center'>
