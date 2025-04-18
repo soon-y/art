@@ -113,7 +113,10 @@ const Calendar: React.FC<props> = ({ selDay, selMonth, selYear, setDay, setMonth
           </button>
         ))}
       </div>
-      <div>{selDay !== 0 && <p className='text-right pb-4 px-4 cursor-pointer select-none' onClick={reset}> reset </p>}</div>
+      <div className='flex justify-self-end'>{selDay !== 0 && 
+        <span className='pb-4 px-4 cursor-pointer select-none' onClick={reset}> reset 
+        </span>}
+      </div>
     </>
   )
 }
