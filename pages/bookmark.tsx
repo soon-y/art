@@ -21,7 +21,7 @@ interface BookmarkProps {
   initialData: ExhibitionData[]
 }
 
-const Bookmark: React.FC<BookmarkProps> = ({ initialData }) => {
+const Bookmark: React.FC<BookmarkProps> = ({ initialData = [] }) => {
   return (
     <>
       <div className="py-4 flex justify-between items-center w-full">
