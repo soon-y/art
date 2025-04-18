@@ -16,7 +16,7 @@ export default function Navigation() {
 
   return (
     <>
-      <div className='border-t mobile fixed bottom-0 left-0 pt-3 pb-5 bg-background '>
+      <div className='border-t mobile fixed bottom-0 left-0 pt-3 pb-5 bg-background z-100'>
         <div className='w-screen grid grid-cols-5 items-center justify-center'>
           <Link href={'/'}>
             <div className={'flex-1 flex flex-col items-center justify-center'}>
