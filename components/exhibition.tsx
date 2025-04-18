@@ -1,15 +1,8 @@
-import { Bookmark } from 'lucide-react'
+'use client'
 
-interface props_json {
-  id: number
-  name: string
-  title: string
-  price: number
-  imgid: number
-  content: string
-  bookmark: boolean
-  address: string
-}
+import { useState } from 'react';
+import { Bookmark } from 'lucide-react'
+import Link from 'next/link'
 
 interface props {
   json: {
@@ -22,52 +15,48 @@ interface props {
     bookmark: boolean
     address: string
   }
-  update?: React.Dispatch<React.SetStateAction<props_json[]>>
-  updated?: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-const Exhibition: React.FC<props> = ({
-  json,
-  update = () => { },
-  updated = () => { },
-}) => {
+const Exhibition: React.FC<props> = ({ json }) => {
+  const [isBookmarked, setIsBookmarked] = useState(json.bookmark)
+
   const toggleBookmark = async (id: number) => {
-    // try {
-    //   const res = await fetch(`/api/exhibition/${id}`, {
-    //     method: 'PATCH',
-    //   })
-  
-    //   if (!res.ok) throw new Error('Failed to update bookmark')
-  
-    //   const updatedExhibition = await res.json()
-  
-    //   update((prev) =>
-    //     prev.map((ex) =>
-    //       ex.id === id ? { ...ex, bookmark: updatedExhibition.bookmark } : ex
-    //     )
-    //   )
-  
-    //   updated(true)
-    // } catch (error) {
-    //   console.error('Error toggling bookmark:', error)
-    // }
+    try {
+      const response = await fetch('/api/bookmark', {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ id, bookmark: isBookmarked }),
+      })
+
+      const data = await response.json();
+      if (response.ok) {
+        setIsBookmarked(!isBookmarked);
+      } else {
+        console.error('Failed to update bookmark:', data.error);
+      }
+    } catch (error) {
+      console.error('Error updating bookmark:', error);
+    }
   }
-  
 
   return (
-    <div className='w-[100%]'>
-      <div className='bg-cover bg-center w-[100%] rounded-2xl aspect-[1]' style={{
-        backgroundImage: `url('https://picsum.photos/id/${json.imgid}/300/300')`
-      }}>
-        <Bookmark className={`duration-500 cursor-pointer relative left-[calc(100%-2.2rem)] top-3 text-white ${json.bookmark ? 'fill-primary' : 'opacity-50'}`}
-          onClick={() => toggleBookmark(json.id)} />
-      </div>
-      <div className='py-4'>
-        <h3 className='text-lg font-bold'>{json.title}</h3>
-        <p style={{ color: 'gray' }}>{json.name}</p>
-        <h3>€ {json.price}</h3>
-      </div>
-    </div>
+    <div className='w-full relative'>
+      <Link href={`/${decodeURIComponent(json.title).replace(/ /g, "_")}`}>
+        <div className='bg-cover bg-center w-[100%] rounded-2xl aspect-[1]' style={{
+          backgroundImage: `url('https://picsum.photos/id/${json.imgid}/1500/1500')`
+        }}>
+        </div>
+        <div className='py-2'>
+          <h3 className='text-base/5 font-bold'>{json.title}</h3>
+          <p className='text-sm/4 py-1 text-muted-foreground'>{json.name}</p>
+          <p className='text-sm/4'>€ {json.price.toFixed(2)}</p>
+        </div>
+      </Link>
+      <Bookmark className={`cursor-pointer absolute left-[calc(100%-2.4rem)] top-3 text-white ${isBookmarked ? 'fill-primary' : 'fill-black'}`}
+        onClick={() => toggleBookmark(json.id)} />
+    </div >
   )
 }
 
