@@ -2,7 +2,6 @@
 
 import Link from 'next/link'
 import Exhibition from '@/components/exhibition'
-import { useState, useEffect } from 'react'
 import Navigation from "@/components/navigation"
 import { BookDashed } from 'lucide-react'
 import { Button } from "@/components/ui/button"
@@ -18,7 +17,11 @@ interface ExhibitionData {
   address: string
 }
 
-export default function Bookmark({ initialData }: { initialData: ExhibitionData[] }) {
+interface BookmarkProps {
+  initialData: ExhibitionData[]
+}
+
+const Bookmark: React.FC<BookmarkProps> = ({ initialData }) => {
   return (
     <>
       <div className="py-4 flex justify-between items-center w-full">
@@ -45,3 +48,5 @@ export default function Bookmark({ initialData }: { initialData: ExhibitionData[
     </>
   )
 }
+
+export default Bookmark

@@ -4,7 +4,6 @@ import Navigation from "@/components/navigation"
 import { DoorOpen } from 'lucide-react'
 import Link from 'next/link'
 import { Button } from "@/components/ui/button"
-import { useState } from 'react'
 
 interface ExhibitionData {
   id: number
@@ -17,7 +16,11 @@ interface ExhibitionData {
   address: string
 }
 
-export default function Visit({ initialData }: { initialData: ExhibitionData[] }) {
+interface VisitProps {
+  initialData: ExhibitionData[]
+}
+
+const Visit: React.FC<VisitProps> = ({ initialData }) => {
   const formatTime = (isoString: string) => {
     const date = new Date(isoString);
 
@@ -25,13 +28,13 @@ export default function Visit({ initialData }: { initialData: ExhibitionData[] }
       hour: 'numeric',
       hour12: true,
     });
-  
+
     const fullDate = date.toLocaleDateString('en-GB', {
       day: 'numeric',
       month: 'long',
       year: 'numeric',
     });
-  
+
     return `${time}, ${fullDate}`;
   }
 
@@ -60,21 +63,25 @@ export default function Visit({ initialData }: { initialData: ExhibitionData[] }
       <p className='text-lg font-bold mt-10'>Where you&apos;ve been</p>
       <div className='mb-22 md:mb-0 py-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5'>
         {initialData.map((json) => (
-          <div className='grid grid-cols-[100px_1fr] gap-4' key={json.id}>
-            <div className='bg-cover bg-center w-[100%] rounded-2xl aspect-[1]' style={{
-              backgroundImage: `url('https://picsum.photos/id/${json.imgid}/500/500')`
-            }}>
+          <Link key={json.id} href={`/visit/${decodeURIComponent(json.title).replace(/ /g, "_")}`}>
+            <div className='grid grid-cols-[100px_1fr] gap-4' key={json.id}>
+              <div className='bg-cover bg-center w-[100%] rounded-2xl aspect-[1]' style={{
+                backgroundImage: `url('https://picsum.photos/id/${json.imgid}/500/500')`
+              }}>
+              </div>
+              <div className='py-2'>
+                <h3 className='text-base/6 font-bold'>{json.title}</h3>
+                <p className='text-sm/5 text-muted-foreground'>{json.name}</p>
+                <p className='text-sm/5 text-muted-foreground'>{json.address}</p>
+                <p className='text-sm/5 text-muted-foreground'>{formatTime(json.time)}</p>
+              </div>
             </div>
-            <div className='py-2'>
-              <h3 className='text-base/6 font-bold'>{json.title}</h3>
-              <p className='text-sm/5 text-muted-foreground'>{json.name}</p>
-              <p className='text-sm/5 text-muted-foreground'>{json.address}</p>
-              <p className='text-sm/5 text-muted-foreground'>{formatTime(json.time)}</p>
-            </div>
-          </div>
+          </Link>
         ))}
       </div>
       <Navigation />
     </>
   )
 }
+
+export default Visit
