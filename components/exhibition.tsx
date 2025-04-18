@@ -43,7 +43,7 @@ const Exhibition: React.FC<props> = ({ json }) => {
 
   return (
     <div className='w-full relative'>
-      <Link href={`/${decodeURIComponent(json.title).replace(/ /g, "_")}`}>
+      <Link href={`/${encodeURIComponent(json.title.replace(/ /g, "_"))}`}>
         <div className='bg-cover bg-center w-[100%] rounded-2xl aspect-[1]' style={{
           backgroundImage: `url('https://picsum.photos/id/${json.imgid}/1500/1500')`
         }}>
