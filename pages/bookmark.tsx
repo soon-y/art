@@ -19,20 +19,13 @@ interface ExhibitionData {
 }
 
 export default function Bookmark({ initialData }: { initialData: ExhibitionData[] }) {
-  const [exhibitions, setExhibitions] = useState(initialData)
-  const [updated, setUpdated] = useState<boolean>(false)
-
-  useEffect(() => {
-
-  }, [updated])
-
   return (
     <>
       <div className="py-4 flex justify-between items-center w-full">
         <h1 className='text-2xl font-bold'>Bookmarks</h1>
       </div>
 
-      {exhibitions.length === 0 &&
+      {initialData.length === 0 &&
         <div className="text-muted-foreground flex flex-col items-center justify-center p-10">
           <BookDashed size={24} className="" />
           <p className="py-2">No Bookmarks</p>
@@ -44,7 +37,7 @@ export default function Bookmark({ initialData }: { initialData: ExhibitionData[
         </div>}
 
       <div className='exhibition mb-20 md:mb-0 py-2 grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-x-5 gap-y-8'>
-        {exhibitions.map((exhibition) => (
+        {initialData.map((exhibition) => (
           <Exhibition key={exhibition.id} json={exhibition} />
         ))}
       </div>
