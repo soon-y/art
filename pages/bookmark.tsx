@@ -45,7 +45,7 @@ export default function Bookmark({ initialData }: { initialData: ExhibitionData[
 
       <div className='exhibition mb-20 md:mb-0 py-2 grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-x-5 gap-y-8'>
         {exhibitions.map((exhibition) => (
-          <Exhibition key={exhibition.id} json={exhibition} update={setExhibitions} updated={setUpdated} />
+          <Exhibition key={exhibition.id} json={exhibition} />
         ))}
       </div>
       <Navigation />
