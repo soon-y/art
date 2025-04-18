@@ -15,7 +15,7 @@ interface ExhibitionData {
   address: string
 }
 
-export default function Explore({ initialData }: { initialData: ExhibitionData[] }) {
+export default function Explore({ initialData = [] }: { initialData: ExhibitionData[] }) {
   return (
     <>
       <Navigation />
