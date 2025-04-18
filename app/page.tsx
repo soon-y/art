@@ -1,5 +1,5 @@
 import { createClient } from '@/utils/supabase/server'
-import Explore from '@/components/explore'
+import Explore from '@/pages/explore'
 
 export default async function Home() {
   const supabase = await createClient();

@@ -1,8 +1,8 @@
 import { createClient } from '@/utils/supabase/server'
-import Bookmark from '@/components/bookmark'
+import Bookmark from '@/pages/bookmark'
 
 export default async function Home() {
-  const supabase = await createClient();
+  const supabase = await createClient()
   const { data: exhibitions } = await supabase.from("exhibition").select("*").eq("bookmark", true)
 
   return (

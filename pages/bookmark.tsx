@@ -26,13 +26,10 @@ export default function Bookmark({ initialData }: { initialData: ExhibitionData[
 
   }, [updated])
 
-
-  console.log(initialData)
-
   return (
     <>
       <div className="py-4 flex justify-between items-center w-full">
-        <p className='text-2xl font-bold'>Bookmarks</p>
+        <h1 className='text-2xl font-bold'>Bookmarks</h1>
       </div>
 
       {exhibitions.length === 0 &&
@@ -46,7 +43,7 @@ export default function Bookmark({ initialData }: { initialData: ExhibitionData[
           </Link>
         </div>}
 
-        <div className='exhibition mb-20 md:mb-0 py-2 grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-x-5 gap-y-8'>
+      <div className='exhibition mb-20 md:mb-0 py-2 grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-x-5 gap-y-8'>
         {exhibitions.map((exhibition) => (
           <Exhibition key={exhibition.id} json={exhibition} update={setExhibitions} updated={setUpdated} />
         ))}
