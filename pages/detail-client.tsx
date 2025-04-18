@@ -104,7 +104,7 @@ const DetailPage: React.FC<props> = ({ json }) => {
 
         <div className='md:grid md:grid-cols-[1fr_300px] md:gap-10'>
           <div>
-            <h3 className='md: hidden mt-4 py-2 text-3xl font-semibold'>{json?.title}</h3>
+            <h3 className='md:hidden mt-4 py-2 text-3xl font-semibold'>{json?.title}</h3>
             <p className='md:mt-6 font-semibold'>{json?.name}</p>
             <p className='font-semibold'>€ {json?.price.toFixed(2)}</p>
 
@@ -112,7 +112,7 @@ const DetailPage: React.FC<props> = ({ json }) => {
               Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
             </p>
 
-            <div className='border-t address'>
+            <div className='border-t'>
               <h3 className='mt-6 text-xl font-semibold'>Where you&apos;ll visit</h3>
               <p className='py-2'>address</p>
               <Map />
@@ -144,7 +144,7 @@ const DetailPage: React.FC<props> = ({ json }) => {
           </div>
 
           <div className='hidden md:block booking'>
-            <div className='shadow-xl my-10 p-6'>
+            <div className='shadow-xl my-10 p-6 bg-muted rounded-xl'>
               <div className='border-b'>
                 <h3 className='py-1 text-xl font-semibold'>{json?.title}</h3>
                 <p className='py-1'>{json?.name}</p>
