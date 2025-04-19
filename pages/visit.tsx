@@ -87,12 +87,12 @@ const Visit: React.FC<VisitProps> = ({ history = [], booking = [] }) => {
       </div>
 
       {booking.length === 0 ?
-        <div className='h-[auto] text-center overflow-hidden border items-center rounded-2xl md:h-[400px] md:text-left md:grid md:grid-cols-2'>
+        <div className='mt-4 h-[auto] text-center overflow-hidden border items-center rounded-2xl md:h-[400px] md:text-left md:grid md:grid-cols-2'>
           <div className="text-muted-foreground flex flex-col items-center justify-center p-10">
             <DoorOpen size={24} />
             <p className="py-2">No Docents booked</p>
             <Link href={'/'}>
-              <Button className="mt-5 p-6 flex items-center" size={"sm"} variant={'default'}>
+              <Button className="mt-2 p-6 flex items-center" size={"sm"} variant={'default'}>
                 <span>Start exploring</span>
               </Button>
             </Link>

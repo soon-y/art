@@ -51,8 +51,8 @@ export default function Header() {
           </div>
         </div>
 
-        <div className="mt-8 text-muted-foreground text-sm">
-          <p className='py-2'>&copy; {new Date().getFullYear()} Soonyoung. All rights reserved.</p>
+        <div className="mt-4 text-muted-foreground text-sm border-t">
+          <p className='pt-4'>&copy; {new Date().getFullYear()} Soonyoung. All rights reserved.</p>
           <p>Privacy&nbsp;&nbsp;&#183;&nbsp;&nbsp;
             Terms&nbsp;&nbsp;&#183;&nbsp;&nbsp;
             Sitemap&nbsp;&nbsp;&#183;&nbsp;&nbsp;

@@ -12,12 +12,14 @@ import NumInput from "./numInput"
 import Calendar from "./calendar"
 import { Button } from "./ui/button"
 import { Search } from 'lucide-react'
+import { usePathname } from 'next/navigation'
 import { useGSAP } from '@gsap/react'
 import gsap from 'gsap'
 import { ScrollTrigger } from "gsap/ScrollTrigger"
 gsap.registerPlugin(ScrollTrigger, useGSAP)
 
 export default function SearchbarHeader() {
+  const pathname = usePathname()
   const whereRef = useRef<HTMLDivElement>(null)
   const whenRef = useRef<HTMLDivElement>(null)
   const whoRef = useRef<HTMLDivElement>(null)
@@ -69,25 +71,12 @@ export default function SearchbarHeader() {
     }
   }, [])
 
-  useGSAP(() => {
-    const scroll = gsap.timeline({
-      scrollTrigger: {
-        trigger: '.exhibition',
-        start: 'top 180px',
-        end: 'top 80px',
-        scrub: 1,
-      }
-    })
-    scroll.to('.searchbarBg', { y: '-102px' }, 0)
-    scroll.to('.searchbar', { width: '500px' }, 0)
-    scroll.to('.searchBtn', { y: '80px' }, 0)
-  })
-
   return (
-    <>
-      <div className='fixed top-10 pt-4 md:top-20 left-0 w-screen searchbarBg hidden md:block z-10'>
-        <div className='flex pb-6 border-b justify-center'>
-          <div className={`searchbar cursor-pointer overflow-hidden inline-flex items-center rounded-full text-sm border border-border text-primary-background h-[70px] shadow-lg w-[90vw] w-[740px] transform translate-x-[26px] md:grid md:grid-cols-[1fr_1fr_1fr] ${whereClicked || whenClicked || whoClicked ? 'bg-muted' : 'bg-background'} `}>
+    <div className={`${pathname === '/' ? '' : 'hidden'}`}>
+      <div className='hidden md:block'>
+        <div className='flex pb-1 justify-center'>
+          <div className={`searchbar cursor-pointer overflow-hidden inline-flex items-center rounded-full text-sm border border-border text-primary-background h-[70px] shadow-lg lg:w-[740px] md:w-full transform translate-x-[26px] grid grid-cols-[1fr_1fr_1fr] 
+            ${whereClicked || whenClicked || whoClicked ? 'bg-muted' : 'bg-background'}`}>
             <div className={`h-[100%] rounded-full search-item ${whereClicked ? 'bg-background' : 'hover:bg-muted'}`} ref={whereRef} onClick={() => {
               setwhereClicked(true)
               setwhenClicked(false)
@@ -133,15 +122,15 @@ export default function SearchbarHeader() {
               </DropdownMenu>
             </div>
           </div>
-          <Button className="web p-1 w-[46px] h-[46px] rounded-full transform -translate-x-[35px] translate-y-1/4 ">
-            <Search width='100%' />
+          <Button className="web p-1 w-[50px] lg:w-[46px] h-[46px] rounded-full transform -translate-x-[35px] translate-y-1/4 searchBtn">
+            <Search />
           </Button>
         </div>
       </div>
 
       <div className='fixed top-10 pt-4 md:top-20 left-0 w-screen bg-background md:hidden z-10'>
         <div className='flex pb-6 border-b justify-center'>
-          <div className={`cursor-pointer overflow-hidden inline-flex items-center rounded-full text-sm border border-border text-primary-background h-[70px] shadow-lg w-[90vw] md:w-[740px] md:transform md:translate-x-[26px] md:grid md:grid-cols-[1fr_1fr_1fr] ${whereClicked || whenClicked || whoClicked ? 'bg-muted' : 'bg-background'} `}>
+          <div className='cursor-pointer overflow-hidden inline-flex items-center rounded-full text-sm border border-border text-primary-background h-[70px] shadow-lg w-[90vw]'>
             <div className="md:hidden inline-flex items-center m-auto" onClick={() => setOpen(prev => !prev)}>
               {whereTo === '' && whoNum === 1 && whenDay === 0 ?
                 <div className="flex items-center">
@@ -158,7 +147,7 @@ export default function SearchbarHeader() {
                 </div>}
             </div>
           </div>
-          <Button className="web p-1 w-[46px] h-[46px] rounded-full transform -translate-x-[35px] translate-y-1/4 searchBtn">
+          <Button className="web p-1 w-[46px] h-[46px] rounded-full transform -translate-x-[35px] translate-y-1/4">
             <Search width='100%' />
           </Button>
         </div>
@@ -212,6 +201,6 @@ export default function SearchbarHeader() {
             </Button>
           </div>}
       </div>
-    </>
+    </div>
   )
 }

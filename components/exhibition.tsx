@@ -50,8 +50,8 @@ const Exhibition: React.FC<props> = ({ json }) => {
         </div>
         <div className='py-2'>
           <h3 className='text-base/5 font-bold'>{json.title}</h3>
-          <p className='text-sm/4 py-1 text-muted-foreground'>{json.name}</p>
-          <p className='text-sm/4'>€ {json.price.toFixed(2)}</p>
+          <p className='font-medium text-sm/4 py-1 text-muted-foreground'>{json.name}</p>
+          <p className='font-medium text-sm/4'>€ {json.price.toFixed(2)}</p>
         </div>
       </Link>
       <Bookmark className={`cursor-pointer absolute left-[calc(100%-2.4rem)] top-3 text-white ${isBookmarked ? 'fill-primary' : 'fill-black'}`}
