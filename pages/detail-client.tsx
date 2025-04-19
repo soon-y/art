@@ -80,6 +80,45 @@ const DetailPage: React.FC<props> = ({ json }) => {
     })
   })
 
+  const parseFormattedDate = (formatted: string): string => {
+    const cleaned = formatted.replace(/\s+/g, ' ').trim()
+    const [timePart, datePart] = cleaned.split(', ')
+    const localDate = new Date(`${datePart} ${timePart}`)
+    const year = localDate.getFullYear()
+    const month = String(localDate.getMonth() + 1).padStart(2, '0')
+    const day = String(localDate.getDate()).padStart(2, '0')
+    const hours = String(localDate.getHours()).padStart(2, '0')
+    const minutes = String(localDate.getMinutes()).padStart(2, '0')
+    const seconds = String(localDate.getSeconds()).padStart(2, '0')
+    return `${year}-${month}-${day}T${hours}:${minutes}:${seconds}`
+  }
+
+  const insert = async () => {
+    console.log("insert")
+    const newBooking = {
+      title: json.title,
+      name: json.name,
+      price: json.price,
+      imgid: json.imgid,
+      content: json.content,
+      time: parseFormattedDate(`${whenHour}:00, ${whenDay} ${months[whenMonth]} ${whenYear}`),
+      who: whoNum,
+      address: '123 Art Street, City',
+      bookmark: json.bookmark
+    }
+
+    const response = await fetch('/api/booking/insert', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(newBooking),
+    })
+
+    const result = await response.json()
+    console.log(result)
+  }
+
   return (
     <>
       <div className='mb-24'>
@@ -89,7 +128,7 @@ const DetailPage: React.FC<props> = ({ json }) => {
             <ChevronLeft />
           </Link>
           <div className='flex'>
-            <Share size={20} className='text-muted-foreground' />
+            <Share size={20} />
             <span className='hidden md:block font-medium underline text-sm pl-2 cursor-pointer'>Share</span>
           </div>
           <div className='flex' onClick={() => toggleBookmark(json?.id)}>
@@ -114,7 +153,7 @@ const DetailPage: React.FC<props> = ({ json }) => {
 
             <div className='border-t'>
               <h3 className='mt-6 text-xl font-semibold'>Where you&apos;ll visit</h3>
-              <p className='py-2'>address</p>
+              <p className='pt-2 pb-4'>address</p>
               <Map />
             </div>
 
@@ -125,7 +164,7 @@ const DetailPage: React.FC<props> = ({ json }) => {
                   <Calendar selDay={whenDay} selMonth={whenMonth} selYear={whenYear} setDay={setWhenDay} setMonthSelected={setWhenMonth} setYearSelected={setWhenYear} />
                 </div>
                 {whenDay !== 0 &&
-                  <div className='grid grid-cols-3 gap-4 my-8 md:gap-4 md:grid-cols-1 md:grid-rows-6'>
+                  <div className='grid grid-cols-3 gap-4 my-4 md:gap-4 md:grid-cols-1 md:grid-rows-6'>
                     <Button className='md:h-full border' variant={whenHour === 10 ? 'secondary' : 'outline'} onClick={() => { setWhenHour(10) }}>10:00</Button>
                     <Button className='md:h-full border' variant={whenHour === 11 ? 'secondary' : 'outline'} onClick={() => { setWhenHour(11) }}>11:00</Button>
                     <Button className='md:h-full border' variant={whenHour === 13 ? 'secondary' : 'outline'} onClick={() => { setWhenHour(13) }}>13:00</Button>
@@ -173,8 +212,8 @@ const DetailPage: React.FC<props> = ({ json }) => {
                   <p className="font-medium">{whoNum}</p>
                 </a>
               </div>
-              <Link href={'/'}>
-                <Button disabled={whenHour === 0 || whenDay === 0} className='w-full mt-4'>
+              <Link href={'/visits'}>
+                <Button disabled={whenHour === 0 || whenDay === 0} className='w-full mt-4' onClick={() => insert()}>
                   <span className='font-semibold'>Book</span>
                 </Button>
               </Link>
@@ -203,8 +242,8 @@ const DetailPage: React.FC<props> = ({ json }) => {
               }
             </div>
           </div>
-          <Link href={'/'}>
-            <Button disabled={whenHour === 0 || whenDay === 0} className='w-full'>
+          <Link href={'/visits'}>
+            <Button disabled={whenHour === 0 || whenDay === 0} className='w-full' onClick={() => insert()}>
               <span className='font-semibold'>Book</span>
             </Button>
           </Link>
