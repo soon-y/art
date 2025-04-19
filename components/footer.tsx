@@ -12,7 +12,7 @@ export default function Header() {
   return (
     <>
       <footer className="web w-full bg-muted text-foreground py-8 border-t px-6 lg:px-20 xl:px-28">
-        <div className="max-w-6xl grid grid-cols-1 md:grid-cols-4 gap-8">
+        <div className="w-full grid grid-cols-1 md:grid-cols-4 gap-8">
           <div>
             <ArtLogo/>
             <p className='py-4 text-sm text-muted-foreground'>Expanding Art <br/>with Augmented Reality <br/>for Everone.</p>
