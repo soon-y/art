@@ -31,13 +31,13 @@ interface props {
 }
 
 const BookingPage: React.FC<props> = ({ json }) => {
-  const dateObj = new Date(json.time)
+  const dateObj = new Date(json?.time)
   const [isBookmarked, setIsBookmarked] = useState(json?.bookmark)
   const [whenDay, setWhenDay] = useState<number>(dateObj.getDate())
   const [whenMonth, setWhenMonth] = useState<number>(dateObj.getMonth())
   const [whenYear, setWhenYear] = useState<number>(dateObj.getFullYear())
   const [whenHour, setWhenHour] = useState<number>(dateObj.getHours())
-  const [whoNum, setWhoNum] = useState<number>(json.who)
+  const [whoNum, setWhoNum] = useState<number>(json?.who)
   const months: string[] = [
     "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"
   ]
@@ -167,7 +167,7 @@ const BookingPage: React.FC<props> = ({ json }) => {
 
             <div className='border-t'>
               <h3 className='mt-6 text-xl font-semibold'>Where you&apos;ll visit</h3>
-              <p className='pt-2 pb-4'>{json.address}</p>
+              <p className='pt-2 pb-4'>{json?.address}</p>
               <Map />
             </div>
 
