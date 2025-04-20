@@ -13,7 +13,7 @@ const Map: React.FC = () => {
     map.current = new mapboxgl.Map({
       container: mapContainer.current,
       style: 'mapbox://styles/mapbox/streets-v9',
-      center: [127.024612, 37.532600],
+      center: [9.921424, 53.544866],
       zoom: 14,
       scrollZoom: false,
       dragPan: true,
@@ -23,10 +23,12 @@ const Map: React.FC = () => {
       keyboard: false,
     })
 
+    map.current.addControl(new mapboxgl.NavigationControl(), 'top-right')
+
     new mapboxgl.Marker({
       color: "#ff9501",
     })
-      .setLngLat([127.024612, 37.532600])
+      .setLngLat([9.921424, 53.544866])
       .addTo(map.current)
   }, [])
 
@@ -38,4 +40,4 @@ const Map: React.FC = () => {
   )
 }
 
-export {Map}
+export { Map }
