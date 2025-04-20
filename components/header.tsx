@@ -21,21 +21,23 @@ export default function Header() {
 
   return (
     <>
-      <header className='md:border-b z-10 fixed left-0 bg-background w-screen p-6 lg:px-20 xl:px-28 grid grid-cols-[70px_1fr_40px_40px] gap-2 items-start mobileHeader'>
-        <Link href={'/'} className='hidden md:block'>
-          <ArtLogo />
-        </Link>
-        <div>
+      <header className='md:border-b z-10 fixed left-0 bg-background w-screen p-6 lg:px-20 xl:px-28 mobileHeader'>
+        <div className='grid grid-cols-[70px_1fr_40px_40px] gap-2 items-start mobileHeader'>
+          <Link href={'/'} className='hidden md:block'>
+            <ArtLogo />
+          </Link>
           <div>
-            <Searchbar />
           </div>
+          <span className='hidden md:block'>
+            <ThemeSwitcher />
+          </span>
+          <span className='hidden md:block'>
+            <Account />
+          </span>
         </div>
-        <span className='hidden md:block'>
-          <ThemeSwitcher />
-        </span>
-        <span className='hidden md:block'>
-          <Account />
-        </span>
+        <div>
+          <Searchbar />
+        </div>
       </header>
       <header className='mobile z-10 fixed left-0 bg-background w-screen h-12 mobileHeader'>
       </header>

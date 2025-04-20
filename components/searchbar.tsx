@@ -1,10 +1,5 @@
 'use client'
 
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
 import * as React from "react"
 import { useState, useEffect, useRef } from 'react'
 import SearchAddress from "./searchAddress"
@@ -23,6 +18,9 @@ export default function SearchbarHeader() {
   const whereRef = useRef<HTMLDivElement>(null)
   const whenRef = useRef<HTMLDivElement>(null)
   const whoRef = useRef<HTMLDivElement>(null)
+  const searchRef = useRef<HTMLDivElement>(null)
+  const calendarRef = useRef<HTMLDivElement>(null)
+  const numInput = useRef<HTMLDivElement>(null)
   const [whereClicked, setwhereClicked] = useState<boolean>(false)
   const [whenClicked, setwhenClicked] = useState<boolean>(false)
   const [whoClicked, setwhoClicked] = useState<boolean>(false)
@@ -41,26 +39,17 @@ export default function SearchbarHeader() {
   ]
 
   useEffect(() => {
-    console.log(whoClicked)
-  }, [whoClicked])
-
-  useEffect(() => {
-    console.log(whereClicked)
-  }, [whereClicked])
-
-  useEffect(() => {
-    console.log(whenClicked)
-  }, [whenClicked])
-
-  useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
-      if (whereRef.current && !whereRef.current.contains(event.target as Node)) {
+      if (whereRef.current && searchRef.current &&
+        !(whereRef.current.contains(event.target as Node) || (searchRef.current.contains(event.target as Node)))) {
         setwhereClicked(false)
       }
-      if (whenRef.current && !whenRef.current.contains(event.target as Node)) {
+      if (whenRef.current && calendarRef.current &&
+        !(whenRef.current.contains(event.target as Node) || (calendarRef.current.contains(event.target as Node)))) {
         setwhenClicked(false)
       }
-      if (whoRef.current && (!whoRef.current.contains(event.target as Node))) {
+      if (whoRef.current && numInput.current &&
+        !(whoRef.current.contains(event.target as Node) || (numInput.current.contains(event.target as Node)))) {
         setwhoClicked(false)
       }
     }
@@ -73,58 +62,58 @@ export default function SearchbarHeader() {
 
   return (
     <div className={`${pathname === '/' ? '' : 'hidden'}`}>
-      <div className='hidden md:block'>
-        <div className='flex pb-1 justify-center'>
-          <div className={`searchbar cursor-pointer overflow-hidden inline-flex items-center rounded-full text-sm border border-border text-primary-background h-[70px] shadow-lg lg:w-[740px] md:w-full transform translate-x-[26px] grid grid-cols-[1fr_1fr_1fr] 
-            ${whereClicked || whenClicked || whoClicked ? 'bg-muted' : 'bg-background'}`}>
-            <div className={`h-[100%] rounded-full search-item ${whereClicked ? 'bg-background' : 'hover:bg-muted'}`} ref={whereRef} onClick={() => {
+      <div className='hidden md:block pt-1 '>
+        <div className='flex justify-center'>
+          <div className={`searchbar cursor-pointer inline-flex items-center rounded-full text-sm border border-border text-primary-background h-[70px] shadow-lg w-[690px] transform translate-x-[26px] grid grid-cols-[1fr_1fr_1fr] 
+            ${whereClicked || whenClicked || whoClicked ? 'bg-accent' : 'bg-background'}`}>
+            <div className={`overflow-hidden h-[100%] rounded-full search-item ${whereClicked ? 'bg-background' : 'hover:bg-muted'}`} ref={whereRef} onClick={() => {
               setwhereClicked(true)
               setwhenClicked(false)
               setwhoClicked(false)
             }}>
               <p className="pt-3 pb-1 pl-6 font-bold">Where</p>
-              <SearchAddress whereTo={whereTo} setWhereTo={setWhereTo} />
+              <div ref={searchRef} >
+                <SearchAddress whereTo={whereTo} setWhereTo={setWhereTo} />
+              </div>
             </div>
             <div className={`h-[100%] rounded-full search-item  ${whenClicked ? 'bg-background' : 'hover:bg-muted'}`} ref={whenRef} onClick={() => {
               setwhereClicked(false)
               setwhenClicked(true)
               setwhoClicked(false)
             }}>
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <div>
-                    <p className="pt-3 pb-1 pl-6 font-bold">When</p>
-                    {whenDay !== 0 ?
-                      <p className="pl-6">{whenDay} {months[whenMonth]} {whenYear}</p> :
-                      <p className="pl-6 text-muted-foreground">Add date</p>}
-                  </div>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent className="web w-[350px] mt-4 p-4" align="center">
-                  <Calendar selDay={whenDay} selMonth={whenMonth} selYear={whenYear} setDay={setWhenDay} setMonthSelected={setWhenMonth} setYearSelected={setWhenYear} />
-                </DropdownMenuContent>
-              </DropdownMenu>
+              <div>
+                <p className="pt-3 pb-1 pl-6 font-bold">When</p>
+                {whenDay !== 0 ?
+                  <p className="pl-6">{whenDay} {months[whenMonth]} {whenYear}</p> :
+                  <p className="pl-6 text-muted-foreground">Add date</p>}
+              </div>
             </div>
             <div className={`h-[100%] rounded-full search-item  ${whoClicked ? 'bg-background' : 'hover:bg-muted'}`} ref={whoRef} onClick={() => {
               setwhereClicked(false)
               setwhenClicked(false)
               setwhoClicked(true)
             }}>
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <div>
-                    <p className="pt-3 pb-1 pl-6 font-bold">Who</p>
-                    <p className="pl-6">{whoNum}</p>
-                  </div>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent className="web w-content mt-4" align="start">
-                  <NumInput setValue={setWhoNum} initial={whoNum} />
-                </DropdownMenuContent>
-              </DropdownMenu>
+              <div>
+                <p className="pt-3 pb-1 pl-6 font-bold">Who</p>
+                <p className="pl-6">{whoNum}</p>
+              </div>
             </div>
           </div>
-          <Button className="web p-1 w-[50px] lg:w-[46px] h-[46px] rounded-full transform -translate-x-[35px] translate-y-1/4 searchBtn">
+          <Button className="web p-1 w-[46px] h-[46px] rounded-full transform -translate-x-[35px] translate-y-1/4 searchBtn">
             <Search />
           </Button>
+
+          {whenClicked &&
+            <div className="fixed top-[130px] left-[50%] border transform -translate-x-1/2 web w-[350px] mt-4 p-4 bg-background shadow-xl rounded-2xl" ref={calendarRef}>
+              <Calendar selDay={whenDay} selMonth={whenMonth} selYear={whenYear} setDay={setWhenDay} setMonthSelected={setWhenMonth} setYearSelected={setWhenYear} />
+            </div>
+          }
+          {
+            whoClicked &&
+            <div className="fixed top-[130px] left-[calc(50%+227px)] border transform -translate-x-1/2 web w-content mt-4 p-4 bg-background shadow-xl rounded-2xl" ref={numInput}>
+              <NumInput setValue={setWhoNum} initial={whoNum} />
+            </div>
+          }
         </div>
       </div>
 
@@ -153,8 +142,8 @@ export default function SearchbarHeader() {
         </div>
 
         {open &&
-          <div className="mobile fixed top-0 left-0 w-screen h-screen z-100 bg-muted pt-12">
-            <div className="w-[90vw] bg-card rounded-xl m-auto py-4 px-6 shadow-md cursor-pointer">
+          <div className="mobile fixed top-0 left-0 w-screen h-screen z-1000 bg-background pt-16">
+            <div className="w-[90vw] bg-card rounded-xl m-auto py-4 px-6 shadow-md cursor-pointer bg-muted">
               <div className="flex justify-between" onClick={() => {
                 setOpenWhere(true)
                 setOpenWhen(false)
@@ -169,7 +158,7 @@ export default function SearchbarHeader() {
                 </div>}
             </div>
 
-            <div className="w-[90vw] bg-card rounded-xl m-auto py-4 px-6 mt-5 shadow-md cursor-pointer">
+            <div className="w-[90vw] bg-card rounded-xl m-auto py-4 px-6 mt-5 shadow-md cursor-pointer bg-muted">
               <div className="flex justify-between" onClick={() => {
                 setOpenWhen(true)
                 setOpenWhere(false)
@@ -183,7 +172,7 @@ export default function SearchbarHeader() {
               {openWhen && <Calendar selDay={whenDay} selMonth={whenMonth} selYear={whenYear} setDay={setWhenDay} setMonthSelected={setWhenMonth} setYearSelected={setWhenYear} />}
             </div>
 
-            <div className="w-[90vw] bg-card rounded-xl m-auto py-4 px-6 mt-5 shadow-md cursor-pointer">
+            <div className="w-[90vw] bg-card rounded-xl m-auto py-4 px-6 mt-5 shadow-md cursor-pointer bg-muted">
               <div className="flex justify-between" onClick={() => {
                 setOpenWho(true)
                 setOpenWhere(false)

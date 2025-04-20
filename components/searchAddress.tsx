@@ -1,13 +1,6 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import mapboxgl from 'mapbox-gl'
 import { MapPin } from 'lucide-react'
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuRadioGroup,
-  DropdownMenuRadioItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
 import { Input } from './ui/input'
 
 mapboxgl.accessToken = 'pk.eyJ1Ijoic29vbnkiLCJhIjoiY204bmxwZzFsMDIxZDJqc2MyajBrdmFoOSJ9.socb5Bc_Z_DNEfwbgfR18w'
@@ -44,48 +37,68 @@ type Place = {
 const SearchAddress: React.FC<props> = ({ whereTo, setWhereTo }) => {
   const [query, setQuery] = useState(whereTo)
   const [places, setPlaces] = useState<Place[]>([])
-  
+  const [whereClicked, setwhereClicked] = useState<boolean>(false)
+  const searchInput = useRef<HTMLDivElement>(null)
+  const searchResult = useRef<HTMLDivElement>(null)
+
+
   const searchAddress = async (q: string) => {
     if (q.trim() === '') return
     const response = await fetch(
       `https://api.mapbox.com/geocoding/v5/mapbox.places/${q}.json?access_token=${mapboxgl.accessToken}`
     )
     const data = await response.json()
-    setPlaces(data.features) // Store the results in state
+    setPlaces(data.features)
+    console.log(data.features)
   }
+
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (searchInput.current && searchResult.current &&
+        !(searchInput.current.contains(event.target as Node) || (searchResult.current.contains(event.target as Node)))) {
+        setwhereClicked(false)
+      }
+    }
+
+    document.addEventListener("mousedown", handleClickOutside)
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside)
+    }
+  }, [])
 
   return (
     <>
-      <div className='web'>
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Input className='border-none px-6 focus:outline-none focus-visible:ring-0'
-              type="text"
-              name="Address"
-              placeholder="Search"
-              value={query}
-              onChange={(e) => {
-                setQuery(e.target.value)
-                searchAddress(e.target.value)
-              }}
-            />
-          </DropdownMenuTrigger>
-          {places.length > 0 &&
-            <DropdownMenuContent className="web w-content mt-4" align="start">
-              <DropdownMenuRadioGroup>
-                {(places.map((place) => (
-                  <DropdownMenuRadioItem key={place.id} className="flex gap-2" value="light" onClick={() => {
-                    setWhereTo(place.place_name)
-                    setQuery(place.place_name)
-                  }}>
-                    <MapPin size={14} />
-                    <span>{place.place_name}</span>
-                  </DropdownMenuRadioItem>)
-                ))}
-              </DropdownMenuRadioGroup>
-            </DropdownMenuContent>}
-        </DropdownMenu>
+      <div className='web' ref={searchInput} onClick={() => setwhereClicked(true)}>
+        <input className='ml-6 w-[80%] bg-transparent border-none focus:outline-none focus-visible:ring-0'
+          type="text"
+          name="Address"
+          placeholder="Search"
+          value={query}
+          onChange={(e) => {
+            setwhereClicked(true)
+            setQuery(e.target.value)
+            searchAddress(e.target.value)
+          }}
+        />
       </div>
+      {whereClicked &&
+        <div className='web fixed top-[60px] left-0 max-w-full' ref={searchResult}>
+          {places.length > 0 &&
+            <div className='mt-4 bg-background p-3 rounded-2xl border shadow-xl'>
+              {(places.map((place) => (
+                <div key={place.id} className="grid grid-cols-[20px_1fr] hover:bg-muted p-3 rounded-xl" onClick={() => {
+                  setWhereTo(place.place_name)
+                  setQuery(place.place_name)
+                  setwhereClicked(false)
+                }}>
+                  <MapPin size={20} />
+                  <span className='pl-2'>{place.place_name}</span>
+                </div>)
+              ))}
+            </div>}
+        </div>
+      }
+
       <div className='mobile'>
         <Input className='my-3 p-3'
           type="text"
@@ -103,7 +116,7 @@ const SearchAddress: React.FC<props> = ({ whereTo, setWhereTo }) => {
               setWhereTo(place.place_name)
               setQuery(place.place_name)
             }}>
-              <MapPin size={20}/>
+              <MapPin size={20} />
               <span>{place.place_name}</span>
             </div>)
           ))}
