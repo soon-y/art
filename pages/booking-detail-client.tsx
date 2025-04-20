@@ -3,8 +3,7 @@
 import { useState, useEffect, useRef } from 'react'
 import { Bookmark, ChevronLeft, Share, Calendar1, Clock3, UserRound } from 'lucide-react'
 import Link from 'next/link'
-import mapboxgl from 'mapbox-gl'
-import 'mapbox-gl/dist/mapbox-gl.css'
+import { Map } from '@/components/map'
 import { Button } from "@/components/ui/button"
 import Calendar from '@/components/calendar'
 import NumInput from '@/components/numInput'
@@ -12,8 +11,6 @@ import gsap from 'gsap'
 import { useGSAP } from '@gsap/react'
 import { ScrollTrigger } from "gsap/ScrollTrigger"
 gsap.registerPlugin(ScrollTrigger, useGSAP)
-
-mapboxgl.accessToken = 'pk.eyJ1Ijoic29vbnkiLCJhIjoiY204bmxwZzFsMDIxZDJqc2MyajBrdmFoOSJ9.socb5Bc_Z_DNEfwbgfR18w'
 
 interface props {
   json: {
@@ -73,6 +70,11 @@ const BookingPage: React.FC<props> = ({ json }) => {
       })
     }
   }
+  
+  useEffect(() => {
+    const header = document.querySelector('.mobileHeader') as HTMLElement
+    if (header) { header.style.opacity = '0' }
+  })
 
   useGSAP(() => {
     ScrollTrigger.create({
@@ -81,6 +83,18 @@ const BookingPage: React.FC<props> = ({ json }) => {
       pin: true,
       pinSpacing: false,
     })
+
+    const sec1 = gsap.timeline({
+      scrollTrigger: {
+        trigger: '.imgID',
+        start: 'bottom 140px',
+        end: 'bottom 100px',
+        scrub: true,
+      }
+    })
+    if (window.innerWidth < 768) {
+      sec1.from('.top-nav', { opacity: 0 })
+    }
   })
 
   const parseFormattedDate = (formatted: string): string => {
@@ -136,26 +150,36 @@ const BookingPage: React.FC<props> = ({ json }) => {
   return (
     <>
       <div className='mb-24'>
-        <div className='mt-4 mb-6 grid grid-cols-[1fr_24px_24px] md:grid-cols-[1fr_80px_100px] gap-5 items-center'>
-          <h3 className='text-2xl font-bold hidden md:block'>{json?.title}</h3>
-          <Link href={'/'} className='md:hidden'>
-            <ChevronLeft />
-          </Link>
+      <div className='mt-4 mb-6 hidden md:grid grid-cols-[1fr_24px_24px] md:grid-cols-[1fr_80px_100px] gap-5 items-center'>
+          <h3 className='text-2xl font-bold'>{json?.title}</h3>
           <div className='flex'>
             <Share size={20} />
-            <span className='hidden md:block font-medium underline text-sm pl-2 cursor-pointer'>Share</span>
+            <span className='font-medium underline text-sm pl-2 cursor-pointer'>Share</span>
           </div>
           <div className='flex' onClick={() => toggleBookmark(json?.id)}>
             <Bookmark className={`cursor-pointer ${isBookmarked ? 'fill-primary text-primary' : 'fill-background text-foreground'}`} />
-            <span className='hidden md:block font-medium underline text-sm pl-2 cursor-pointer'>Bookmark</span>
+            <span className='font-medium underline text-sm pl-2 cursor-pointer'>Bookmark</span>
           </div>
         </div>
-        <div className='bg-cover bg-center w-[100%] rounded-2xl h-[400px] md:h-[500px]' style={{
+        <div className='absolute left-0 top-0 bg-cover bg-center w-[100%] md:relative md:rounded-2xl h-[400px] md:h-[500px] imgID' style={{
           backgroundImage: `url('https://picsum.photos/id/${json?.imgid}/2000/2000')`
         }}>
         </div>
+        <div className='md:hidden w-full fixed top-0 left-0 h-[100px] bg-background top-nav z-10'>
+        </div>
+        <div className='md:hidden w-full fixed top-0 left-0 pt-14 px-4 py-3 grid grid-cols-[1fr_30px_30px] gap-3 items-center z-10'>
+          <Link href={'/'}>
+            <ChevronLeft size={28} className='text-foreground p-1 bg-background rounded-full' />
+          </Link>
+          <div className='bg-background rounded-full'>
+            <Share size={28} className='text-foreground p-1 bg-background rounded-full cursor-pointer' />
+          </div>
+          <div onClick={() => toggleBookmark(json?.id)}>
+            <Bookmark  size={28} className={`text-foreground p-1 bg-background rounded-full cursor-pointer ${isBookmarked ? 'fill-primary text-primary' : 'text-foreground'}`} />
+          </div>
+        </div>
 
-        <div className='md:grid md:grid-cols-[1fr_300px] md:gap-10'>
+        <div className='mt-[370px] md:mt-0 md:grid md:grid-cols-[1fr_300px] md:gap-10'>
           <div>
             <h3 className='md:hidden mt-4 py-2 text-3xl font-semibold'>{json?.title}</h3>
             <p className='md:mt-6 font-semibold'>{json?.name}</p>
@@ -272,41 +296,6 @@ const BookingPage: React.FC<props> = ({ json }) => {
         </div>
       </div>
     </>
-  )
-}
-
-const Map: React.FC = () => {
-  const mapContainer = useRef<HTMLDivElement | null>(null)
-  const map = useRef<mapboxgl.Map | null>(null)
-
-  useEffect(() => {
-    if (map.current || !mapContainer.current) return
-
-    map.current = new mapboxgl.Map({
-      container: mapContainer.current,
-      style: 'mapbox://styles/mapbox/streets-v9',
-      center: [127.024612, 37.532600],
-      zoom: 14,
-      scrollZoom: false,
-      dragPan: true,
-      dragRotate: true,
-      touchZoomRotate: false,
-      doubleClickZoom: false,
-      keyboard: false,
-    })
-
-    new mapboxgl.Marker({
-      color: "#ff9501",
-    })
-      .setLngLat([127.024612, 37.532600])
-      .addTo(map.current)
-  }, [])
-
-  return (
-    <div
-      ref={mapContainer}
-      className='w-full h-[400px] rounded-2xl overflow-hidden mb-8'
-    />
   )
 }
 
