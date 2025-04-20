@@ -28,7 +28,7 @@ const Account = () => {
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <div className="h-[40px] w-[40px] p-0 cursor-pointer flex items-center justify-center">
-          <UserRound size={ICON_SIZE} className="cursor-pointer" />
+          <UserRound size={ICON_SIZE} className="cursor-pointer text-muted-foreground" />
         </div>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-content mt-4" align="end">
