@@ -10,5 +10,8 @@ export async function POST(request: Request) {
     .update(newData)
     .eq('id', id);
 
-  return NextResponse.json({ data, error })
+  if (error) {
+    return NextResponse.json({ success: false, error }, { status: 500 })
+  }
+  return NextResponse.json({ success: true, data })
 }

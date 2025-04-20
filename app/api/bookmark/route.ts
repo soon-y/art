@@ -9,10 +9,8 @@ export async function PUT(request: Request){
     const { error } = await supabase
       .from('exhibition')
       .update({ bookmark: !bookmark })
-      .eq('id', id);
-
-    if (error) throw error;
-
+      .eq('id', id)
+    if (error) throw error
     return NextResponse.json({ message: 'Bookmark updated successfully' });
   } catch (error: any) {
     return NextResponse.json({ error: error.message }, { status: 400 });
