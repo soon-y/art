@@ -109,7 +109,7 @@ const DetailPage: React.FC<props> = ({ json }) => {
 
             <div className='border-t'>
               <h3 className='mt-6 text-xl font-semibold'>Where you&apos;ll visit</h3>
-              <p className='pt-2 pb-4'>{json.address}</p>
+              <p className='pt-2 pb-4'>{json?.address}</p>
               <Map />
             </div>
 
