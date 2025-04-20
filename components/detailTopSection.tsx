@@ -15,6 +15,7 @@ interface props {
     imgid: number
     content: string
     bookmark: boolean
+    bookmark_time: string
   }
 }
 
@@ -40,6 +41,11 @@ const DetailTopSection: React.FC<props> = ({ json }) => {
     return () => window.removeEventListener('resize', handleResize)
   }, [size])
 
+  const formatDate = (timestamp: string): string => {
+    const date = new Date(timestamp);
+    return date.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
+  }
+
   const toggleBookmark = async (id: number) => {
     try {
       const response = await fetch('/api/bookmark', {
@@ -47,7 +53,7 @@ const DetailTopSection: React.FC<props> = ({ json }) => {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ id, bookmark: isBookmarked }),
+        body: JSON.stringify({ id, bookmark: isBookmarked, time: new Date().toISOString() }),
       })
 
       const data = await response.json();
@@ -73,11 +79,11 @@ const DetailTopSection: React.FC<props> = ({ json }) => {
     if (window.innerWidth < 768) {
       sec1.from('.top-nav', { opacity: 0 })
     }
-  })
+  }, [size])
 
   return (
     <>
-      <div className='mt-4 mb-6 hidden md:grid grid-cols-[1fr_24px_24px] md:grid-cols-[1fr_80px_100px] gap-5 items-center'>
+      <div className='mt-4 mb-6 hidden md:grid grid-cols-[1fr_24px_24px] md:grid-cols-[1fr_100px_150px] gap-5 items-center'>
         <h3 className='text-2xl font-bold'>{json?.title}</h3>
         <div className='flex'>
           <Share size={20} />
@@ -91,6 +97,13 @@ const DetailTopSection: React.FC<props> = ({ json }) => {
       <div className='absolute left-0 top-0 bg-cover bg-center w-[100%] md:relative md:rounded-2xl h-[400px] md:h-[500px] imgID' style={{
         backgroundImage: `url('https://picsum.photos/id/${json?.imgid}/2000/2000')`
       }}>
+
+        {isBookmarked &&
+          <span className='bg-background text-muted-foreground py-2 px-3 rounded-lg absolute right-0 bottom-0 m-4 text-sm'>
+            bookmared on
+            <span className='font-semibold'> {formatDate(json.bookmark_time)}</span>
+          </span>
+        }
       </div>
       <div className='md:hidden w-full fixed top-0 left-0 h-[100px] bg-background top-nav z-10'>
       </div>

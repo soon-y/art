@@ -12,6 +12,7 @@ interface ExhibitionData {
   content: string
   bookmark: boolean
   address: string
+  bookmark_time: string
 }
 
 export default function Explore({ initialData = [] }: { initialData: ExhibitionData[] }) {

@@ -22,6 +22,8 @@ interface props {
     imgid: number
     content: string
     bookmark: boolean
+    address: string
+    bookmark_time: string
   }
 }
 
@@ -92,7 +94,7 @@ const DetailPage: React.FC<props> = ({ json }) => {
     })
 
     const result = await response.json()
-    if(result.success) router.push('/visits')
+    if (result.success) router.push('/visits')
   }
 
   return (
@@ -111,7 +113,7 @@ const DetailPage: React.FC<props> = ({ json }) => {
 
             <div className='border-t'>
               <h3 className='mt-6 text-xl font-semibold'>Where you&apos;ll visit</h3>
-              <p className='pt-2 pb-4'>address</p>
+              <p className='pt-2 pb-4'>{json.address}</p>
               <Map />
             </div>
 
@@ -170,9 +172,9 @@ const DetailPage: React.FC<props> = ({ json }) => {
                   <p className="font-medium">{whoNum}</p>
                 </a>
               </div>
-                <Button disabled={whenHour === 0 || whenDay === 0} className='w-full mt-4' onClick={() => insert()}>
-                  <span className='font-semibold'>Book</span>
-                </Button>
+              <Button disabled={whenHour === 0 || whenDay === 0} className='w-full mt-4' onClick={() => insert()}>
+                <span className='font-semibold'>Book</span>
+              </Button>
             </div>
           </div>
         </div>
@@ -198,9 +200,9 @@ const DetailPage: React.FC<props> = ({ json }) => {
               }
             </div>
           </div>
-            <Button disabled={whenHour === 0 || whenDay === 0} className='w-full' onClick={() => insert()}>
-              <span className='font-semibold'>Book</span>
-            </Button>
+          <Button disabled={whenHour === 0 || whenDay === 0} className='w-full' onClick={() => insert()}>
+            <span className='font-semibold'>Book</span>
+          </Button>
         </div>
       </div>
     </>

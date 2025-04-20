@@ -15,6 +15,7 @@ interface props {
     content: string
     bookmark: boolean
     address: string
+    bookmark_time: string
   }
 }
 
@@ -37,17 +38,17 @@ const Exhibition: React.FC<props> = ({ json }) => {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ id, bookmark: isBookmarked }),
+        body: JSON.stringify({ id, bookmark: isBookmarked, time: new Date().toISOString() }),
       })
 
       const data = await response.json();
       if (response.ok) {
         setIsBookmarked(!isBookmarked);
       } else {
-        console.error('Failed to update bookmark:', data.error);
+        console.error('Failed to update bookmark:', data.error)
       }
     } catch (error) {
-      console.error('Error updating bookmark:', error);
+      console.error('Error updating bookmark:', error)
     }
   }
 

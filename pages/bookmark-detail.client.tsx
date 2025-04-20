@@ -22,6 +22,8 @@ interface props {
     imgid: number
     content: string
     bookmark: boolean
+    address: string
+    bookmark_time: string
   }
 }
 
