@@ -29,7 +29,6 @@ const DetailTopSection: React.FC<props> = ({ json }) => {
       if (window.innerWidth < 768) header.style.opacity = '0'
       else header.style.opacity = '1'
     }
-
     const handleResize = () => {
       setSize({
         width: window.innerWidth,
@@ -56,9 +55,10 @@ const DetailTopSection: React.FC<props> = ({ json }) => {
         body: JSON.stringify({ id, bookmark: isBookmarked, time: new Date().toISOString() }),
       })
 
-      const data = await response.json();
-      if (response.ok) {
-        setIsBookmarked(!isBookmarked);
+      const data = await response.json()
+
+      if (data.success) {
+        setIsBookmarked(!isBookmarked)
       } else {
         console.error('Failed to update bookmark:', data.error)
       }
@@ -98,9 +98,9 @@ const DetailTopSection: React.FC<props> = ({ json }) => {
         backgroundImage: `url('https://picsum.photos/id/${json?.imgid}/2000/2000')`
       }}>
 
-        {isBookmarked &&
+        {isBookmarked && (new Date(json.bookmark_time).getFullYear() > 2000) &&
           <span className='bg-background text-muted-foreground py-2 px-3 rounded-lg absolute right-0 bottom-0 m-4 text-sm'>
-            bookmared on
+            bookmarked on
             <span className='font-semibold'> {formatDate(json.bookmark_time)}</span>
           </span>
         }
