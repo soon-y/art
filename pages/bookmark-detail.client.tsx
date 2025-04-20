@@ -1,12 +1,13 @@
 'use client'
 
-import { useState, useEffect } from 'react'
-import { Bookmark, ChevronLeft, Share, Calendar1, Clock3, UserRound } from 'lucide-react'
-import Link from 'next/link'
+import { useState } from 'react'
+import { Calendar1, Clock3, UserRound } from 'lucide-react'
+import { useRouter } from 'next/navigation'
 import { Button } from "@/components/ui/button"
 import Calendar from '@/components/calendar'
 import NumInput from '@/components/numInput'
 import { Map } from '@/components/map'
+import DetailTopSection from '@/components/detailTopSection'
 import gsap from 'gsap'
 import { useGSAP } from '@gsap/react'
 import { ScrollTrigger } from "gsap/ScrollTrigger"
@@ -25,7 +26,7 @@ interface props {
 }
 
 const BookmarkDetailPage: React.FC<props> = ({ json }) => {
-  const [isBookmarked, setIsBookmarked] = useState(json?.bookmark)
+  const router = useRouter()
   const today = new Date()
   const [whenDay, setWhenDay] = useState<number>(0)
   const [whenMonth, setWhenMonth] = useState<number>(today.getMonth())
@@ -35,32 +36,6 @@ const BookmarkDetailPage: React.FC<props> = ({ json }) => {
   const months: string[] = [
     "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"
   ]
-
-  useEffect(() => {
-    const header = document.querySelector('.mobileHeader') as HTMLElement
-    if (header) { header.style.opacity = '0' }
-  })
-
-  const toggleBookmark = async (id: number) => {
-    try {
-      const response = await fetch('/api/bookmark', {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ id, bookmark: isBookmarked }),
-      })
-
-      const data = await response.json();
-      if (response.ok) {
-        setIsBookmarked(!isBookmarked);
-      } else {
-        console.error('Failed to update bookmark:', data.error)
-      }
-    } catch (error) {
-      console.error('Error updating bookmark:', error)
-    }
-  }
 
   const toDate = () => {
     const selectDate = document.getElementById('selectDate')
@@ -80,18 +55,6 @@ const BookmarkDetailPage: React.FC<props> = ({ json }) => {
       pin: true,
       pinSpacing: false,
     })
-
-    const sec1 = gsap.timeline({
-      scrollTrigger: {
-        trigger: '.imgID',
-        start: 'bottom 140px',
-        end: 'bottom 100px',
-        scrub: true,
-      }
-    })
-    if (window.innerWidth < 768) {
-      sec1.from('.top-nav', { opacity: 0 })
-    }
   })
 
   const parseFormattedDate = (formatted: string): string => {
@@ -108,7 +71,6 @@ const BookmarkDetailPage: React.FC<props> = ({ json }) => {
   }
 
   const insert = async () => {
-    console.log("insert")
     const newBooking = {
       title: json.title,
       name: json.name,
@@ -130,41 +92,13 @@ const BookmarkDetailPage: React.FC<props> = ({ json }) => {
     })
 
     const result = await response.json()
-    console.log(result)
+    if(result.success) router.push('/visits')
   }
 
   return (
     <>
       <div className='mb-24'>
-        <div className='mt-4 mb-6 hidden md:grid grid-cols-[1fr_24px_24px] md:grid-cols-[1fr_80px_100px] gap-5 items-center'>
-          <h3 className='text-2xl font-bold'>{json?.title}</h3>
-          <div className='flex'>
-            <Share size={20} />
-            <span className='font-medium underline text-sm pl-2 cursor-pointer'>Share</span>
-          </div>
-          <div className='flex' onClick={() => toggleBookmark(json?.id)}>
-            <Bookmark className={`cursor-pointer ${isBookmarked ? 'fill-primary text-primary' : 'fill-background text-foreground'}`} />
-            <span className='font-medium underline text-sm pl-2 cursor-pointer'>Bookmark</span>
-          </div>
-        </div>
-        <div className='absolute left-0 top-0 bg-cover bg-center w-[100%] md:relative md:rounded-2xl h-[400px] md:h-[500px] imgID' style={{
-          backgroundImage: `url('https://picsum.photos/id/${json?.imgid}/2000/2000')`
-        }}>
-        </div>
-        <div className='md:hidden w-full fixed top-0 left-0 h-[100px] bg-background top-nav z-10'>
-        </div>
-        <div className='md:hidden w-full fixed top-0 left-0 pt-14 px-4 py-3 grid grid-cols-[1fr_30px_30px] gap-3 items-center z-10'>
-          <Link href={'/bookmarks'}>
-            <ChevronLeft size={28} className='text-foreground p-1 bg-background rounded-full' />
-          </Link>
-          <div className='bg-background rounded-full'>
-            <Share size={28} className='text-foreground p-1 bg-background rounded-full cursor-pointer' />
-          </div>
-          <div onClick={() => toggleBookmark(json?.id)}>
-            <Bookmark  size={28} className={`text-foreground p-1 bg-background rounded-full cursor-pointer ${isBookmarked ? 'fill-primary text-primary' : 'text-foreground'}`} />
-          </div>
-        </div>
-
+        <DetailTopSection json={json} />
         <div className='mt-[370px] md:mt-0 md:grid md:grid-cols-[1fr_300px] md:gap-10'>
           <div>
             <h3 className='md:hidden mt-4 py-2 text-3xl font-semibold'>{json?.title}</h3>
@@ -236,11 +170,9 @@ const BookmarkDetailPage: React.FC<props> = ({ json }) => {
                   <p className="font-medium">{whoNum}</p>
                 </a>
               </div>
-              <Link href={'/visits'}>
                 <Button disabled={whenHour === 0 || whenDay === 0} className='w-full mt-4' onClick={() => insert()}>
                   <span className='font-semibold'>Book</span>
                 </Button>
-              </Link>
             </div>
           </div>
         </div>
@@ -266,11 +198,9 @@ const BookmarkDetailPage: React.FC<props> = ({ json }) => {
               }
             </div>
           </div>
-          <Link href={'/visits'}>
             <Button disabled={whenHour === 0 || whenDay === 0} className='w-full' onClick={() => insert()}>
               <span className='font-semibold'>Book</span>
             </Button>
-          </Link>
         </div>
       </div>
     </>
