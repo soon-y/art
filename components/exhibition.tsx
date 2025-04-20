@@ -1,8 +1,9 @@
 'use client'
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Bookmark } from 'lucide-react'
 import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 
 interface props {
   json: {
@@ -19,6 +20,15 @@ interface props {
 
 const Exhibition: React.FC<props> = ({ json }) => {
   const [isBookmarked, setIsBookmarked] = useState(json.bookmark)
+  const pathname = usePathname()
+  const [currentPath, setPath] = useState(pathname)
+  
+  useEffect(()=> {
+    if(pathname !== '/')
+    {
+      setPath(currentPath + '/')
+    }
+  },[pathname])
 
   const toggleBookmark = async (id: number) => {
     try {
@@ -43,7 +53,7 @@ const Exhibition: React.FC<props> = ({ json }) => {
 
   return (
     <div className='w-full relative'>
-      <Link href={`/${encodeURIComponent(json.title.replace(/ /g, "_"))}`}>
+      <Link href={`${currentPath}${encodeURIComponent(json.title.replace(/ /g, "_"))}`}>
         <div className='bg-cover bg-center w-[100%] rounded-2xl aspect-[1]' style={{
           backgroundImage: `url('https://picsum.photos/id/${json.imgid}/1500/1500')`
         }}>
