@@ -14,6 +14,7 @@ interface ExhibitionData {
   imgid: number
   content: string
   bookmark: boolean
+  bookmark_time: string
   address: string
 }
 
