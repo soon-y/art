@@ -14,6 +14,7 @@ interface Props {
     time: string
     address: string
     who: number
+    booking_time: string
   }
 }
 
@@ -32,8 +33,6 @@ const VisitDetailPage: React.FC<Props> = ({ json }) => {
     })
     return `${time}, ${fullDate}`
   }
-
-  console.log(json)
 
   return (
     <>

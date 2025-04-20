@@ -4,10 +4,11 @@ import { createClient } from '@/utils/supabase/server'
 export async function POST(request: Request) {
   const supabase = await createClient()
   const body = await request.json()
-  const { id, newData } = body
+  const { id, newBooking } = body
+
   const { data, error } = await supabase
     .from('booking')
-    .update(newData)
+    .update(newBooking)
     .eq('id', id);
 
   if (error) {

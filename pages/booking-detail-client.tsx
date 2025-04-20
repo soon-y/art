@@ -13,7 +13,15 @@ import { useGSAP } from '@gsap/react'
 import { ScrollTrigger } from "gsap/ScrollTrigger"
 gsap.registerPlugin(ScrollTrigger, useGSAP)
 
-interface props {
+interface BookingData {
+  id: number
+  address: string
+  who: number
+  booked_time: string
+  booking_time: string
+}
+
+interface ExhibitionData {
   json: {
     id: number
     name: string
@@ -22,20 +30,19 @@ interface props {
     imgid: number
     content: string
     bookmark: boolean
-    address: string
-    who: number
-    time: string
+    bookmark_time: string
+    booking: BookingData
   }
 }
 
-const BookingPage: React.FC<props> = ({ json }) => {
+const BookingPage: React.FC<ExhibitionData> = ({ json }) => {
   const router = useRouter()
-  const dateObj = new Date(json?.time)
+  const dateObj = new Date(json?.booking.booking_time)
   const [whenDay, setWhenDay] = useState<number>(dateObj.getDate())
   const [whenMonth, setWhenMonth] = useState<number>(dateObj.getMonth())
   const [whenYear, setWhenYear] = useState<number>(dateObj.getFullYear())
   const [whenHour, setWhenHour] = useState<number>(dateObj.getHours())
-  const [whoNum, setWhoNum] = useState<number>(json?.who)
+  const [whoNum, setWhoNum] = useState<number>(json?.booking.who)
   const months: string[] = [
     "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"
   ]
@@ -60,6 +67,11 @@ const BookingPage: React.FC<props> = ({ json }) => {
     })
   })
 
+  const formatDate = (timestamp: string): string => {
+    const date = new Date(timestamp);
+    return date.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
+  }
+
   const parseFormattedDate = (formatted: string): string => {
     const cleaned = formatted.replace(/\s+/g, ' ').trim()
     const [timePart, datePart] = cleaned.split(', ')
@@ -74,16 +86,11 @@ const BookingPage: React.FC<props> = ({ json }) => {
   }
 
   const update = async (id: number) => {
-    const newData = {
-      title: json.title,
-      name: json.name,
-      price: json.price,
-      imgid: json.imgid,
-      content: json.content,
-      time: parseFormattedDate(`${whenHour}:00, ${whenDay} ${months[whenMonth]} ${whenYear}`),
+    const newBooking = {
+      booking_time: parseFormattedDate(`${whenHour}:00, ${whenDay} ${months[whenMonth]} ${whenYear}`),
+      booked_time: new Date().toISOString(),
       who: whoNum,
-      address: '123 Art Street, City',
-      bookmark: json.bookmark
+      address: json.booking.address,
     }
 
     const response = await fetch('/api/booking/update', {
@@ -91,11 +98,11 @@ const BookingPage: React.FC<props> = ({ json }) => {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ id, newData }),
+      body: JSON.stringify({ id, newBooking }),
     })
 
     const result = await response.json()
-    if(result.success) {router.push('/visits')}
+    if (result.success) { router.push('/visits') }
     console.log(result)
   }
 
@@ -108,7 +115,7 @@ const BookingPage: React.FC<props> = ({ json }) => {
       body: JSON.stringify({ id }),
     })
     const result = await response.json()
-    if(result.success) {router.push('/visits')}
+    if (result.success) { router.push('/visits') }
     console.log(result)
   }
 
@@ -128,7 +135,7 @@ const BookingPage: React.FC<props> = ({ json }) => {
 
             <div className='border-t'>
               <h3 className='mt-6 text-xl font-semibold'>Where you&apos;ll visit</h3>
-              <p className='pt-2 pb-4'>{json?.address}</p>
+              <p className='pt-2 pb-4'>{json?.booking.address}</p>
               <Map />
             </div>
 
@@ -160,6 +167,10 @@ const BookingPage: React.FC<props> = ({ json }) => {
           <div className='hidden md:block booking'>
             <div className='shadow-xl my-10 p-6 bg-muted rounded-xl'>
               <div className='border-b'>
+                <p className='text-sm'>booked on
+                  <span className='font-medium'> {formatDate(json?.booking.booked_time)}
+                  </span>
+                </p>
                 <h3 className='py-1 text-xl font-semibold'>{json?.title}</h3>
                 <p className='py-1'>{json?.name}</p>
                 <p className='pb-3'>€ {json?.price.toFixed(2)}</p>
@@ -187,12 +198,12 @@ const BookingPage: React.FC<props> = ({ json }) => {
                   <p className="font-medium">{whoNum}</p>
                 </a>
               </div>
-                <Button disabled={whenHour === 0 || whenDay === 0} className='w-full mt-4' onClick={() => update(json?.id)}>
-                  <span className='font-semibold'>Change</span>
-                </Button>
-                <Button variant={'outline'} className='w-full mt-4' onClick={() => cancel(json?.id)}>
-                  <span className='font-semibold'>Cancel</span>
-                </Button>
+              <Button disabled={whenHour === 0 || whenDay === 0} className='w-full mt-4' onClick={() => update(json?.id)}>
+                <span className='font-semibold'>Change</span>
+              </Button>
+              <Button variant={'outline'} className='w-full mt-4' onClick={() => cancel(json?.id)}>
+                <span className='font-semibold'>Cancel</span>
+              </Button>
             </div>
           </div>
         </div>
@@ -218,12 +229,12 @@ const BookingPage: React.FC<props> = ({ json }) => {
               }
             </div>
           </div>
-            <Button disabled={whenHour === 0 || whenDay === 0} className='w-full' onClick={() => update(json?.id)}>
-              <span className='font-semibold'>Change</span>
-            </Button>
-            <Button variant={'outline'} className='w-full' onClick={() => cancel(json?.id)}>
-              <span className='font-semibold'>Cancel</span>
-            </Button>
+          <Button disabled={whenHour === 0 || whenDay === 0} className='w-full' onClick={() => update(json?.id)}>
+            <span className='font-semibold'>Change</span>
+          </Button>
+          <Button variant={'outline'} className='w-full' onClick={() => cancel(json?.id)}>
+            <span className='font-semibold'>Cancel</span>
+          </Button>
         </div>
       </div>
     </>

@@ -74,15 +74,11 @@ const DetailPage: React.FC<props> = ({ json }) => {
 
   const insert = async () => {
     const newBooking = {
-      title: json.title,
-      name: json.name,
-      price: json.price,
-      imgid: json.imgid,
-      content: json.content,
-      time: parseFormattedDate(`${whenHour}:00, ${whenDay} ${months[whenMonth]} ${whenYear}`),
+      id: json.id,
+      booking_time: parseFormattedDate(`${whenHour}:00, ${whenDay} ${months[whenMonth]} ${whenYear}`),
+      booked_time: new Date().toISOString(),
       who: whoNum,
-      address: '123 Art Street, City',
-      bookmark: json.bookmark
+      address: json.address,
     }
 
     const response = await fetch('/api/booking/insert', {
