@@ -142,8 +142,8 @@ export default function SearchbarHeader() {
         </div>
 
         {open &&
-          <div className="mobile fixed top-0 left-0 w-screen h-screen z-1000 bg-background pt-16">
-            <div className="w-[90vw] bg-card rounded-xl m-auto py-4 px-6 shadow-md cursor-pointer bg-muted">
+          <div className="mobile fixed top-0 left-0 w-screen h-screen z-1000 bg-muted pt-16">
+            <div className="w-[90vw] bg-card rounded-xl m-auto py-4 px-6 shadow-md cursor-pointer">
               <div className="flex justify-between" onClick={() => {
                 setOpenWhere(true)
                 setOpenWhen(false)
@@ -158,7 +158,7 @@ export default function SearchbarHeader() {
                 </div>}
             </div>
 
-            <div className="w-[90vw] bg-card rounded-xl m-auto py-4 px-6 mt-5 shadow-md cursor-pointer bg-muted">
+            <div className="w-[90vw] bg-card rounded-xl m-auto py-4 px-6 mt-5 shadow-md cursor-pointer ">
               <div className="flex justify-between" onClick={() => {
                 setOpenWhen(true)
                 setOpenWhere(false)
@@ -172,7 +172,7 @@ export default function SearchbarHeader() {
               {openWhen && <Calendar selDay={whenDay} selMonth={whenMonth} selYear={whenYear} setDay={setWhenDay} setMonthSelected={setWhenMonth} setYearSelected={setWhenYear} />}
             </div>
 
-            <div className="w-[90vw] bg-card rounded-xl m-auto py-4 px-6 mt-5 shadow-md cursor-pointer bg-muted">
+            <div className="w-[90vw] bg-card rounded-xl m-auto py-4 px-6 mt-5 shadow-md cursor-pointer">
               <div className="flex justify-between" onClick={() => {
                 setOpenWho(true)
                 setOpenWhere(false)
