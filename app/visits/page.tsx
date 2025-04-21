@@ -28,7 +28,7 @@ export default async function Home() {
   .from("history")
   .select(`*,
     exhibition:exhibition (
-      name, title, imgid, content, price, bookmark, bookmark_time
+      name, title, imgid, content, price, bookmark, bookmark_time, date_from, date_to
     )
   `).order('booking_time', { ascending: false })
 
@@ -37,7 +37,7 @@ export default async function Home() {
   .from("booking")
   .select(`*,
     exhibition:exhibition (
-      name, title, imgid, content, price, bookmark, bookmark_time
+      name, title, imgid, content, price, bookmark, bookmark_time, date_from, date_to
     )
   `).order("booking_time", { ascending: true })
 
