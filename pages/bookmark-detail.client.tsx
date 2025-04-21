@@ -1,10 +1,9 @@
 'use client'
 
 import { useState } from 'react'
-import { Calendar1, Clock3, UserRound } from 'lucide-react'
-import { useRouter } from 'next/navigation'
-import { Button } from "@/components/ui/button"
-import Calendar from '@/components/calendar'
+import ConfirmBox from '@/components/confirmBox'
+import ConfirmBoxMobile from '@/components/confirmBoxMobile'
+import BookingTimePicker from '@/components/bookingTimePicker'
 import NumInput from '@/components/numInput'
 import { Map } from '@/components/map'
 import DetailTopSection from '@/components/detailTopSection'
@@ -28,27 +27,12 @@ interface props {
 }
 
 const BookmarkDetailPage: React.FC<props> = ({ json }) => {
-  const router = useRouter()
   const today = new Date()
   const [whenDay, setWhenDay] = useState<number>(0)
   const [whenMonth, setWhenMonth] = useState<number>(today.getMonth())
   const [whenYear, setWhenYear] = useState<number>(today.getFullYear())
   const [whenHour, setWhenHour] = useState<number>(0)
   const [whoNum, setWhoNum] = useState<number>(1)
-  const months: string[] = [
-    "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"
-  ]
-
-  const toDate = () => {
-    const selectDate = document.getElementById('selectDate')
-    if (selectDate) {
-      const y = selectDate.getBoundingClientRect().top + window.scrollY;
-      window.scrollTo({
-        top: y - 88,
-        behavior: 'smooth',
-      })
-    }
-  }
 
   useGSAP(() => {
     ScrollTrigger.create({
@@ -59,44 +43,6 @@ const BookmarkDetailPage: React.FC<props> = ({ json }) => {
     })
   })
 
-  const parseFormattedDate = (formatted: string): string => {
-    const cleaned = formatted.replace(/\s+/g, ' ').trim()
-    const [timePart, datePart] = cleaned.split(', ')
-    const localDate = new Date(`${datePart} ${timePart}`)
-    const year = localDate.getFullYear()
-    const month = String(localDate.getMonth() + 1).padStart(2, '0')
-    const day = String(localDate.getDate()).padStart(2, '0')
-    const hours = String(localDate.getHours()).padStart(2, '0')
-    const minutes = String(localDate.getMinutes()).padStart(2, '0')
-    const seconds = String(localDate.getSeconds()).padStart(2, '0')
-    return `${year}-${month}-${day}T${hours}:${minutes}:${seconds}`
-  }
-
-  const insert = async () => {
-    const newBooking = {
-      title: json.title,
-      name: json.name,
-      price: json.price,
-      imgid: json.imgid,
-      content: json.content,
-      time: parseFormattedDate(`${whenHour}:00, ${whenDay} ${months[whenMonth]} ${whenYear}`),
-      who: whoNum,
-      address: '123 Art Street, City',
-      bookmark: json.bookmark
-    }
-
-    const response = await fetch('/api/booking/insert', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(newBooking),
-    })
-
-    const result = await response.json()
-    if(result.success) router.push('/visits')
-  }
-
   return (
     <>
       <div className='mb-24'>
@@ -106,7 +52,6 @@ const BookmarkDetailPage: React.FC<props> = ({ json }) => {
             <h3 className='md:hidden mt-4 py-2 text-3xl font-semibold'>{json?.title}</h3>
             <p className='md:mt-6 font-semibold'>{json?.name}</p>
             <p className='font-semibold'>€ {json?.price.toFixed(2)}</p>
-
             <p className='py-2 mb-6 text-muted-foreground font-medium'>{json?.content}
               Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
             </p>
@@ -117,93 +62,18 @@ const BookmarkDetailPage: React.FC<props> = ({ json }) => {
               <Map />
             </div>
 
-            <div className='border-t' id='selectDate'>
-              <h3 className='mt-6 text-xl font-semibold'>When you&apos;ll visit</h3>
-              <div className='grid grid-cols-1 md:grid md:grid-cols-[6fr_4fr] md:gap-8'>
-                <div>
-                  <Calendar selDay={whenDay} selMonth={whenMonth} selYear={whenYear} setDay={setWhenDay} setMonthSelected={setWhenMonth} setYearSelected={setWhenYear} />
-                </div>
-                {whenDay !== 0 &&
-                  <div className='grid grid-cols-3 gap-4 my-4 md:gap-4 md:grid-cols-1 md:grid-rows-6'>
-                    <Button className='md:h-full border' variant={whenHour === 10 ? 'secondary' : 'outline'} onClick={() => { setWhenHour(10) }}>10:00</Button>
-                    <Button className='md:h-full border' variant={whenHour === 11 ? 'secondary' : 'outline'} onClick={() => { setWhenHour(11) }}>11:00</Button>
-                    <Button className='md:h-full border' variant={whenHour === 13 ? 'secondary' : 'outline'} onClick={() => { setWhenHour(13) }}>13:00</Button>
-                    <Button className='md:h-full border' variant={whenHour === 14 ? 'secondary' : 'outline'} onClick={() => { setWhenHour(14) }}>14:00</Button>
-                    <Button className='md:h-full border' variant={whenHour === 15 ? 'secondary' : 'outline'} onClick={() => { setWhenHour(15) }}>15:00</Button>
-                    <Button className='md:h-full border' variant={whenHour === 16 ? 'secondary' : 'outline'} onClick={() => { setWhenHour(16) }}>16:00</Button>
-                  </div>
-                }
-              </div>
-            </div>
+            <BookingTimePicker whenDay={whenDay} whenMonth={whenMonth} whenYear={whenYear} whenHour={whenHour}
+              setWhenDay={setWhenDay} setWhenMonth={setWhenMonth} setWhenYear={setWhenYear} setWhenHour={setWhenHour}
+            />
 
             <div className='border-t mt-8' id='selectWho'>
               <h3 className='mt-6 text-xl font-semibold'>How many people?</h3>
               <NumInput setValue={setWhoNum} initial={whoNum} />
             </div>
           </div>
-
-          <div className='hidden md:block booking'>
-            <div className='shadow-xl my-10 p-6 bg-muted rounded-xl'>
-              <div className='border-b'>
-                <h3 className='py-1 text-xl font-semibold'>{json?.title}</h3>
-                <p className='py-1'>{json?.name}</p>
-                <p className='pb-3'>€ {json?.price.toFixed(2)}</p>
-              </div>
-
-              <div className='flex items-center pt-3'>
-                <Calendar1 className='pr-2 text-muted-foreground' />
-                {whenDay !== 0 ?
-                  <p className="font-medium">{whenDay} {months[whenMonth]} {whenYear}</p> :
-                  <p className="text-sm font-medium text-muted-foreground cursor-pointer" onClick={toDate}>Select date</p>
-                }
-              </div>
-              <div className='flex items-center pt-2'>
-                <Clock3 className='pr-2 text-muted-foreground' />
-                {whenHour !== 0 ?
-                  <div className='flex items-center'>
-                    <p className="font-medium">{whenHour} : 00</p>
-                  </div> :
-                  <p className="text-sm font-medium text-muted-foreground cursor-pointer" onClick={toDate}>Select time</p>
-                }
-              </div>
-              <div className='flex items-center py-2'>
-                <UserRound className='pr-2 text-muted-foreground' />
-                <a href='#selectWho'>
-                  <p className="font-medium">{whoNum}</p>
-                </a>
-              </div>
-                <Button disabled={whenHour === 0 || whenDay === 0} className='w-full mt-4' onClick={() => insert()}>
-                  <span className='font-semibold'>Book</span>
-                </Button>
-            </div>
-          </div>
+          <ConfirmBox json={json} whenDay={whenDay} whenMonth={whenMonth} whenYear={whenYear} whenHour={whenHour} whoNum={whoNum} bookingID={0}/>
         </div>
-
-        <div className='bg-muted fixed border-t bottom-0 left-0 bg-background w-[100vw] h-[80px] grid grid-cols-[1fr_100px] items-center px-6 gap-4 md:hidden'>
-          <div>
-            <div className='flex items-center'>
-              <Calendar1 className='pr-2 text-muted-foreground' />
-              {whenDay !== 0 ?
-                <p className="text-sm font-medium">{whenDay} {months[whenMonth]} {whenYear}</p> :
-                <p className="text-sm font-medium text-muted-foreground">Select date</p>
-              }
-            </div>
-            <div className='flex items-center'>
-              <Clock3 className='pr-2 text-muted-foreground' />
-              {whenHour !== 0 ?
-                <div className='flex items-center'>
-                  <p className="text-sm font-medium">{whenHour} : 00</p>
-                  <UserRound size={16} className='inline ml-4 mr-2 text-muted-foreground' />
-                  <p className="text-sm font-medium">{whoNum}</p>
-                </div> :
-                <p className="text-sm font-medium text-muted-foreground">Select time</p>
-              }
-            </div>
-          </div>
-            <Button disabled={whenHour === 0 || whenDay === 0} className='w-full' onClick={() => insert()}>
-              <span className='font-semibold'>Book</span>
-            </Button>
-        </div>
+        <ConfirmBoxMobile json={json} whenDay={whenDay} whenMonth={whenMonth} whenYear={whenYear} whenHour={whenHour} whoNum={whoNum} bookingID={0}/>
       </div>
     </>
   )
