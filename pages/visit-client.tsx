@@ -41,8 +41,8 @@ interface VisitProps {
 }
 
 const Visit: React.FC<VisitProps> = ({ history = [], booked = [] }) => {
-  const formatTime = (isoString: string) => {
-    const date = new Date(isoString)
+  const formatTime = (timestamp: string) => {
+    const date = new Date(timestamp)
     const time = date.toLocaleString('en-US', {
       hour: 'numeric',
       hour12: true,
@@ -55,23 +55,34 @@ const Visit: React.FC<VisitProps> = ({ history = [], booked = [] }) => {
     return `${time}, ${fullDate}`
   }
 
-  const styledFormatTime = (isoString: string) => {
-    const date = new Date(isoString)
+  const formatDate = (timestamp: string) => {
+    const date = new Date(timestamp)
+    const fullDate = date.toLocaleDateString('en-GB', {
+      day: 'numeric',
+      month: 'short',
+      year: 'numeric',
+    })
+    return `${fullDate}`
+  }
+
+  const styledFormatTime = (timestamp: string) => {
+    const date = new Date(timestamp)
     const time = date.toLocaleString('en-US', {
       hour: '2-digit',
       minute: '2-digit',
     })
     const day = date.getDate().toString()
-    const month = date.toLocaleString('en-GB', { month: 'short' }) // e.g., "Apr"
+    const month = date.toLocaleString('en-GB', { month: 'long' })
     const year = date.getFullYear().toString()
     return <div>
-      <p><span className="text-xl pr-1 font-semibold">{month} {day}</span> {year}</p>
       <p className="font-semibold"> {time}</p>
+      <p className="text-xl pr-1 font-semibold">{month} {day}</p>
+      <p> {year}</p>
     </div>
   }
 
-  const daysLeft = (isoString: string): string => {
-    const bookingDate = new Date(isoString)
+  const daysLeft = (timestamp: string): string => {
+    const bookingDate = new Date(timestamp)
     const today = new Date()
     bookingDate.setHours(0, 0, 0, 0)
     today.setHours(0, 0, 0, 0)
@@ -111,7 +122,7 @@ const Visit: React.FC<VisitProps> = ({ history = [], booked = [] }) => {
         :
         <div className='mb-22 md:mb-0 py-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5'>
           {booked.map((json) => (
-            <Link key={json.id} href={`/visits/booking/${encodeURIComponent(json.exhibition.title.replace(/ /g, "_"))}`}>
+            <Link key={json.id} href={`/visits/booking/${encodeURIComponent(json.exhibition.title.replace(/ /g, "_"))}_${json.id}`}>
               <div className='grid grid-rows gap-3 border shadow-xl rounded-2xl overflow-hidden' key={json.id}>
                 <div className='bg-cover bg-center w-[100%] aspect-[2]' style={{
                   backgroundImage: `url('https://picsum.photos/id/${json.exhibition.imgid}/1000/1000')`
@@ -119,9 +130,10 @@ const Visit: React.FC<VisitProps> = ({ history = [], booked = [] }) => {
                   <span className="font-semibold text-sm bg-background px-2 py-1 rounded-md absolute m-3">{daysLeft(json.booking_time)}</span>
                 </div>
                 <div className='px-4'>
+                  <p className="text-sm/5 text-muted-foreground">booked on {formatDate(json.booked_time)}</p>
                   <h3 className='text-xl/7 font-bold'>{json.exhibition.title}</h3>
-                  <p className='text-sm/5 text-muted-foreground'>{json.exhibition.name}</p>
-                  <p className='text-sm/5 text-muted-foreground font-semibold'>{json.who} {json.who == 1 ? 'person' : 'people'}</p>
+                  <p className='text-base/6 text-muted-foreground font-medium'>{json.exhibition.name}</p>
+                  <p className='text-base/6 text-muted-foreground font-semibold'>{json.who} {json.who == 1 ? 'person' : 'people'}</p>
                   <div className='border-t mt-3 pt-3'>
                     <div className="grid grid-cols-[1fr_1fr] gap-3 pb-4">
                       <div className='text-sm/5 text-muted-foreground border-r'>{styledFormatTime(json.booking_time)}</div>
