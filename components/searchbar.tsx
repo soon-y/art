@@ -107,7 +107,7 @@ export default function SearchbarHeader() {
             <div className="fixed top-[130px] left-[50%] border transform -translate-x-1/2 web w-[350px] mt-4 p-4 bg-background shadow-xl rounded-2xl" ref={calendarRef}>
               <Calendar selDay={whenDay} selMonth={whenMonth} selYear={whenYear} 
               setDay={setWhenDay} setMonthSelected={setWhenMonth} setYearSelected={setWhenYear}
-              dateFrom={'2025-04-01T00:00:00'} dateTo={'2027-12-31T00:00:00'} />
+              dateFrom={''} dateTo={''} />
             </div>
           }
           {
@@ -171,7 +171,9 @@ export default function SearchbarHeader() {
                   <p className="font-bold">{whenDay} {months[whenMonth]} {whenYear}</p> :
                   <p className="text-muted-foreground font-bold">Add date</p>)}
               </div>
-              {openWhen && <Calendar selDay={whenDay} selMonth={whenMonth} selYear={whenYear} setDay={setWhenDay} setMonthSelected={setWhenMonth} setYearSelected={setWhenYear} />}
+              {openWhen && <Calendar selDay={whenDay} selMonth={whenMonth} selYear={whenYear} 
+              setDay={setWhenDay} setMonthSelected={setWhenMonth} setYearSelected={setWhenYear} 
+              dateFrom={''} dateTo={''} />}
             </div>
 
             <div className="w-[90vw] bg-card rounded-xl m-auto py-4 px-6 mt-5 shadow-md cursor-pointer">
