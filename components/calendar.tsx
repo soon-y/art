@@ -8,9 +8,13 @@ interface props {
   setDay: React.Dispatch<React.SetStateAction<number>>
   setMonthSelected: React.Dispatch<React.SetStateAction<number>>
   setYearSelected: React.Dispatch<React.SetStateAction<number>>
+  dateFrom: string
+  dateTo: string
 }
 
-const Calendar: React.FC<props> = ({ selDay, selMonth, selYear, setDay, setMonthSelected, setYearSelected }) => {
+const Calendar: React.FC<props> = ({
+  selDay, selMonth, selYear, setDay, setMonthSelected, setYearSelected, dateFrom, dateTo
+}) => {
   const months: string[] = [
     "January", "February", "March", "April", "May", "June",
     "July", "August", "September", "October", "November", "December"
@@ -24,6 +28,15 @@ const Calendar: React.FC<props> = ({ selDay, selMonth, selYear, setDay, setMonth
   const today = new Date()
   const [month, setMonth] = useState<number>(selMonth)
   const [year, setYear] = useState<number>(selYear)
+
+  const fromDate = new Date(dateFrom)
+  const yearFrom = fromDate.getFullYear()
+  const monthFrom = fromDate.getMonth()
+  const dayFrom = fromDate.getDate()
+  const toDate = new Date(dateTo)
+  const yearTo = toDate.getFullYear()
+  const monthTo = toDate.getMonth()
+  const dayTo = toDate.getDate()
 
   useEffect(() => {
     setTheFirst(new Date(year, month, 1))
@@ -99,7 +112,12 @@ const Calendar: React.FC<props> = ({ selDay, selMonth, selYear, setDay, setMonth
           <p className="text-sm text-center " key={index}>{day}</p>
         ))}
         {daysInMonth.map((day, index) => (
-          <button key={index} disabled={today.getMonth() === month && today.getFullYear() === year && index < today.getDate() + theFirstDayOfWeek - 1 || day == ''}
+          <button key={index} disabled={
+            today.getMonth() === month && today.getFullYear() === year && index < today.getDate() + theFirstDayOfWeek - 1 || day == '' ||
+            monthFrom === month && yearFrom === year && index < dayFrom + theFirstDayOfWeek - 1 ||
+            monthTo === month && yearTo === year && index > dayTo + theFirstDayOfWeek ||
+            monthFrom > month && yearFrom === year || monthTo < month && yearTo === year
+          }
             className={`
               rounded-full aspect-[1/1] disabled:opacity-25
               ${day === '' ? 'h-[0px]' : 'h-44px]'} 
@@ -113,8 +131,8 @@ const Calendar: React.FC<props> = ({ selDay, selMonth, selYear, setDay, setMonth
           </button>
         ))}
       </div>
-      <div className='flex justify-self-end'>{selDay !== 0 && 
-        <span className='pb-4 px-4 cursor-pointer select-none' onClick={reset}> reset 
+      <div className='flex justify-self-end'>{selDay !== 0 &&
+        <span className='pb-4 px-4 cursor-pointer select-none' onClick={reset}> reset
         </span>}
       </div>
     </>

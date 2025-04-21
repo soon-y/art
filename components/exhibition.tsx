@@ -1,9 +1,10 @@
 'use client'
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import Bookmarking from './bookmark';
+import Bookmarking from './bookmark'
+import { Bookmark } from 'lucide-react'
 
 interface props {
   json: {
@@ -16,11 +17,12 @@ interface props {
     bookmark: boolean
     address: string
     bookmark_time: string
+    date_from: string
+    date_to: string
   }
 }
 
 const Exhibition: React.FC<props> = ({ json }) => {
-  const [isBookmarked, setIsBookmarked] = useState(json.bookmark)
   const pathname = usePathname()
   const [currentPath, setPath] = useState(pathname)
 
@@ -28,13 +30,12 @@ const Exhibition: React.FC<props> = ({ json }) => {
     const date = new Date(timestamp);
     return date.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
   }
-  
-  useEffect(()=> {
-    if(pathname !== '/')
-    {
+
+  useEffect(() => {
+    if (pathname !== '/') {
       setPath(currentPath + '/')
     }
-  },[pathname])
+  }, [pathname])
 
   return (
     <div className='w-full relative'>
@@ -44,15 +45,19 @@ const Exhibition: React.FC<props> = ({ json }) => {
         }}>
         </div>
         <div className='py-2'>
-          <h3 className='text-base/5 font-bold'>{json.title}</h3>
+          <h3 className='text-lg/7 font-bold'>{json.title}</h3>
+          <p className='font-medium text-sm/6'>{formatDate(json.date_from)} - {formatDate(json.date_to)}</p>
           <p className='font-medium text-sm/6 text-muted-foreground'>{json.name}</p>
           <p className='font-medium text-sm/6'>€ {json.price.toFixed(2)}</p>
-          {pathname === '/bookmarks' && 
-          <p className='font-medium text-sm/6 text-muted-foreground'>added on {formatDate(json?.bookmark_time)}</p>
+          {pathname === '/bookmarks' &&
+            <div className='flex items-center'>
+              <Bookmark size={18} className='mr-1 text-muted-foreground' />
+              <p className='font-medium text-sm/6 text-muted-foreground'>on {formatDate(json?.bookmark_time)}</p>
+            </div>
           }
         </div>
       </Link>
-      <Bookmarking json={ json } />
+      <Bookmarking json={json} />
     </div >
   )
 }

@@ -15,6 +15,8 @@ interface props {
     bookmark: boolean
     address: string
     bookmark_time: string
+    date_from: string
+    date_to: string
   }
   whenDay: number
   whenMonth: number
@@ -22,9 +24,10 @@ interface props {
   whenHour: number
   whoNum: number
   bookingID: number
+  bookedDate: string
 }
 
-const ConfirmBox: React.FC<props> = ({ json, whenDay, whenMonth, whenYear, whenHour, whoNum, bookingID=0 }) => {
+const ConfirmBox: React.FC<props> = ({ json, whenDay, whenMonth, whenYear, whenHour, whoNum, bookingID=0, bookedDate ='' }) => {
   const [isBookingPage, setIsBookingPage] = useState<boolean>(false)
   const pathname = usePathname()
   const router = useRouter()
@@ -60,6 +63,11 @@ const ConfirmBox: React.FC<props> = ({ json, whenDay, whenMonth, whenYear, whenH
     return `${year}-${month}-${day}T${hours}:${minutes}:${seconds}`
   }
 
+  const formatDate = (timestamp: string): string => {
+    const date = new Date(timestamp);
+    return date.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
+  }
+
   const insert = async () => {
     const newBooking = {
       ex_id: json.id,
@@ -90,7 +98,6 @@ const ConfirmBox: React.FC<props> = ({ json, whenDay, whenMonth, whenYear, whenH
       booking_time: parseFormattedDate(`${whenHour}:00, ${whenDay} ${months[whenMonth]} ${whenYear}`),
       booked_time: new Date(new Date().getTime() - (new Date().getTimezoneOffset() * 60000)).toISOString(),
       who: whoNum,
-      address: json.address,
     }
 
     const response = await fetch('/api/booking/update', {
@@ -124,9 +131,13 @@ const ConfirmBox: React.FC<props> = ({ json, whenDay, whenMonth, whenYear, whenH
       <div className='hidden md:block booking'>
         <div className='shadow-xl my-10 p-6 bg-muted rounded-xl'>
           <div className='border-b'>
-            <h3 className='py-1 text-xl font-semibold'>{json?.title}</h3>
-            <p className='py-1'>{json?.name}</p>
-            <p className='pb-3'>€ {json?.price.toFixed(2)}</p>
+          {bookingID > 0 && 
+          <p className="text-muted-foreground text-sm">booked on {formatDate(bookedDate)}</p>
+          }
+            <h3 className='text-xl/9 font-semibold'>{json?.title}</h3>
+            <p className='text-base/7 font-medium'>{json?.name}</p>
+            <p className='text-base/7 font-medium'>{formatDate(json.date_from)} - {formatDate(json.date_to)}</p>
+            <p className='text-base/7 font-medium pb-3'>€ {json?.price.toFixed(2)}</p>
           </div>
 
           <div className='flex items-center pt-3'>
@@ -151,7 +162,7 @@ const ConfirmBox: React.FC<props> = ({ json, whenDay, whenMonth, whenYear, whenH
               <p className="font-medium">{whoNum}</p>
             </a>
           </div>
-          {isBookingPage ?
+          {bookingID > 0 ?
             <>
               <Button disabled={whenHour === 0 || whenDay === 0} className='w-full mt-4' onClick={() => update(bookingID)}>
                 <span className='font-semibold'>Change</span>

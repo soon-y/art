@@ -16,6 +16,8 @@ interface ExhibitionData {
   bookmark: boolean
   bookmark_time: string
   address: string
+  date_from: string
+  date_to: string
 }
 
 interface BookmarkProps {
