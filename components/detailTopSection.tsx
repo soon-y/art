@@ -52,7 +52,10 @@ const DetailTopSection: React.FC<props> = ({ json }) => {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ id, bookmark: isBookmarked, time: new Date().toISOString() }),
+        body: JSON.stringify({ 
+          id, 
+          bookmark: isBookmarked, 
+          time: new Date(new Date().getTime() - (new Date().getTimezoneOffset() * 60000)).toISOString()}),
       })
 
       const data = await response.json()
