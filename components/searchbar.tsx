@@ -105,7 +105,9 @@ export default function SearchbarHeader() {
 
           {whenClicked &&
             <div className="fixed top-[130px] left-[50%] border transform -translate-x-1/2 web w-[350px] mt-4 p-4 bg-background shadow-xl rounded-2xl" ref={calendarRef}>
-              <Calendar selDay={whenDay} selMonth={whenMonth} selYear={whenYear} setDay={setWhenDay} setMonthSelected={setWhenMonth} setYearSelected={setWhenYear} />
+              <Calendar selDay={whenDay} selMonth={whenMonth} selYear={whenYear} 
+              setDay={setWhenDay} setMonthSelected={setWhenMonth} setYearSelected={setWhenYear}
+              dateFrom={''} dateTo={''} />
             </div>
           }
           {
