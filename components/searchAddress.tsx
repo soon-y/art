@@ -41,7 +41,6 @@ const SearchAddress: React.FC<props> = ({ whereTo, setWhereTo }) => {
   const searchInput = useRef<HTMLDivElement>(null)
   const searchResult = useRef<HTMLDivElement>(null)
 
-
   const searchAddress = async (q: string) => {
     if (q.trim() === '') return
     const response = await fetch(

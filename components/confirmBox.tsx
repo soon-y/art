@@ -1,8 +1,6 @@
 import { Button } from "./ui/button"
 import { Calendar1, Clock3, UserRound } from 'lucide-react'
 import { useRouter } from 'next/navigation'
-import { usePathname } from 'next/navigation'
-import { useState, useEffect } from 'react'
 
 interface props {
   json: {
@@ -28,16 +26,10 @@ interface props {
 }
 
 const ConfirmBox: React.FC<props> = ({ json, whenDay, whenMonth, whenYear, whenHour, whoNum, bookingID=0, bookedDate ='' }) => {
-  const [isBookingPage, setIsBookingPage] = useState<boolean>(false)
-  const pathname = usePathname()
   const router = useRouter()
   const months: string[] = [
     "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"
   ]
-
-  useEffect(() => {
-    setIsBookingPage(!!pathname?.includes('booking'))
-  }, [pathname])
 
   const toDate = () => {
     const selectDate = document.getElementById('selectDate')

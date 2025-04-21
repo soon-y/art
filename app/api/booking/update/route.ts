@@ -9,7 +9,7 @@ export async function POST(request: Request) {
   const { data, error } = await supabase
     .from('booking')
     .update(newBooking)
-    .eq('id', id);
+    .eq('id', id)
 
   if (error) {
     return NextResponse.json({ success: false, error }, { status: 500 })
