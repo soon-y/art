@@ -17,6 +17,8 @@ interface props {
     content: string
     bookmark: boolean
     bookmark_time: string
+    date_from: string
+    date_to: string
   }
 }
 

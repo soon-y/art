@@ -136,7 +136,7 @@ const ConfirmBox: React.FC<props> = ({ json, whenDay, whenMonth, whenYear, whenH
           }
             <h3 className='text-xl/9 font-semibold'>{json?.title}</h3>
             <p className='text-base/7 font-medium'>{json?.name}</p>
-            <p className='text-base/7 font-medium'>{formatDate(json.date_from)} - {formatDate(json.date_to)}</p>
+            <p className='text-base/7 font-medium'>{formatDate(json?.date_from)} - {formatDate(json?.date_to)}</p>
             <p className='text-base/7 font-medium pb-3'>€ {json?.price.toFixed(2)}</p>
           </div>
 
