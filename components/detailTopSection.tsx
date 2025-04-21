@@ -40,11 +40,6 @@ const DetailTopSection: React.FC<props> = ({ json }) => {
     return () => window.removeEventListener('resize', handleResize)
   }, [size])
 
-  const formatDate = (timestamp: string): string => {
-    const date = new Date(timestamp);
-    return date.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
-  }
-
   const toggleBookmark = async (id: number) => {
     const response = await fetch('/api/bookmark', {
       method: 'PUT',

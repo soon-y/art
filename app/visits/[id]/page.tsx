@@ -8,10 +8,22 @@ type Props = {
 export default async function Page({ params }: Props) {
   const supabase = await createClient()
   const { id } = await params
-  const readableTitle = decodeURIComponent(id.replace(/_/g, " "))
-  const { data: exhibition } = await supabase.from("history").select("*").eq("title", readableTitle).single()
+  const match = id.match(/^(.*)_(\d+)$/)
+  if (match) {
+    const primaryID = match[2]
+    const { data: history } = await supabase
+      .from('history')
+      .select(`
+    *,
+    exhibition (
+      *
+    )
+  `).eq('id', primaryID)
+      .single()
 
-  return(
-    <VisitDetailPage json={exhibition ?? []} />
-  )
+    return (
+      <VisitDetailPage json={history ?? []} />
+    )
+  }
+  return <p>Invalid ID format</p>
 }

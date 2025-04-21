@@ -5,17 +5,6 @@ import { DoorOpen } from 'lucide-react'
 import Link from 'next/link'
 import { Button } from "@/components/ui/button"
 
-interface HistoryData {
-  id: number
-  name: string
-  title: string
-  price: number
-  imgid: number
-  content: string
-  time: string
-  address: string
-}
-
 interface BookingData {
   id: number
   address: string
@@ -36,7 +25,7 @@ interface ExhibitionData {
 }
 
 interface VisitProps {
-  history?: HistoryData[]
+  history?: BookingData[]
   booked?: BookingData[]
 }
 
@@ -104,12 +93,13 @@ const Visit: React.FC<VisitProps> = ({ history = [], booked = [] }) => {
       </div>
 
       {booked.length === 0 ?
-        <div className='mt-4 h-[auto] text-center overflow-hidden border items-center rounded-2xl md:h-[400px] md:text-left md:grid md:grid-cols-2'>
-          <div className="text-muted-foreground flex flex-col items-center justify-center p-10">
-            <DoorOpen size={24} />
-            <p className="py-2">No Docents booked</p>
+        <div className='mt-4 h-[auto] text-center overflow-hidden border items-center rounded-2xl md:h-[400px] md:text-left md:grid md:grid-cols-[4fr_6fr]'>
+          <div className="text-muted-foreground flex flex-col p-10 items-center md:items-start">
+            <DoorOpen size={28} />
+            <p className="font-bold text-lg/5 py-2">No sign language tours booked yet</p>
+            <p className="font-medium text-base/5">The world of art is waiting. Plan your next visit today.</p>
             <Link href={'/'}>
-              <Button className="mt-2 p-6 flex items-center" size={"sm"} variant={'default'}>
+              <Button className="mt-5 p-6 flex items-center" size={"sm"} variant={'default'}>
                 <span>Start exploring</span>
               </Button>
             </Link>
@@ -147,30 +137,30 @@ const Visit: React.FC<VisitProps> = ({ history = [], booked = [] }) => {
         </div>
       }
 
-      <p className='text-lg font-bold mt-10'>Where you&apos;ve been</p>
-      <div className='mb-22 md:mb-0 py-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5'>
-        {history.length > 0 ? (
-          history.map((json) => (
-            <Link key={json.id} href={`/visits/${encodeURIComponent(json.title.replace(/ /g, "_"))}`}>
-              <div className='grid grid-cols-[100px_1fr] gap-4' key={json.id}>
+      {history.length > 0 && (
+        <>
+          <p className='text-lg font-bold mt-10'>Where you&apos;ve been</p>
+          <div className='mb-22 md:mb-0 py-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5'>
+            {history.map((json) => (
+            <Link key={json.id} href={`/visits/${encodeURIComponent(json.exhibition.title.replace(/ /g, "_"))}_${json.id}`}>
+              <div className='grid grid-cols-[100px_1fr] gap-4'>
                 <div className='bg-cover bg-center w-[100%] rounded-2xl aspect-[1]' style={{
-                  backgroundImage: `url('https://picsum.photos/id/${json.imgid}/500/500')`
-                }}>
-                </div>
+                  backgroundImage: `url('https://picsum.photos/id/${json.exhibition.imgid}/500/500')`
+                }}></div>
                 <div className='grid justify-between items-center'>
                   <div>
-                    <h3 className='text-base/5 font-bold'>{json.title}</h3>
-                    <p className='text-sm/5 text-muted-foreground'>{json.name}</p>
+                    <h3 className='text-base/5 font-bold'>{json.exhibition.title}</h3>
+                    <p className='text-sm/5 text-muted-foreground'>{json.exhibition.name}</p>
                     <p className='text-sm/5 text-muted-foreground'>{json.address}</p>
-                    <p className='text-sm/5 text-muted-foreground font-medium'>{formatTime(json.time)}</p>
+                    <p className='text-sm/5 text-muted-foreground font-medium'>{formatTime(json.booked_time)}</p>
                   </div>
                 </div>
               </div>
             </Link>
-          ))) : (
-          <p>No visits found</p>)
-        }
-      </div>
+          ))}
+          </div>
+        </>
+      )}
       <Navigation />
     </div>
   )
