@@ -24,7 +24,7 @@ export default function Header() {
           <Link href={'/'} className='hidden md:block'>
             <ArtLogo />
           </Link>
-          <p className='text-center text-sm font-semibold'>Bringing Augmented Reality to Every hand</p>
+          <p className='hidden md:block text-center text-sm font-semibold'>Bringing Augmented Reality to Every hand</p>
           <span className='hidden md:block'>
             <ThemeSwitcher />
           </span>
