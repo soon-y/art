@@ -8,25 +8,22 @@ type Props = {
 export default async function Page({ params }: Props) {
   const supabase = await createClient()
   const { id } = await params
-  const readableTitle = decodeURIComponent(id.replace(/_/g, " "))
-  const { data: booked } = await supabase
-  .from('exhibition')
-  .select(`
+  const match = id.match(/^(.*)_(\d+)$/)
+  if (match) {
+    const primaryID = match[2]
+    const { data: booking } = await supabase
+      .from('booking')
+      .select(`
     *,
-    booking:booking (
-      id,
-      address,
-      who,
-      booked_time,
-      booking_time
+    exhibition (
+      *
     )
-  `)
-  .eq('title', readableTitle)
-  .single()
+  `).eq('id', primaryID)
+      .single()
 
-
-
-  return (
-    <BookingPage json={booked ?? []} />
-  )
+    return (
+      <BookingPage json={booking ?? []} />
+    )
+  }
+  return <p>Invalid ID format</p>
 }
