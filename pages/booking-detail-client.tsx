@@ -73,7 +73,7 @@ const BookingPage: React.FC<BookingData> = ({ json }) => {
               <h3 className='text-3xl/10 font-semibold'>{json?.exhibition.title}</h3>
             </div>
             <p className='md:mt-6 font-semibold'>{json?.exhibition.name}</p>
-            <p className='font-semibold'>{formatDate(json.exhibition.date_from)} - {formatDate(json.exhibition.date_to)}</p>
+            <p className='font-semibold'>{formatDate(json?.exhibition.date_from)} - {formatDate(json?.exhibition.date_to)}</p>
             <p className='font-semibold'>€ {json?.exhibition.price.toFixed(2)}</p>
             <p className='py-2 mb-6 text-muted-foreground font-medium'>{json?.exhibition.content}
               Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
@@ -87,7 +87,7 @@ const BookingPage: React.FC<BookingData> = ({ json }) => {
 
             <BookingTimePicker whenDay={whenDay} whenMonth={whenMonth} whenYear={whenYear} whenHour={whenHour}
               setWhenDay={setWhenDay} setWhenMonth={setWhenMonth} setWhenYear={setWhenYear} setWhenHour={setWhenHour}
-              dateFrom={json.exhibition.date_from} dateTo={json.exhibition.date_to}
+              dateFrom={json?.exhibition.date_from} dateTo={json?.exhibition.date_to}
             />
 
             <div className='border-t mt-8' id='selectWho'>
@@ -95,7 +95,7 @@ const BookingPage: React.FC<BookingData> = ({ json }) => {
               <NumInput setValue={setWhoNum} initial={whoNum} />
             </div>
           </div>
-          <ConfirmBox json={json?.exhibition} whenDay={whenDay} whenMonth={whenMonth} whenYear={whenYear} whenHour={whenHour} whoNum={whoNum} bookingID={json?.id} bookedDate={json.booked_time} />
+          <ConfirmBox json={json?.exhibition} whenDay={whenDay} whenMonth={whenMonth} whenYear={whenYear} whenHour={whenHour} whoNum={whoNum} bookingID={json?.id} bookedDate={json?.booked_time} />
         </div>
         <ConfirmBoxMobile json={json?.exhibition} whenDay={whenDay} whenMonth={whenMonth} whenYear={whenYear} whenHour={whenHour} whoNum={whoNum} bookingID={json?.id} />
       </div>
