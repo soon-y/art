@@ -4,6 +4,7 @@ import Link from 'next/link'
 import gsap from 'gsap'
 import { useGSAP } from '@gsap/react'
 import { ScrollTrigger } from "gsap/ScrollTrigger"
+import { usePathname } from 'next/navigation'
 gsap.registerPlugin(ScrollTrigger, useGSAP)
 
 interface props {
@@ -22,6 +23,13 @@ interface props {
 const DetailTopSection: React.FC<props> = ({ json }) => {
   const [isBookmarked, setIsBookmarked] = useState(json?.bookmark)
   const [size, setSize] = useState({ width: 0, height: 0 })
+  const pathname = usePathname()
+
+  function getBasePath(pathname: string | null): string {
+    if (!pathname || pathname === '/') return '/'
+    const segments = pathname.split('/').filter(Boolean)
+    return segments.length > 1 ? `/${segments[0]}` : '/'
+  }
 
   useEffect(() => {
     const header = document.querySelector('.mobileHeader') as HTMLElement
@@ -96,7 +104,7 @@ const DetailTopSection: React.FC<props> = ({ json }) => {
       <div className='md:hidden w-full fixed top-0 left-0 h-[100px] bg-background top-nav z-10'>
       </div>
       <div className='md:hidden w-full fixed top-0 left-0 pt-14 px-4 py-3 grid grid-cols-[1fr_30px_30px] gap-3 items-center z-10'>
-        <Link href={'/'}>
+        <Link href={getBasePath(pathname)}>
           <ChevronLeft size={28} className='text-foreground p-1 bg-background rounded-full' />
         </Link>
         <div className='bg-background rounded-full'>
