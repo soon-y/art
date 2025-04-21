@@ -60,6 +60,25 @@ export default function SearchbarHeader() {
     }
   }, [])
 
+  const update = async (id: number) => {
+    const newData = {
+      address: whereTo,
+      date: `${whenYear}-${whenMonth}-${whenDay}`,
+      who: whoNum,
+    }
+
+    const response = await fetch('/api/search/update', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ id, newData }),
+    })
+
+    const result = await response.json()
+    console.log(result)
+  }
+
   return (
     <div className={`${pathname === '/' ? '' : 'hidden'}`}>
       <div className='hidden md:block pt-1 '>
@@ -99,7 +118,7 @@ export default function SearchbarHeader() {
               </div>
             </div>
           </div>
-          <Button className="web p-1 w-[46px] h-[46px] rounded-full transform -translate-x-[35px] translate-y-1/4 searchBtn">
+          <Button className="web p-1 w-[46px] h-[46px] rounded-full transform -translate-x-[35px] translate-y-1/4 searchBtn" onClick={() => update(1)}>
             <Search />
           </Button>
 
