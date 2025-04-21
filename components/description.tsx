@@ -67,7 +67,7 @@ const Description: React.FC<props> = ({ json }) => {
               <p className="text-muted-foreground font-sm">booked on</p>}
             <h3 className='md:hidden mt-4 py-2 text-3xl font-semibold'>{json?.title}</h3>
             <p className='md:mt-6 font-semibold'>{json?.name}</p>
-            <p className='font-semibold'>{formatDate(json?.date_from)} - {formatDate(json.date_to)}</p>
+            <p className='font-semibold'>{formatDate(json?.date_from)} - {formatDate(json?.date_to)}</p>
             <p className='font-semibold'>€ {json?.price.toFixed(2)}</p>
             <p className='py-2 mb-6 text-muted-foreground font-medium'>{json?.content}
               Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
@@ -81,7 +81,7 @@ const Description: React.FC<props> = ({ json }) => {
 
             <BookingTimePicker whenDay={whenDay} whenMonth={whenMonth} whenYear={whenYear} whenHour={whenHour}
               setWhenDay={setWhenDay} setWhenMonth={setWhenMonth} setWhenYear={setWhenYear} setWhenHour={setWhenHour}
-              dateFrom={json?.date_from} dateTo={json.date_to}
+              dateFrom={json?.date_from} dateTo={json?.date_to}
             />
 
             <div className='border-t mt-8' id='selectWho'>
