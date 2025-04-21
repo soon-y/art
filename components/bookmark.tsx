@@ -21,26 +21,23 @@ const Bookmarking: React.FC<props> = ({ json }) => {
   const [isBookmarked, setIsBookmarked] = useState(json.bookmark)
 
   const toggleBookmark = async (id: number) => {
-    try {
-      const response = await fetch('/api/bookmark', {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ 
-          id, 
-          bookmark: isBookmarked, 
-          time: new Date(new Date().getTime() - (new Date().getTimezoneOffset() * 60000)).toISOString()}),
-      })
+    const response = await fetch('/api/bookmark', {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        id,
+        bookmark: isBookmarked,
+        time: new Date(new Date().getTime() - (new Date().getTimezoneOffset() * 60000)).toISOString()
+      }),
+    })
 
-      const data = await response.json();
-      if (response.ok) {
-        setIsBookmarked(!isBookmarked);
-      } else {
-        console.error('Failed to update bookmark:', data.error)
-      }
-    } catch (error) {
-      console.error('Error updating bookmark:', error)
+    const result = await response.json()
+    if (result.success) {
+      setIsBookmarked(!isBookmarked)
+    } else {
+      console.error('Failed to update bookmark:', result.error)
     }
   }
 

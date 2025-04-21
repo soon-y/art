@@ -46,27 +46,24 @@ const DetailTopSection: React.FC<props> = ({ json }) => {
   }
 
   const toggleBookmark = async (id: number) => {
-    try {
-      const response = await fetch('/api/bookmark', {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ 
-          id, 
-          bookmark: isBookmarked, 
-          time: new Date(new Date().getTime() - (new Date().getTimezoneOffset() * 60000)).toISOString()}),
-      })
+    const response = await fetch('/api/bookmark', {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        id,
+        bookmark: isBookmarked,
+        time: new Date(new Date().getTime() - (new Date().getTimezoneOffset() * 60000)).toISOString()
+      }),
+    })
 
-      const data = await response.json()
-
-      if (data.success) {
-        setIsBookmarked(!isBookmarked)
-      } else {
-        console.error('Failed to update bookmark:', data.error)
-      }
-    } catch (error) {
-      console.error('Error updating bookmark:', error)
+    const result = await response.json()
+    if (result.success) {
+      setIsBookmarked(!isBookmarked)
+      console.log(response)
+    } else {
+      console.error('Failed to update bookmark:', result.error)
     }
   }
 
@@ -100,13 +97,6 @@ const DetailTopSection: React.FC<props> = ({ json }) => {
       <div className='absolute left-0 top-0 bg-cover bg-center w-[100%] md:relative md:rounded-2xl h-[400px] md:h-[500px] imgID' style={{
         backgroundImage: `url('https://picsum.photos/id/${json?.imgid}/2000/2000')`
       }}>
-
-        {isBookmarked && (new Date(json.bookmark_time).getFullYear() > 2000) &&
-          <span className='bg-background text-muted-foreground py-2 px-3 rounded-lg absolute right-0 bottom-0 m-4 text-sm'>
-            bookmarked on
-            <span className='font-semibold'> {formatDate(json.bookmark_time)}</span>
-          </span>
-        }
       </div>
       <div className='md:hidden w-full fixed top-0 left-0 h-[100px] bg-background top-nav z-10'>
       </div>
