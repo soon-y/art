@@ -1,9 +1,9 @@
 'use client'
 
 import { useEffect, useState } from 'react';
-import { Bookmark } from 'lucide-react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
+import Bookmarking from './bookmark';
 
 interface props {
   json: {
@@ -23,6 +23,11 @@ const Exhibition: React.FC<props> = ({ json }) => {
   const [isBookmarked, setIsBookmarked] = useState(json.bookmark)
   const pathname = usePathname()
   const [currentPath, setPath] = useState(pathname)
+
+  const formatDate = (timestamp: string): string => {
+    const date = new Date(timestamp);
+    return date.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
+  }
   
   useEffect(()=> {
     if(pathname !== '/')
@@ -30,27 +35,6 @@ const Exhibition: React.FC<props> = ({ json }) => {
       setPath(currentPath + '/')
     }
   },[pathname])
-
-  const toggleBookmark = async (id: number) => {
-    try {
-      const response = await fetch('/api/bookmark', {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ id, bookmark: isBookmarked, time: new Date().toISOString() }),
-      })
-
-      const data = await response.json();
-      if (response.ok) {
-        setIsBookmarked(!isBookmarked);
-      } else {
-        console.error('Failed to update bookmark:', data.error)
-      }
-    } catch (error) {
-      console.error('Error updating bookmark:', error)
-    }
-  }
 
   return (
     <div className='w-full relative'>
@@ -61,12 +45,14 @@ const Exhibition: React.FC<props> = ({ json }) => {
         </div>
         <div className='py-2'>
           <h3 className='text-base/5 font-bold'>{json.title}</h3>
-          <p className='font-medium text-sm/4 py-1 text-muted-foreground'>{json.name}</p>
-          <p className='font-medium text-sm/4'>€ {json.price.toFixed(2)}</p>
+          <p className='font-medium text-sm/6 text-muted-foreground'>{json.name}</p>
+          <p className='font-medium text-sm/6'>€ {json.price.toFixed(2)}</p>
+          {pathname === '/bookmarks' && 
+          <p className='font-medium text-sm/6 text-muted-foreground'>added on {formatDate(json?.bookmark_time)}</p>
+          }
         </div>
       </Link>
-      <Bookmark className={`cursor-pointer absolute left-[calc(100%-2.4rem)] top-3 text-white ${isBookmarked ? 'fill-primary' : 'fill-black'}`}
-        onClick={() => toggleBookmark(json.id)} />
+      <Bookmarking json={ json } />
     </div >
   )
 }
