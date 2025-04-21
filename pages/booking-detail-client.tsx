@@ -61,7 +61,7 @@ const BookingPage: React.FC<BookingData> = ({ json }) => {
   return (
     <>
       <div className='mb-24'>
-        <DetailTopSection json={json.exhibition} />
+        <DetailTopSection json={json?.exhibition} />
         <div className='mt-[370px] md:mt-0 md:grid md:grid-cols-[1fr_300px] md:gap-10'>
           <div>
             <div className='md:hidden mt-4 py-2'>
@@ -92,9 +92,9 @@ const BookingPage: React.FC<BookingData> = ({ json }) => {
               <NumInput setValue={setWhoNum} initial={whoNum} />
             </div>
           </div>
-          <ConfirmBox json={json.exhibition} whenDay={whenDay} whenMonth={whenMonth} whenYear={whenYear} whenHour={whenHour} whoNum={whoNum} bookingID={json.id} />
+          <ConfirmBox json={json?.exhibition} whenDay={whenDay} whenMonth={whenMonth} whenYear={whenYear} whenHour={whenHour} whoNum={whoNum} bookingID={json?.id} />
         </div>
-        <ConfirmBoxMobile json={json.exhibition} whenDay={whenDay} whenMonth={whenMonth} whenYear={whenYear} whenHour={whenHour} whoNum={whoNum} bookingID={json.id}/>
+        <ConfirmBoxMobile json={json?.exhibition} whenDay={whenDay} whenMonth={whenMonth} whenYear={whenYear} whenHour={whenHour} whoNum={whoNum} bookingID={json?.id}/>
       </div>
     </>
   )
