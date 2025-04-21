@@ -20,12 +20,11 @@ export default function Header() {
   return (
     <>
       <header id='mobileHeader' className='mobileHeader md:border-b z-10 fixed left-0 bg-background w-screen p-6 lg:px-20 xl:px-28'>
-        <div className='grid grid-cols-[70px_1fr_40px_40px] gap-2 items-start'>
+        <div className='grid grid-cols-[70px_1fr_40px_40px] gap-2 items-center'>
           <Link href={'/'} className='hidden md:block'>
             <ArtLogo />
           </Link>
-          <div>
-          </div>
+          <p className='text-center text-sm font-semibold'>Bringing Augmented Reality to Every hand</p>
           <span className='hidden md:block'>
             <ThemeSwitcher />
           </span>
