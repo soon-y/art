@@ -1,5 +1,5 @@
 import { createClient } from '@/utils/supabase/server'
-import Bookmark from '@/pages/bookmark'
+import Bookmark from '@/pages/bookmark-client'
 
 export default async function Home() {
   const supabase = await createClient()
