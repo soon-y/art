@@ -13,7 +13,16 @@ import gsap from 'gsap'
 import { ScrollTrigger } from "gsap/ScrollTrigger"
 gsap.registerPlugin(ScrollTrigger, useGSAP)
 
-export default function SearchbarHeader() {
+interface SearchItem {
+  json: {
+    id: number
+    address: string
+    date: string
+    who: number
+  }
+}
+
+const SearchbarHeader: React.FC<SearchItem> = ({ json }) => {
   const pathname = usePathname()
   const whereRef = useRef<HTMLDivElement>(null)
   const whenRef = useRef<HTMLDivElement>(null)
@@ -37,6 +46,16 @@ export default function SearchbarHeader() {
   const months: string[] = [
     "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"
   ]
+
+  useEffect(()=>{
+    if (json){
+      setWhereTo(json.address)
+      setWhenDay(Number(json?.date.split('-')[2]))
+      setWhenMonth(Number(json?.date.split('-')[1]))
+      setWhenYear(Number(json?.date.split('-')[0]))
+      setWhoNum(json.who)
+    }
+  }, [json])
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
@@ -63,8 +82,10 @@ export default function SearchbarHeader() {
   const update = async (id: number) => {
     const newData = {
       address: whereTo,
-      date: `${whenYear}-${whenMonth}-${whenDay}`,
       who: whoNum,
+      ...(whenDay !== 0
+        ? { date: `${whenYear}-${whenMonth}-${whenDay}` }
+        : {})
     }
 
     const response = await fetch('/api/search/update', {
@@ -124,9 +145,9 @@ export default function SearchbarHeader() {
 
           {whenClicked &&
             <div className="fixed top-[130px] left-[50%] border transform -translate-x-1/2 web w-[350px] mt-4 p-4 bg-background shadow-xl rounded-2xl" ref={calendarRef}>
-              <Calendar selDay={whenDay} selMonth={whenMonth} selYear={whenYear} 
-              setDay={setWhenDay} setMonthSelected={setWhenMonth} setYearSelected={setWhenYear}
-              dateFrom={''} dateTo={''} />
+              <Calendar selDay={whenDay} selMonth={whenMonth} selYear={whenYear}
+                setDay={setWhenDay} setMonthSelected={setWhenMonth} setYearSelected={setWhenYear}
+                dateFrom={''} dateTo={''} />
             </div>
           }
           {
@@ -149,7 +170,7 @@ export default function SearchbarHeader() {
                 </div>
                 :
                 <div className='justify-center items-center text-center'>
-                  <p className="font-bold"> {whereTo === '' ? 'Where to?' : whereTo.split(',').slice(0, 3).join(', ').trim()} </p>
+                  <p className="font-bold"> {whereTo === '' ? 'Where to?' : whereTo} </p>
                   <p >
                     {whenDay === 0 ? 'Anytime ' : `${whenDay} ${months[whenMonth]}`} &nbsp;&#183;&nbsp;&nbsp;
                     {whoNum === 0 ? '' : whoNum === 1 ? `1 person` : `${whoNum} people`}
@@ -190,9 +211,9 @@ export default function SearchbarHeader() {
                   <p className="font-bold">{whenDay} {months[whenMonth]} {whenYear}</p> :
                   <p className="text-muted-foreground font-bold">Add date</p>)}
               </div>
-              {openWhen && <Calendar selDay={whenDay} selMonth={whenMonth} selYear={whenYear} 
-              setDay={setWhenDay} setMonthSelected={setWhenMonth} setYearSelected={setWhenYear} 
-              dateFrom={''} dateTo={''} />}
+              {openWhen && <Calendar selDay={whenDay} selMonth={whenMonth} selYear={whenYear}
+                setDay={setWhenDay} setMonthSelected={setWhenMonth} setYearSelected={setWhenYear}
+                dateFrom={''} dateTo={''} />}
             </div>
 
             <div className="w-[90vw] bg-card rounded-xl m-auto py-4 px-6 mt-5 shadow-md cursor-pointer">
@@ -216,3 +237,5 @@ export default function SearchbarHeader() {
     </div>
   )
 }
+
+export default SearchbarHeader

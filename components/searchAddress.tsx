@@ -51,6 +51,10 @@ const SearchAddress: React.FC<props> = ({ whereTo, setWhereTo }) => {
     console.log(data.features)
   }
 
+  useEffect(()=>{
+    setQuery(whereTo)
+  },[whereTo])
+
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
       if (searchInput.current && searchResult.current &&

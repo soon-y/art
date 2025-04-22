@@ -28,7 +28,7 @@ const BookingTimePicker: React.FC<BookingTimePickerProps> = ({
     whenYear === now.getFullYear()
 
   const reset = () => { setWhenHour(0) }
-
+  
   return (
     <>
       <div className='border-t' id='selectDate'>

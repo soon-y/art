@@ -10,8 +10,9 @@ export default async function Page({ params }: Props) {
   const { id } = await params
   const readableTitle = decodeURIComponent(id.replace(/_/g, " "))
   const { data: exhibition } = await supabase.from("exhibition").select("*").eq("title", readableTitle).single()
+  const { data: search } = await supabase.from("search").select("*").eq("id", 1).single()
 
   return (
-    <DetailPage json={exhibition ?? []} />
+    <DetailPage json={exhibition ?? []} search={search ?? []} />
   )
 }

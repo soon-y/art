@@ -5,11 +5,32 @@ import { Account } from "@/components/account"
 import { ThemeSwitcher } from "@/components/theme-switcher"
 import { usePathname } from 'next/navigation'
 import Link from 'next/link'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import Searchbar from "@/components/searchbar"
+
+type SearchItem = {
+  id: number
+  address: string
+  date?: string
+  who: number
+}
 
 export default function Header() {
   const pathname = usePathname()
+  const [searchData, setSearchData] = useState<SearchItem[] | null>(null)
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const res = await fetch('/api/search/fetch')
+      const result = await res.json()
+      if (result.success) {
+        setSearchData(result.data[0])
+      }
+    }
+
+    fetchData()
+  }, [])
+
   useEffect(() => {
     const el0 = document.getElementById('mobileHeader') as HTMLElement
     if (el0) {
@@ -33,7 +54,7 @@ export default function Header() {
           </span>
         </div>
         <div>
-          <Searchbar />
+          <Searchbar json={ searchData }/>
         </div>
       </header>
     </>

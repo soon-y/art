@@ -1,6 +1,10 @@
 import { Button } from "./ui/button"
 import { Calendar1, Clock3, UserRound } from 'lucide-react'
 import { useRouter } from 'next/navigation'
+import gsap from 'gsap'
+import { useGSAP } from '@gsap/react'
+import { ScrollTrigger } from "gsap/ScrollTrigger"
+gsap.registerPlugin(ScrollTrigger, useGSAP)
 
 interface props {
   json: {
@@ -41,6 +45,15 @@ const ConfirmBox: React.FC<props> = ({ json, whenDay, whenMonth, whenYear, whenH
       })
     }
   }
+
+  useGSAP(() => {
+    ScrollTrigger.create({
+      trigger: '.booking',
+      start: 'top 90px',
+      pin: true,
+      pinSpacing: false,
+    })
+  })
 
   const parseFormattedDate = (formatted: string): string => {
     const cleaned = formatted.replace(/\s+/g, ' ').trim()
