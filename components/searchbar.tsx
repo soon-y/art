@@ -47,14 +47,14 @@ const SearchbarHeader: React.FC<SearchItem> = ({ json }) => {
     "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"
   ]
 
-  useEffect(()=>{
-    if (json){
-      setWhereTo(json.address)
-      setWhenDay(Number(json?.date.split('-')[2]))
-      setWhenMonth(Number(json?.date.split('-')[1]))
-      setWhenYear(Number(json?.date.split('-')[0]))
-      setWhoNum(json.who)
-    }
+  useEffect(() => {
+    if (!json?.date) return
+    setWhereTo(json?.address)
+    setWhenDay(Number(json?.date.split('-')[2]))
+    setWhenMonth(Number(json?.date.split('-')[1]))
+    setWhenYear(Number(json?.date.split('-')[0]))
+    setWhoNum(json?.who)
+
   }, [json])
 
   useEffect(() => {
