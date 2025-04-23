@@ -17,7 +17,7 @@ type SearchItem = {
 
 export default function Header() {
   const pathname = usePathname()
-  const [searchData, setSearchData] = useState<SearchItem[] | null>(null)
+  const [searchData, setSearchData] = useState<SearchItem | null>(null)
 
   useEffect(() => {
     const fetchData = async () => {
@@ -54,7 +54,7 @@ export default function Header() {
           </span>
         </div>
         <div>
-          <Searchbar json={ searchData }/>
+          {searchData && <Searchbar json={searchData} />}
         </div>
       </header>
     </>

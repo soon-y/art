@@ -17,7 +17,7 @@ interface SearchItem {
   json: {
     id: number
     address: string
-    date: string
+    date?: string
     who: number
   }
 }
