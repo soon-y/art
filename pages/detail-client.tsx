@@ -36,7 +36,7 @@ interface Props {
 
 const DetailPage: React.FC<Props> = ({ json, search }) => {
   const [whenDay, setWhenDay] = useState<number>(Number(search?.date.split('-')[2]))
-  const [whenMonth, setWhenMonth] = useState<number>(Number(search?.date.split('-')[1]))
+  const [whenMonth, setWhenMonth] = useState<number>(Number(search?.date.split('-')[1])-1)
   const [whenYear, setWhenYear] = useState<number>(Number(search?.date.split('-')[0]))
   const [whenHour, setWhenHour] = useState<number>(0)
   const [whoNum, setWhoNum] = useState<number>(search?.who)

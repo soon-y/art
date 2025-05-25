@@ -51,7 +51,7 @@ const SearchbarHeader: React.FC<SearchItem> = ({ json }) => {
     if (!json?.date) return
     setWhereTo(json?.address)
     setWhenDay(Number(json?.date.split('-')[2]))
-    setWhenMonth(Number(json?.date.split('-')[1]))
+    setWhenMonth(Number(json?.date.split('-')[1])-1)
     setWhenYear(Number(json?.date.split('-')[0]))
     setWhoNum(json?.who)
 
