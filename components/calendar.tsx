@@ -1,3 +1,5 @@
+'use client'
+
 import { useState, useEffect } from 'react'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 
@@ -24,11 +26,9 @@ const Calendar: React.FC<props> = ({
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null)
   const [clickedIndex, setClickedIndex] = useState<number | null>(null)
   const [theFirst, setTheFirst] = useState<Date>(new Date(selYear, selMonth, 1))
-  const [theFirstDayOfWeek, setTheFirstDayOfWeek] = useState<number>(theFirst.getDay() === 0 ? 6 : theFirst.getDay() - 1)
   const today = new Date()
   const [month, setMonth] = useState<number>(selMonth)
   const [year, setYear] = useState<number>(selYear)
-
   const fromDate = new Date(dateFrom)
   const yearFrom = fromDate.getFullYear()
   const monthFrom = fromDate.getMonth()
@@ -39,17 +39,20 @@ const Calendar: React.FC<props> = ({
   const dayTo = toDate.getDate()
 
   useEffect(() => {
-    setTheFirst(new Date(year, month, 1))
-    setTheFirstDayOfWeek(theFirst.getDay() === 0 ? 6 : theFirst.getDay() - 1)
+
+
+
+
     updateDateArray()
     if ((selMonth === month && selYear === year && selDay !== 0)) {
-      setClickedIndex(selDay + theFirstDayOfWeek - 1)
+      setClickedIndex(selDay + (theFirst.getDay() === 0 ? 6 : theFirst.getDay() - 1) - 1)
     } else {
       setClickedIndex(null)
     }
   }, [year, month])
 
   const updateDateArray = () => {
+    const theFirstDayOfWeek: number = theFirst.getDay() === 0 ? 6 : theFirst.getDay() - 1
     const lastDate = new Date(year, month + 1, 0).getDate()
     let daycount: number = 1
     const newDaysInMonth: string[] = []
@@ -77,6 +80,7 @@ const Calendar: React.FC<props> = ({
   }
 
   const increment = () => {
+    setTheFirst(new Date(year, month===11 ? 0 : month+1, 1))
     if (month === 11) {
       setMonth(0)
       setYear((prev) => prev + 1)
@@ -86,6 +90,7 @@ const Calendar: React.FC<props> = ({
   }
 
   const decrement = () => {
+    setTheFirst(new Date(year, month===0 ? 11 : month-1, 1))
     if (month === today.getMonth() && year === today.getFullYear()) return
     if (month === 0) {
       setMonth(11)
@@ -113,15 +118,15 @@ const Calendar: React.FC<props> = ({
         ))}
         {daysInMonth.map((day, index) => (
           <button key={index} disabled={
-            today.getMonth() === month && today.getFullYear() === year && index < today.getDate() + theFirstDayOfWeek - 1 || day == '' ||
-            monthFrom === month && yearFrom === year && index < dayFrom + theFirstDayOfWeek - 1 ||
-            monthTo === month && yearTo === year && index > dayTo + theFirstDayOfWeek ||
+            today.getMonth() === month && today.getFullYear() === year && index < today.getDate() + (theFirst.getDay() === 0 ? 6 : theFirst.getDay() - 1)-1 || day == '' ||
+            monthFrom === month && yearFrom === year && index < dayFrom + (theFirst.getDay() === 0 ? 6 : theFirst.getDay() - 1) - 1 ||
+            monthTo === month && yearTo === year && index > dayTo + (theFirst.getDay() === 0 ? 6 : theFirst.getDay() - 1) ||
             monthFrom > month && yearFrom === year || monthTo < month && yearTo === year
           }
             className={`
               rounded-full aspect-[1/1] disabled:opacity-25
               ${day === '' ? 'h-[0px]' : 'h-44px]'} 
-              ${hoveredIndex === index && !(today.getMonth() === month && today.getFullYear() === year && index < today.getDate() + theFirstDayOfWeek - 1) ? 'border' : ''}
+              ${hoveredIndex === index && !(today.getMonth() === month && today.getFullYear() === year && index < today.getDate() + (theFirst.getDay() === 0 ? 6 : theFirst.getDay() - 1) - 1) ? 'border' : ''}
               ${clickedIndex === index ? 'bg-foreground text-primary-foreground' : 'text-foreground'}
             `}
             onClick={() => updateValue(day, index)}
