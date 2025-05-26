@@ -48,7 +48,6 @@ const SearchAddress: React.FC<props> = ({ whereTo, setWhereTo }) => {
     )
     const data = await response.json()
     setPlaces(data.features)
-    console.log(data.features)
   }
 
   useEffect(()=>{
