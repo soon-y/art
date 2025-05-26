@@ -6,7 +6,7 @@ export async function POST(request: Request) {
   const body = await request.json()
   const { id, newData } = body
 
-  const { data, error } = await supabase
+  const { error } = await supabase
     .from('search')
     .update(newData)
     .eq('id', 1)
@@ -15,5 +15,5 @@ export async function POST(request: Request) {
     console.error(error)
     return NextResponse.json({ success: false, error }, { status: 500 })
   }
-  return NextResponse.json({ success: true, data })
+  return NextResponse.json({ success: true })
 }

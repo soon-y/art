@@ -4,6 +4,8 @@ import Explore from '@/pages/explore'
 export default async function Home() {
   const supabase = await createClient()
   const { data: exhibitions, error } = await supabase.from("exhibition").select("*")
+  const { data: search } = await supabase.from("search").select("date").eq('id', 1).single()
+  const searchDate = new Date(search?.date)
 
   if (error) {
     console.error("Error fetching exhibitions:", error)
@@ -21,9 +23,8 @@ export default async function Home() {
 
       if (insertError) {
         console.error("Insert error:", insertError.message)
-        console.log("Offending data:", ex)
       }
-      
+
       const { error: deleteError } = await supabase.from("exhibition").delete().eq("id", ex.id)
 
       if (deleteError) {
@@ -34,9 +35,15 @@ export default async function Home() {
 
   const { data: exhibition } = await supabase.from("exhibition").select("*")
 
+  const filteredExhibition = (exhibition || []).filter((ex) => {
+    const dateFrom = new Date(ex.date_from)
+    const dateTo = new Date(ex.date_to)
+    return searchDate >= dateFrom && searchDate <= dateTo;
+  })
+
   return (
     <>
-      <Explore initialData={exhibition ?? []} />
+      <Explore initialData={filteredExhibition ?? []} />
     </>
   )
 }
