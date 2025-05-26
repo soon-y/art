@@ -5,36 +5,19 @@ import { Account } from "@/components/account"
 import { ThemeSwitcher } from "@/components/theme-switcher"
 import { usePathname } from 'next/navigation'
 import Link from 'next/link'
-import { useEffect, useState } from 'react'
-import Searchbar from "@/components/searchbar"
-
-type SearchItem = {
-  id: number
-  address: string
-  date?: string
-  who: number
-}
+import { useEffect } from 'react'
 
 export default function Header() {
   const pathname = usePathname()
-  const [searchData, setSearchData] = useState<SearchItem | null>(null)
 
   useEffect(() => {
-    const fetchData = async () => {
-      const res = await fetch('/api/search/fetch')
-      const result = await res.json()
-      if (result.success) {
-        setSearchData(result.data[0])
-      }
+    const mobileHeader = document.getElementById('mobileHeader') as HTMLElement
+    const placeholder = document.getElementById('searchbar-placeholder') as HTMLElement
+    if (mobileHeader) {
+      mobileHeader.style.opacity = pathname === '/docent/ar' ? '0' : '1'
     }
-
-    fetchData()
-  }, [])
-
-  useEffect(() => {
-    const el0 = document.getElementById('mobileHeader') as HTMLElement
-    if (el0) {
-      el0.style.opacity = pathname === '/docent/ar' ? '0' : '1'
+    if (placeholder) {
+      placeholder.style.display = pathname === '/' ? 'block' : 'none'
     }
   }, [pathname])
 
@@ -53,9 +36,7 @@ export default function Header() {
             <Account />
           </span>
         </div>
-        <div>
-          {searchData && <Searchbar json={searchData} />}
-        </div>
+        <div id='searchbar-placeholder' className='w-full h-[72px]'></div>
       </header>
     </>
   )

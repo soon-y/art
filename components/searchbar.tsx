@@ -20,9 +20,10 @@ interface SearchItem {
     date?: string
     who: number
   }
+  setSearchDataUpdated: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-const SearchbarHeader: React.FC<SearchItem> = ({ json }) => {
+const SearchbarHeader: React.FC<SearchItem> = ({ json, setSearchDataUpdated }) => {
   const pathname = usePathname()
   const whereRef = useRef<HTMLDivElement>(null)
   const whenRef = useRef<HTMLDivElement>(null)
@@ -51,7 +52,7 @@ const SearchbarHeader: React.FC<SearchItem> = ({ json }) => {
     if (!json?.date) return
     setWhereTo(json?.address)
     setWhenDay(Number(json?.date.split('-')[2]))
-    setWhenMonth(Number(json?.date.split('-')[1])-1)
+    setWhenMonth(Number(json?.date.split('-')[1]) - 1)
     setWhenYear(Number(json?.date.split('-')[0]))
     setWhoNum(json?.who)
 
@@ -84,7 +85,7 @@ const SearchbarHeader: React.FC<SearchItem> = ({ json }) => {
       address: whereTo,
       who: whoNum,
       ...(whenDay !== 0
-        ? { date: `${whenYear}-${whenMonth}-${whenDay}` }
+        ? { date: `${whenYear}-${whenMonth + 1}-${whenDay}` }
         : {})
     }
 
@@ -97,12 +98,14 @@ const SearchbarHeader: React.FC<SearchItem> = ({ json }) => {
     })
 
     const result = await response.json()
-    console.log(result)
+    if (result.success) {
+      setSearchDataUpdated(true)
+    }
   }
 
   return (
     <div className={`${pathname === '/' ? '' : 'hidden'}`}>
-      <div className='hidden md:block pt-1 '>
+      <div className='hidden md:block pt-1 fixed top-16 left-[50%] -translate-x-[50%] z-10'>
         <div className='flex justify-center'>
           <div className={`searchbar cursor-pointer inline-flex items-center rounded-full text-sm border border-border text-primary-background h-[70px] shadow-lg w-[690px] transform translate-x-[26px] grid grid-cols-[1fr_1fr_1fr] 
             ${whereClicked || whenClicked || whoClicked ? 'bg-accent' : 'bg-background'}`}>
@@ -144,7 +147,7 @@ const SearchbarHeader: React.FC<SearchItem> = ({ json }) => {
           </Button>
 
           {whenClicked &&
-            <div className="fixed top-[130px] left-[50%] border transform -translate-x-1/2 web w-[350px] mt-4 p-4 bg-background shadow-xl rounded-2xl" ref={calendarRef}>
+            <div className="fixed top-[70px] left-[50%] border transform -translate-x-1/2 web w-[350px] mt-4 p-4 bg-background shadow-xl rounded-2xl" ref={calendarRef}>
               <Calendar selDay={whenDay} selMonth={whenMonth} selYear={whenYear}
                 setDay={setWhenDay} setMonthSelected={setWhenMonth} setYearSelected={setWhenYear}
                 dateFrom={''} dateTo={''} />
@@ -152,7 +155,7 @@ const SearchbarHeader: React.FC<SearchItem> = ({ json }) => {
           }
           {
             whoClicked &&
-            <div className="fixed top-[130px] left-[calc(50%+227px)] border transform -translate-x-1/2 web w-content mt-4 p-4 bg-background shadow-xl rounded-2xl" ref={numInput}>
+            <div className="fixed top-[70px] left-[calc(50%+227px)] border transform -translate-x-1/2 web w-content mt-4 p-4 bg-background shadow-xl rounded-2xl" ref={numInput}>
               <NumInput setValue={setWhoNum} initial={whoNum} />
             </div>
           }
