@@ -1,7 +1,7 @@
 'use client'
 
 import Link from 'next/link'
-import Github from './logo/github'
+import X from './logo/x'
 import Facebook from './logo/facebook'
 import Instagram from './logo/instagram'
 import LinkedIn from './logo/linkedIn'
@@ -42,10 +42,10 @@ export default function Header() {
                 <Mail size={18} /><span>info@art-plus.com</span>
               </div>
               <div className='flex items-center gap-2'>
-                <a href="https://github.com/soon-y/art" target='_blank' className="hover:text-primary"><Github /></a>
                 <a href="https://www.linkedin.com/in/soonyoung-park/" target='_blank' className="hover:text-primary p-1"><LinkedIn /></a>
                 <a href="https://www.facebook.com/" target='_blank' className="hover:text-primary p-1"><Facebook /></a>
                 <a href="https://www.instagram.com/?hl=en" target='_blank' className="hover:text-primary p-1"><Instagram /></a>
+                <a href="https://www..com/?hl=en" target='_blank' className="hover:text-primary p-1"><X /></a>
               </div>
             </div>
           </div>
