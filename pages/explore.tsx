@@ -63,7 +63,7 @@ export default function Explore() {
       <Navigation />
       <Searchbar setSearchDataUpdated={setSearchDataUpdated} />
 
-      {error && <Alert msg="Fail to fech" />}
+      {error && <Alert msg="Fail to fetch data" />}
     </>
   )
 }

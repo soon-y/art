@@ -45,7 +45,7 @@ export default function Header() {
                 <a href="https://www.linkedin.com/in/soonyoung-park/" target='_blank' className="hover:text-primary p-1"><LinkedIn /></a>
                 <a href="https://www.facebook.com/" target='_blank' className="hover:text-primary p-1"><Facebook /></a>
                 <a href="https://www.instagram.com/?hl=en" target='_blank' className="hover:text-primary p-1"><Instagram /></a>
-                <a href="https://www..com/?hl=en" target='_blank' className="hover:text-primary p-1"><X /></a>
+                <a href="https://x.com/" target='_blank' className="hover:text-primary p-1"><X /></a>
               </div>
             </div>
           </div>
