@@ -52,7 +52,7 @@ const SearchAddress: React.FC<props> = ({ whereTo, setWhereTo }) => {
 
   useEffect(()=>{
     setQuery(whereTo)
-  },[whereTo])
+  }, [whereTo])
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
@@ -71,7 +71,7 @@ const SearchAddress: React.FC<props> = ({ whereTo, setWhereTo }) => {
   return (
     <>
       <div className='web' ref={searchInput} onClick={() => setwhereClicked(true)}>
-        <input className='ml-6 w-[80%] bg-transparent border-none focus:outline-none focus-visible:ring-0'
+        {whereTo ? <input className='ml-6 w-[80%] bg-transparent border-none focus:outline-none focus-visible:ring-0'
           type="text"
           name="Address"
           placeholder="Search"
@@ -81,7 +81,9 @@ const SearchAddress: React.FC<props> = ({ whereTo, setWhereTo }) => {
             setQuery(e.target.value)
             searchAddress(e.target.value)
           }}
-        />
+        /> :
+          <div className="ml-5 animate-pulse bg-gray-100 w-24 h-5 rounded-lg"></div>
+        }
       </div>
       {whereClicked &&
         <div className='web fixed top-[60px] left-0 max-w-full' ref={searchResult}>
