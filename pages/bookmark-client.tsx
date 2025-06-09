@@ -58,8 +58,7 @@ export default function Bookmark() {
         <div className='exhibition mb-28 md:mb-10 py-2 grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-x-5 gap-y-8'>
           {Array.from({ length: 20 }).map((_, i) => (
             <div className='w-full relative' key={i}>
-              <div className='bg-gray-100 w-[100%] rounded-2xl aspect-[1] animate-pulse'>
-              </div>
+              <div className='bg-gray-100 w-[100%] rounded-2xl aspect-[1] animate-pulse'></div>
               <div className="animate-pulse bg-gray-100 w-full h-7 rounded-lg mt-3"></div>
               <div className="animate-pulse bg-gray-100 w-full h-4 rounded-lg mt-2"></div>
               <div className="animate-pulse bg-gray-100 w-full h-4 rounded-lg mt-2"></div>
