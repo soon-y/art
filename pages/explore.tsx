@@ -49,21 +49,25 @@ export default function Explore() {
           )))
           :
           Array.from({ length: 20 }).map((_, i) => (
-          <div className='w-full relative' key={i}>
-            <div className='bg-gray-100 w-[100%] rounded-2xl aspect-[1] animate-pulse'>
-            </div>
-              <div className="animate-pulse bg-gray-100 w-full h-7 rounded-lg mt-2"></div>
-              <div className="animate-pulse bg-gray-100 w-full h-5 rounded-lg mt-2"></div>
-              <div className="animate-pulse bg-gray-100 w-full h-5 rounded-lg mt-2"></div>
-              <div className="animate-pulse bg-gray-100 w-full h-5 rounded-lg mt-2"></div>
-          </div >
+            <div className='w-full relative' key={i}>
+              <div className='bg-gray-100 w-[100%] rounded-2xl aspect-[1] animate-pulse'></div>
+              <div className="animate-pulse bg-gray-100 w-full h-7 rounded-lg mt-3"></div>
+              <div className="animate-pulse bg-gray-100 w-full h-4 rounded-lg mt-2"></div>
+              <div className="animate-pulse bg-gray-100 w-full h-4 rounded-lg mt-2"></div>
+              <div className="animate-pulse bg-gray-100 w-full h-4 rounded-lg mt-2"></div>
+            </div >
           ))
         }
       </div>
       <Navigation />
       <Searchbar setSearchDataUpdated={setSearchDataUpdated} />
 
-      {error && <Alert msg="Fail to fetch data" />}
+      {error && <Alert msg={
+        <>
+          Something went wrong.<br />
+          Please try again.
+        </>
+      } />}
     </>
   )
 }
