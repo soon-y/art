@@ -17,6 +17,7 @@ export interface HistoryData {
   ex_id: number
   booked_time: string
   booking_time: string
+  who: number
   exhibition: ExhibitionData 
 }
 
@@ -27,4 +28,13 @@ export interface BookingData {
   booked_time: string
   booking_time: string
   exhibition: ExhibitionData
+}
+
+export interface SearchItem {
+  id: number
+  address: string
+  date: string
+  who: number
+  latitude: number
+  longitude: number
 }
