@@ -3,10 +3,7 @@ import { createClient } from '@/utils/supabase/server'
 
 export async function GET() {
   const supabase = await createClient()
-  const { data, error } = await supabase
-    .from('search')
-    .select('*')
-    .eq('id', 1)
+  const { data, error } = await supabase.from('search').select('*').eq('id', 1)
 
   if (error) {
     return NextResponse.json({ success: false, error }, { status: 500 })
@@ -16,10 +13,7 @@ export async function GET() {
   const prevDate: string = data[0].date?.split('T')[0]
 
   if (prevDate < today) {
-    const { error: updateError } = await supabase
-      .from('search')
-      .update({ date: today })
-      .eq('id', 1)
+    const { error: updateError } = await supabase.from('search').update({ date: today }).eq('id', 1)
 
     if (updateError) {
       return NextResponse.json({ success: false, error: updateError }, { status: 500 })
