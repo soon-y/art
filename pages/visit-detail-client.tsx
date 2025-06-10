@@ -17,7 +17,6 @@ export default function VisitDetailPage({ id }: { id: string }) {
     const res = await fetch(`/api/visit/${id}/fetch`)
     const result = await res.json()
     if (result.success) {
-      console.log(result)
       setData(result.history)
     } else {
       setError(true)
