@@ -1,10 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@/utils/supabase/server'
 
-export async function GET(req: NextRequest, res:NextResponse, { params }: { params: { id: string } }
+export async function GET(req: NextRequest, context: { params: { id: string } }
 ) {
   const supabase = await createClient()
-  const match = params.id.match(/^(.*)_(\d+)$/)
+  const { id } = context.params
+  const match = id.match(/^(.*)_(\d+)$/)
   try {
     if (match) {
       const primaryID = match[2]
