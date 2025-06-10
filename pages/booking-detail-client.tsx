@@ -19,7 +19,7 @@ export default function BookingPage({ id }: { id: string }) {
   const [whoNum, setWhoNum] = useState<number>(0)
   const [error, setError] = useState<boolean>(false)
   const [data, setData] = useState<BookingData | null>(null)
-  const title = id.replace(/_\d+$/, '').replace(/_/g, ' ')
+  const title = id ? id.replace(/_\d+$/, '').replace(/_/g, ' ') : ''
 
   useEffect(() => {
     fetchData()
