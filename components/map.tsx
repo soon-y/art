@@ -1,9 +1,15 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import mapboxgl from 'mapbox-gl'
 import 'mapbox-gl/dist/mapbox-gl.css'
-mapboxgl.accessToken = 'pk.eyJ1Ijoic29vbnkiLCJhIjoiY204bmxwZzFsMDIxZDJqc2MyajBrdmFoOSJ9.socb5Bc_Z_DNEfwbgfR18w'
 
-const Map: React.FC = () => {
+mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAPBOXGL
+
+interface Props{
+  lat: number,
+  lon: number,
+}
+
+const Map: React.FC<Props> = ({lat, lon}) => {
   const mapContainer = useRef<HTMLDivElement | null>(null)
   const map = useRef<mapboxgl.Map | null>(null)
 
@@ -13,7 +19,7 @@ const Map: React.FC = () => {
     map.current = new mapboxgl.Map({
       container: mapContainer.current,
       style: 'mapbox://styles/mapbox/streets-v9',
-      center: [9.921424, 53.544866],
+      center: [lat, lon],
       zoom: 14,
       scrollZoom: false,
       dragPan: true,
@@ -28,7 +34,7 @@ const Map: React.FC = () => {
     new mapboxgl.Marker({
       color: "#ff9501",
     })
-      .setLngLat([9.921424, 53.544866])
+      .setLngLat([lat, lon])
       .addTo(map.current)
   }, [])
 

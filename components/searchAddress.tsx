@@ -3,11 +3,13 @@ import mapboxgl from 'mapbox-gl'
 import { MapPin } from 'lucide-react'
 import { Input } from './ui/input'
 
-mapboxgl.accessToken = 'pk.eyJ1Ijoic29vbnkiLCJhIjoiY204bmxwZzFsMDIxZDJqc2MyajBrdmFoOSJ9.socb5Bc_Z_DNEfwbgfR18w'
+mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAPBOXGL
 
 interface props {
   whereTo: string
   setWhereTo: React.Dispatch<React.SetStateAction<string>>
+  setLatitude: React.Dispatch<React.SetStateAction<number>>
+  setLongitude: React.Dispatch<React.SetStateAction<number>>
 }
 
 type Place = {
@@ -34,7 +36,7 @@ type Place = {
   type: string
 }
 
-const SearchAddress: React.FC<props> = ({ whereTo, setWhereTo }) => {
+const SearchAddress: React.FC<props> = ({ whereTo, setWhereTo, setLatitude, setLongitude }) => {
   const [query, setQuery] = useState(whereTo)
   const [places, setPlaces] = useState<Place[]>([])
   const [whereClicked, setwhereClicked] = useState<boolean>(false)
@@ -50,7 +52,7 @@ const SearchAddress: React.FC<props> = ({ whereTo, setWhereTo }) => {
     setPlaces(data.features)
   }
 
-  useEffect(()=>{
+  useEffect(() => {
     setQuery(whereTo)
   }, [whereTo])
 
@@ -94,6 +96,8 @@ const SearchAddress: React.FC<props> = ({ whereTo, setWhereTo }) => {
                   setWhereTo(place.place_name)
                   setQuery(place.place_name)
                   setwhereClicked(false)
+                  setLatitude(place.center[0])
+                  setLongitude(place.center[1])
                 }}>
                   <MapPin size={20} />
                   <span className='pl-2'>{place.place_name}</span>
@@ -119,6 +123,8 @@ const SearchAddress: React.FC<props> = ({ whereTo, setWhereTo }) => {
             <div key={place.id} className="grid grid-cols-[20px_1fr] gap-2 py-2" onClick={() => {
               setWhereTo(place.place_name)
               setQuery(place.place_name)
+              setLatitude(place.center[0])
+              setLongitude(place.center[1])
             }}>
               <MapPin size={20} />
               <span>{place.place_name}</span>

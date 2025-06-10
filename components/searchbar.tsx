@@ -31,6 +31,8 @@ const SearchbarHeader: React.FC<SearchItem> = ({ setSearchDataUpdated }) => {
   const [whereClicked, setwhereClicked] = useState<boolean>(false)
   const [whenClicked, setwhenClicked] = useState<boolean>(false)
   const [whoClicked, setwhoClicked] = useState<boolean>(false)
+  const [latitude, setLatitude] = useState<number>(0)
+  const [longitude, setLongitude] = useState<number>(0)
   const [open, setOpen] = useState<boolean>(false)
   const [openWhere, setOpenWhere] = useState<boolean>(false)
   const [openWhen, setOpenWhen] = useState<boolean>(false)
@@ -70,6 +72,8 @@ const SearchbarHeader: React.FC<SearchItem> = ({ setSearchDataUpdated }) => {
 
   const update = async (id: number) => {
     const newData = {
+      latitude: latitude,
+      longitude: longitude,
       address: whereTo,
       who: whoNum,
       ...(whenDay !== 0
@@ -116,7 +120,7 @@ const SearchbarHeader: React.FC<SearchItem> = ({ setSearchDataUpdated }) => {
               <div className={`overflow-hidden h-[100%] rounded-full search-item ${whereClicked ? 'bg-background' : 'hover:bg-muted'}`} ref={whereRef}>
                 <p className="pt-3 pb-1 pl-6 font-bold">Where</p>
                 <div ref={searchRef} >
-                  <SearchAddress whereTo={whereTo} setWhereTo={setWhereTo} />
+                  <SearchAddress whereTo={whereTo} setWhereTo={setWhereTo} setLatitude={setLatitude} setLongitude={setLongitude}/>
                 </div>
               </div>
               <div className={`h-[100%] rounded-full search-item  ${whenClicked ? 'bg-background' : 'hover:bg-muted'}`} ref={whenRef}>
@@ -162,7 +166,7 @@ const SearchbarHeader: React.FC<SearchItem> = ({ setSearchDataUpdated }) => {
               }}>
                 <p className="pt-3 pb-1 pl-6 font-bold">Where</p>
                 <div ref={searchRef} >
-                  <SearchAddress whereTo={whereTo} setWhereTo={setWhereTo} />
+                  <SearchAddress whereTo={whereTo} setWhereTo={setWhereTo} setLatitude={setLatitude} setLongitude={setLongitude} />
                 </div>
               </div>
               <div className={`h-[100%] rounded-full search-item  ${whenClicked ? 'bg-background' : 'hover:bg-muted'}`} ref={whenRef} onClick={() => {
@@ -251,7 +255,7 @@ const SearchbarHeader: React.FC<SearchItem> = ({ setSearchDataUpdated }) => {
               </div>
               {openWhere &&
                 <div>
-                  <SearchAddress whereTo={whereTo} setWhereTo={setWhereTo} />
+                  <SearchAddress whereTo={whereTo} setWhereTo={setWhereTo} setLatitude={setLatitude} setLongitude={setLongitude} />
                 </div>}
             </div>
 
