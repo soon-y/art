@@ -1,10 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@/utils/supabase/server'
 
-export async function GET(req: NextRequest, context: { params: { id: string } }
-) {
+export async function GET(req: NextRequest){
   const supabase = await createClient()
-  const { id } = context.params
+  const url = new URL(req.url)
+  const pathnameParts = url.pathname.split('/')
+  const id = pathnameParts[pathnameParts.length - 2]
   const match = id.match(/^(.*)_(\d+)$/)
   try {
     if (match) {
