@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@/utils/supabase/server'
 
-export async function GET(req: NextRequest, { params }: { params: { id: string } }
+export async function GET(req: NextRequest, res:NextResponse, { params }: { params: { id: string } }
 ) {
   const supabase = await createClient()
   const match = params.id.match(/^(.*)_(\d+)$/)
