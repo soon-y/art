@@ -24,6 +24,8 @@ export interface HistoryData {
 export interface BookingData {
   id: number
   address: string
+  latitude: number
+  longitude: number
   who: number
   booked_time: string
   booking_time: string
