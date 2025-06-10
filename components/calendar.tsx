@@ -39,10 +39,6 @@ const Calendar: React.FC<props> = ({
   const dayTo = toDate.getDate()
 
   useEffect(() => {
-
-
-
-
     updateDateArray()
     if ((selMonth === month && selYear === year && selDay !== 0)) {
       setClickedIndex(selDay + (theFirst.getDay() === 0 ? 6 : theFirst.getDay() - 1) - 1)
@@ -80,7 +76,7 @@ const Calendar: React.FC<props> = ({
   }
 
   const increment = () => {
-    setTheFirst(new Date(year, month===11 ? 0 : month+1, 1))
+    setTheFirst(new Date(year, month === 11 ? 0 : month + 1, 1))
     if (month === 11) {
       setMonth(0)
       setYear((prev) => prev + 1)
@@ -90,7 +86,7 @@ const Calendar: React.FC<props> = ({
   }
 
   const decrement = () => {
-    setTheFirst(new Date(year, month===0 ? 11 : month-1, 1))
+    setTheFirst(new Date(year, month === 0 ? 11 : month - 1, 1))
     if (month === today.getMonth() && year === today.getFullYear()) return
     if (month === 0) {
       setMonth(11)
@@ -118,7 +114,7 @@ const Calendar: React.FC<props> = ({
         ))}
         {daysInMonth.map((day, index) => (
           <button key={index} disabled={
-            today.getMonth() === month && today.getFullYear() === year && index < today.getDate() + (theFirst.getDay() === 0 ? 6 : theFirst.getDay() - 1)-1 || day == '' ||
+            today.getMonth() === month && today.getFullYear() === year && index < today.getDate() + (theFirst.getDay() === 0 ? 6 : theFirst.getDay() - 1) - 1 || day == '' ||
             monthFrom === month && yearFrom === year && index < dayFrom + (theFirst.getDay() === 0 ? 6 : theFirst.getDay() - 1) - 1 ||
             monthTo === month && yearTo === year && index > dayTo + (theFirst.getDay() === 0 ? 6 : theFirst.getDay() - 1) ||
             monthFrom > month && yearFrom === year || monthTo < month && yearTo === year
