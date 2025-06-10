@@ -41,7 +41,11 @@ export default function DetailDescription({ id }: { id: string }) {
           <div className="animate-pulse bg-gray-100 w-[full] h-5 rounded-lg mt-2"></div>
           <div className="animate-pulse bg-gray-100 w-48 h-5 rounded-lg mt-2"></div>
           <div className="animate-pulse bg-gray-100 w-16 h-5 rounded-lg mt-2"></div>
-          <div className="animate-pulse bg-gray-100 w-[full] h-[300px] rounded-lg mt-2 mb-10"></div>
+          <div className='mb-10'>
+            {Array.from({ length: 6 }).map((_, i) => (
+              <div key={i} className="animate-pulse bg-gray-100 w-[full] h-5 rounded-lg mt-2"></div>
+            ))}
+          </div>
         </div>
       }
     </>
