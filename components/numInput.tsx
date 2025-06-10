@@ -7,7 +7,7 @@ interface props {
 }
 
 const NumInput: React.FC<props> = ({ initial, setValue }) => {
-  const [value, setValueState] = useState<number>(initial || 0)
+  const [value, setValueState] = useState<number>(initial)
 
   const increment = () => {
     setValue(value + 1)
