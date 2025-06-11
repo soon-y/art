@@ -1,25 +1,16 @@
+import { usePathname } from 'next/navigation'
+import { useState, useEffect } from 'react'
 import { Button } from "./ui/button"
 import { Calendar1, Clock3, UserRound } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import gsap from 'gsap'
 import { useGSAP } from '@gsap/react'
 import { ScrollTrigger } from "gsap/ScrollTrigger"
+import { ExhibitionData } from "@/types"
 gsap.registerPlugin(ScrollTrigger, useGSAP)
 
 interface props {
-  json: {
-    id: number
-    name: string
-    title: string
-    price: number
-    imgid: number
-    content: string
-    bookmark: boolean
-    address: string
-    bookmark_time: string
-    date_from: string
-    date_to: string
-  }
+  json: ExhibitionData
   whenDay: number
   whenMonth: number
   whenYear: number
@@ -27,13 +18,21 @@ interface props {
   whoNum: number
   bookingID: number
   bookedDate: string
+  lat: number
+  lon: number
 }
 
-const ConfirmBox: React.FC<props> = ({ json, whenDay, whenMonth, whenYear, whenHour, whoNum, bookingID=0, bookedDate ='' }) => {
+const ConfirmBox: React.FC<props> = ({ json, whenDay, whenMonth, whenYear, whenHour, whoNum, bookingID = 0, bookedDate = '', lat, lon }) => {
+  const [isBookingPage, setIsBookingPage] = useState<boolean>(false)
+  const pathname = usePathname()
   const router = useRouter()
   const months: string[] = [
     "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"
   ]
+
+  useEffect(() => {
+    setIsBookingPage(!!pathname?.includes('booking'))
+  }, [pathname])
 
   const toDate = () => {
     const selectDate = document.getElementById('selectDate')
@@ -80,6 +79,8 @@ const ConfirmBox: React.FC<props> = ({ json, whenDay, whenMonth, whenYear, whenH
       booked_time: new Date(new Date().getTime() - (new Date().getTimezoneOffset() * 60000)).toISOString(),
       who: whoNum,
       address: json.address,
+      latitude: lat,
+      longitude: lon
     }
 
     const response = await fetch('/api/booking/insert', {
@@ -136,9 +137,9 @@ const ConfirmBox: React.FC<props> = ({ json, whenDay, whenMonth, whenYear, whenH
       <div className='hidden md:block booking'>
         <div className='shadow-xl my-10 p-6 bg-muted rounded-xl'>
           <div className='border-b'>
-          {bookingID > 0 && 
-          <p className="text-muted-foreground text-sm">booked on {formatDate(bookedDate)}</p>
-          }
+            {bookingID > 0 &&
+              <p className="text-muted-foreground text-sm">booked on {formatDate(bookedDate)}</p>
+            }
             <h3 className='text-xl/9 font-semibold'>{json.title}</h3>
             <p className='text-base/7 font-medium'>{json.name}</p>
             <p className='text-base/7 font-medium'>{formatDate(json.date_from)} - {formatDate(json.date_to)}</p>
@@ -182,6 +183,43 @@ const ConfirmBox: React.FC<props> = ({ json, whenDay, whenMonth, whenYear, whenH
           }
         </div>
       </div>
+
+      <div className='bg-muted fixed border-t bottom-0 left-0 bg-background w-[100vw] h-[80px] grid grid-cols-[1fr_170px] items-center px-6 gap-4 md:hidden'>
+        <div>
+          <div className='flex items-center'>
+            <Calendar1 className='pr-2 text-muted-foreground' />
+            {whenDay !== 0 ?
+              <p className="text-sm font-medium">{whenDay} {months[whenMonth]} {whenYear}</p> :
+              <p className="text-sm font-medium text-muted-foreground">Select date</p>
+            }
+          </div>
+          <div className='flex items-center'>
+            <Clock3 className='pr-2 text-muted-foreground' />
+            {whenHour !== 0 ?
+              <div className='flex items-center'>
+                <p className="text-sm font-medium">{whenHour} : 00</p>
+                <UserRound size={16} className='inline ml-4 mr-2 text-muted-foreground' />
+                <p className="text-sm font-medium">{whoNum}</p>
+              </div> :
+              <p className="text-sm font-medium text-muted-foreground">Select time</p>
+            }
+          </div>
+        </div>
+        {isBookingPage ?
+          <div>
+            <Button disabled={whenHour === 0 || whenDay === 0} className="w-[80px]" onClick={() => update(bookingID)}>
+              <span className='font-semibold'>Change</span>
+            </Button>
+            <Button variant={'outline'} className="w-[80px] ml-[10px]" onClick={() => cancel(bookingID)}>
+              <span className='font-semibold'>Cancel</span>
+            </Button>
+          </div> :
+          <Button disabled={whenHour === 0 || whenDay === 0} className='w-full' onClick={() => insert()}>
+            <span className='font-semibold'>Book</span>
+          </Button>
+        }
+      </div>
+
     </>
   )
 }
