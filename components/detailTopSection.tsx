@@ -90,7 +90,7 @@ export default function DetailTopSection({ id }: { id: string }) {
         {data !== null ?
           <h3 className='text-2xl font-bold'>{data.title}</h3>
           :
-          <div className="animate-pulse bg-gray-100 w-[50%] h-8 rounded-lg"></div>
+          <div className="animate-pulse bg-gray-100 w-48 h-8 rounded-lg"></div>
         }
 
         {data !== null ?
