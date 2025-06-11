@@ -33,14 +33,14 @@ const BookingTimePicker: React.FC<BookingTimePickerProps> = ({
     <>
       <div className='border-t' id='selectDate'>
         <h3 className='mt-6 text-xl font-semibold'>When you&apos;ll visit</h3>
-        <div className='grid grid-cols-1 md:grid md:grid-cols-[7fr_3fr] md:gap-8 lg:grid-cols-[6fr_4fr] lg:gap-10'>
+        <div className='grid grid-cols-1 md:grid md:grid-cols-[7fr_3fr] md:gap-8 lg:grid-cols-[5fr_5fr] lg:gap-10'>
           <div onClick={reset}>
             <Calendar selDay={whenDay} selMonth={whenMonth} selYear={whenYear}
               setDay={setWhenDay} setMonthSelected={setWhenMonth} setYearSelected={setWhenYear}
               dateFrom={dateFrom} dateTo={dateTo} />
           </div>
           {whenDay !== 0 && (
-            <div className='grid grid-cols-3 gap-4 my-4 md:gap-4 md:grid-cols-1 md:grid-rows-6 lg:gap-6'>
+            <div className='grid grid-cols-3 gap-3 my-4 md:grid-cols-1 md:grid-rows-6'>
               {timeSlots.map((hour) => {
                 const isPast = isToday && hour <= now.getHours()
                 return (
