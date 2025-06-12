@@ -23,6 +23,7 @@ export interface HistoryData {
 
 export interface BookingData {
   id: number
+  ex_id: number
   address: string
   latitude: number
   longitude: number
@@ -39,4 +40,11 @@ export interface SearchItem {
   who: number
   latitude: number
   longitude: number
+}
+
+export interface NotificationData {
+  id: number
+  created_at: Date
+  activity: string
+  booking: BookingData | null
 }
