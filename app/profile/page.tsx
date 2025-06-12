@@ -85,7 +85,7 @@ const List = ({ link, title, desc, icon }: {
 
   return (
     <Link href={link}>
-      <li className="grid grid-cols-[24px_1fr_24px] gap-2 py-3 md:shadow-lg md:rounded-xl md:p-4 md:grid-cols-none md:grid-rows md:border border-gray-100">
+      <li className="grid grid-cols-[24px_1fr_24px] gap-2 py-3 md:shadow-lg md:rounded-xl md:p-4 md:grid-cols-none md:grid-rows md:border">
         {icon}
         <span className="font-bold md:pt-6">{title}</span>
         <ChevronRight className="float-right md:hidden" size={24} />

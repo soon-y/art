@@ -90,7 +90,7 @@ export default function DetailTopSection({ id }: { id: string }) {
         {data !== null ?
           <h3 className='text-2xl font-bold'>{data.title}</h3>
           :
-          <div className="animate-pulse bg-gray-100 w-48 h-8 rounded-lg"></div>
+          <div className="animate-pulse bg-muted w-48 h-8 rounded-lg"></div>
         }
 
         {data !== null ?
@@ -99,7 +99,7 @@ export default function DetailTopSection({ id }: { id: string }) {
             <span className='font-medium underline text-sm pl-2 cursor-pointer'>Share</span>
           </div>
           :
-          <div className="animate-pulse bg-gray-100 w-full h-8 rounded-lg"></div>
+          <div className="animate-pulse bg-muted w-full h-8 rounded-lg"></div>
         }
 
         {data !== null ?
@@ -108,7 +108,7 @@ export default function DetailTopSection({ id }: { id: string }) {
             <span className='font-medium underline text-sm pl-2 cursor-pointer'>Bookmark</span>
           </div>
           :
-          <div className="animate-pulse bg-gray-100 w-full h-8 rounded-lg"></div>
+          <div className="animate-pulse bg-muted w-full h-8 rounded-lg"></div>
         }
       </div>
 
@@ -119,7 +119,7 @@ export default function DetailTopSection({ id }: { id: string }) {
           }}>
           </div>
           :
-          <div className="absolute left-0 top-0 animate-pulse bg-gray-100 w-full md:relative h-[400px] md:h-[500px] md:rounded-lg"></div>
+          <div className="absolute left-0 top-0 animate-pulse bg-muted w-full md:relative h-[400px] md:h-[500px] md:rounded-lg"></div>
         }
       </div>
 

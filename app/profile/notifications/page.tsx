@@ -88,7 +88,7 @@ export default function Home() {
 
       {data !== null ? (
         data.map((el: NotificationData) => (
-          <div key={el.id} className='mb-3 bg-gray-50 p-4 rounded-xl'>
+          <div key={el.id} className='mb-3 bg-muted p-4 rounded-xl'>
             <div className='flex place-content-between items-center text-gray-400 text-sm'>
               <div>
                 {el.activity.includes('book') && <CalendarPlus className='w-6' strokeWidth={1.6} />}
@@ -117,12 +117,12 @@ export default function Home() {
         ))
       ) : (
         Array.from({ length: 20 }).map((_, i) => (
-          <div key={i} className='mb-3 bg-gray-50 p-4 rounded-lg'>
+          <div key={i} className='mb-3 bg-muted p-4 rounded-lg'>
             <div className='flex place-content-between items-center text-gray-400 mb-1'>
-              <div className="animate-pulse bg-gray-100 w-6 h-6 rounded-md"></div>
-              <div className="animate-pulse bg-gray-100 w-16 h-5 rounded-md"></div>
+              <div className="animate-pulse bg-accent w-6 h-6 rounded-md"></div>
+              <div className="animate-pulse bg-accent w-16 h-5 rounded-md"></div>
             </div>
-            <div className="animate-pulse bg-gray-100 w-full h-10 rounded-md md:h-5"></div>
+            <div className="animate-pulse bg-accent w-full h-10 rounded-md md:h-5"></div>
           </div>
         ))
       )}

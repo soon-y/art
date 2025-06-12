@@ -50,11 +50,11 @@ export default function Explore() {
           :
           Array.from({ length: 20 }).map((_, i) => (
             <div className='w-full relative' key={i}>
-              <div className='bg-gray-100 w-[100%] rounded-2xl aspect-[1] animate-pulse'></div>
-              <div className="animate-pulse bg-gray-100 w-48 h-6 rounded-lg mt-2"></div>
-              <div className="animate-pulse bg-gray-100 w-40 h-4 rounded-sm mt-2"></div>
-              <div className="animate-pulse bg-gray-100 w-48 h-4 rounded-sm mt-2"></div>
-              <div className="animate-pulse bg-gray-100 w-12 h-4 rounded-sm mt-2"></div>
+              <div className='bg-muted w-[100%] rounded-2xl aspect-[1] animate-pulse'></div>
+              <div className="animate-pulse bg-muted w-48 h-6 rounded-md mt-2"></div>
+              <div className="animate-pulse bg-muted w-40 h-4 rounded-sm mt-2"></div>
+              <div className="animate-pulse bg-muted w-48 h-4 rounded-sm mt-2"></div>
+              <div className="animate-pulse bg-muted w-12 h-4 rounded-sm mt-2"></div>
             </div >
           ))
         }

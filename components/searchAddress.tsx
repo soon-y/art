@@ -84,7 +84,7 @@ const SearchAddress: React.FC<props> = ({ whereTo, setWhereTo, setLatitude, setL
             searchAddress(e.target.value)
           }}
         /> :
-          <div className="ml-5 animate-pulse bg-gray-100 w-24 h-5 rounded-lg"></div>
+          <div className="ml-5 animate-pulse bg-muted w-24 h-5 rounded-lg"></div>
         }
       </div>
       {whereClicked &&

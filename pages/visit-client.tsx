@@ -142,24 +142,24 @@ export default function Visit() {
           {Array.from({ length: 6 }).map((_, i) => (
             <div key={i} className="animate-pulse w-full rounded-2xl">
               <div className='grid grid-rows gap-3 border shadow-xl rounded-2xl overflow-hidden'>
-                <div className='w-full bg-gray-100 animate-pulse aspect-[2]'>
+                <div className='w-full bg-muted animate-pulse aspect-[2]'>
                   <span className="w-24 h-6 bg-background rounded-md absolute m-3"></span>
                 </div>
                 <div className='px-4'>
-                  <div className='animate-pulse bg-gray-100 h-4 w-36 rounded-md mb-2'></div>
-                  <div className='animate-pulse bg-gray-100 h-6 w-48 rounded-lg mb-1'></div>
-                  <div className='animate-pulse bg-gray-100 h-5 w-48 rounded-lg mb-1'></div>
-                  <div className='animate-pulse bg-gray-100 h-5 w-16 rounded-lg mb-2'></div>
+                  <div className='animate-pulse bg-muted h-4 w-36 rounded-md mb-2'></div>
+                  <div className='animate-pulse bg-muted h-6 w-48 rounded-lg mb-1'></div>
+                  <div className='animate-pulse bg-muted h-5 w-48 rounded-lg mb-1'></div>
+                  <div className='animate-pulse bg-muted h-5 w-16 rounded-lg mb-2'></div>
                   <div className='border-t mt-3 pt-3'>
                     <div className="grid grid-cols-[1fr_1fr] gap-3 pb-4">
                       <div className="border-r">
-                        <div className='animate-pulse bg-gray-100 h-4 w-16 rounded-lg'></div>
-                        <div className='animate-pulse bg-gray-100 h-6 w-24 rounded-lg my-1'></div>
-                        <div className='animate-pulse bg-gray-100 h-4 w-12 rounded-lg mb-1'></div>
+                        <div className='animate-pulse bg-muted h-4 w-16 rounded-lg'></div>
+                        <div className='animate-pulse bg-muted h-6 w-24 rounded-lg my-1'></div>
+                        <div className='animate-pulse bg-muted h-4 w-12 rounded-lg mb-1'></div>
                       </div>
                       <div>
-                        <div className='animate-pulse bg-gray-100 h-5 w-full rounded-lg'></div>
-                        <div className='animate-pulse bg-gray-100 h-5 w-full rounded-lg my-1'></div>
+                        <div className='animate-pulse bg-muted h-5 w-full rounded-lg'></div>
+                        <div className='animate-pulse bg-muted h-5 w-full rounded-lg my-1'></div>
                       </div>
                     </div>
                   </div>

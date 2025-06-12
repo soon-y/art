@@ -128,13 +128,13 @@ const SearchbarHeader: React.FC<SearchItem> = ({ setSearchDataUpdated }) => {
               <div className={`h-[100%] rounded-full search-item  ${whenClicked ? 'bg-background' : 'hover:bg-muted'}`} ref={whenRef}>
                 <div>
                   <p className="pt-3 pb-1 pl-6 font-bold">When</p>
-                  <div className="ml-5 animate-pulse bg-gray-100 w-24 h-5 rounded-lg"></div>
+                  <div className="ml-5 animate-pulse bg-muted w-24 h-5 rounded-lg"></div>
                 </div>
               </div>
               <div className={`h-[100%] rounded-full search-item  ${whoClicked ? 'bg-background' : 'hover:bg-muted'}`} ref={whoRef}>
                 <div>
                   <p className="pt-3 pb-1 pl-6 font-bold">Who</p>
-                  <div className="ml-5 animate-pulse bg-gray-100 w-24 h-5 rounded-lg"></div>
+                  <div className="ml-5 animate-pulse bg-muted w-24 h-5 rounded-lg"></div>
                 </div>
               </div>
             </div>
@@ -217,8 +217,8 @@ const SearchbarHeader: React.FC<SearchItem> = ({ setSearchDataUpdated }) => {
         {whereTo === '' || whenDay === 0 || whoNum === 0 ?
           <div className='flex pb-6 border-b justify-center'>
             <div className='overflow-hidden flex flex-col items-center justify-center rounded-full border border-border h-[70px] shadow-lg w-[90vw]'>
-              <div className="animate-pulse bg-gray-100 w-48 h-5 rounded-lg mb-1"></div>
-              <div className="animate-pulse bg-gray-100 w-48 h-5 rounded-lg mt-1"></div>
+              <div className="animate-pulse bg-muted w-48 h-5 rounded-lg mb-1"></div>
+              <div className="animate-pulse bg-muted w-48 h-5 rounded-lg mt-1"></div>
             </div>
           </div> :
           <div className='flex pb-6 border-b justify-center'>
