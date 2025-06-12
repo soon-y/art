@@ -18,9 +18,6 @@ const Calendar: React.FC<props> = ({
   selDay, selMonth, selYear, setDay, setMonthSelected, setYearSelected, dateFrom, dateTo
 }) => {
 
-console.log(dateTo)
-
-
   const months: string[] = [
     "January", "February", "March", "April", "May", "June",
     "July", "August", "September", "October", "November", "December"
