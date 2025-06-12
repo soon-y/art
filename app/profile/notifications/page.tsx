@@ -19,7 +19,6 @@ export default function Home() {
     const res = await fetch('/api/notification')
     const result = await res.json()
     if (result.success) {
-      console.log(result.data)
       setData(result.data)
     } else {
       setError(true)
