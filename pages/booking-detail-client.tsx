@@ -122,7 +122,7 @@ export default function BookingPage({ id }: { id: string }) {
 
           {data !== null ?
             <ConfirmBox json={data.exhibition} whenDay={whenDay} whenMonth={whenMonth} whenYear={whenYear} whenHour={whenHour} whoNum={whoNum}
-              bookingID={data.id} bookedDate={data.booked_time} lat={data.latitude} lon={data.longitude} />
+              bookingID={data.id} bookedDate={data.booked_time} lat={data.latitude} lon={data.longitude} addr='' />
             :
             <div>
               <div className="hidden md:block bg-gray-100 w-full h-[420px] mx-auto my-1 shadow-xl my-10 p-6 rounded-xl">

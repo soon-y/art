@@ -62,9 +62,9 @@ export default function DetailPage({ id }: { id: string }) {
 
             <div className='border-t'>
               <h3 className='mt-6 text-xl font-semibold'>Where you&apos;ll visit</h3>
-              {search !== null ?
+              {data !== null && search !== null ?
                 <>
-                  <p className='pt-2 pb-4'>{search.address}</p>
+                  <p className='pt-2 pb-4'>{data.address}, {search.address}</p>
                   <Map lat={search.latitude} lon={search.longitude} />
                 </>
                 :
@@ -121,7 +121,7 @@ export default function DetailPage({ id }: { id: string }) {
 
           {search !== null && data !== null ?
             <ConfirmBox json={data} whenDay={whenDay} whenMonth={whenMonth} whenYear={whenYear} whenHour={whenHour} whoNum={whoNum}
-              bookingID={0} bookedDate='' lat={search.latitude} lon={search.longitude} />
+              bookingID={0} bookedDate='' lat={search.latitude} lon={search.longitude} addr={search.address} />
             :
             <div>
               <div className="hidden md:block bg-gray-100 w-full h-[350px] mx-auto my-1 shadow-xl my-10 p-6 rounded-xl">
