@@ -2,7 +2,7 @@
 
 import Navigation from "@/components/navigation"
 import { Button } from "@/components/ui/button"
-import { Bell, CircleUserRound, Settings, ChevronRight, CircleHelp, MessageCircleWarning } from 'lucide-react'
+import { BellDot, CircleUserRound, Settings, ChevronRight, CircleHelp, MessageCircleWarning } from 'lucide-react'
 import Link from "next/link"
 import { ReactNode } from "react"
 
@@ -12,7 +12,7 @@ export default function Home() {
       <div className="py-4 flex justify-between items-center w-full">
         <h2 className="text-2xl font-bold">Profile</h2>
         <Link href="/profile/notifications">
-          <Bell className="text-muted-foreground" />
+          <BellDot className="text-primary" />
         </Link>
       </div>
 
