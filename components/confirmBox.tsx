@@ -40,7 +40,7 @@ const ConfirmBox: React.FC<props> = ({ json, whenDay, whenMonth, whenYear, whenH
   const toDate = () => {
     const selectDate = document.getElementById('selectDate')
     if (selectDate) {
-      const y = selectDate.getBoundingClientRect().top + window.scrollY;
+      const y = selectDate.getBoundingClientRect().top + window.scrollY
       window.scrollTo({
         top: y - 88,
         behavior: 'smooth',
@@ -71,19 +71,19 @@ const ConfirmBox: React.FC<props> = ({ json, whenDay, whenMonth, whenYear, whenH
   }
 
   const formatDate = (timestamp: string): string => {
-    const date = new Date(timestamp);
-    return date.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
+    const date = new Date(timestamp)
+    return date.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })
   }
 
   const insert = async () => {
     const newBooking = {
       ex_id: json.id,
-      booking_time: parseFormattedDate(`${whenHour}:00, ${whenDay} ${months[whenMonth]} ${whenYear}`),
-      booked_time: new Date(new Date().getTime() - (new Date().getTimezoneOffset() * 60000)).toISOString(),
-      who: whoNum,
       address: isBookingPage ? json.address : json.address + ', ' + addr,
       latitude: lat,
-      longitude: lon
+      longitude: lon,
+      who: whoNum,
+      booking_time: parseFormattedDate(`${whenHour}:00, ${whenDay} ${months[whenMonth]} ${whenYear}`),
+      booked_time: new Date(new Date().getTime() - (new Date().getTimezoneOffset() * 60000)).toISOString(),
     }
 
     const response = await fetch('/api/booking/insert', {
@@ -91,8 +91,15 @@ const ConfirmBox: React.FC<props> = ({ json, whenDay, whenMonth, whenYear, whenH
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(newBooking),
+      body: JSON.stringify({ newBooking }),
     })
+
+    if (!response.ok) {
+      console.error("Server returned error:", response.status)
+      setError(true)
+      setTimeout(() => setError(false), 3000)
+      return
+    }
 
     const result = await response.json()
     if (result.success) {
