@@ -104,6 +104,8 @@ const SearchbarHeader: React.FC<SearchItem> = ({ setSearchDataUpdated }) => {
       setWhenMonth(Number(result.data[0].date.split('-')[1]) - 1)
       setWhenYear(Number(result.data[0].date.split('-')[0]))
       setWhoNum(result.data[0].who)
+      setLatitude(result.data[0].latitude)
+      setLongitude(result.data[0].longitude)
     } else {
       setError(true)
       setTimeout(() => setError(false), 3000)
@@ -120,7 +122,7 @@ const SearchbarHeader: React.FC<SearchItem> = ({ setSearchDataUpdated }) => {
               <div className={`overflow-hidden h-[100%] rounded-full search-item ${whereClicked ? 'bg-background' : 'hover:bg-muted'}`} ref={whereRef}>
                 <p className="pt-3 pb-1 pl-6 font-bold">Where</p>
                 <div ref={searchRef} >
-                  <SearchAddress whereTo={whereTo} setWhereTo={setWhereTo} setLatitude={setLatitude} setLongitude={setLongitude}/>
+                  <SearchAddress whereTo={whereTo} setWhereTo={setWhereTo} setLatitude={setLatitude} setLongitude={setLongitude} />
                 </div>
               </div>
               <div className={`h-[100%] rounded-full search-item  ${whenClicked ? 'bg-background' : 'hover:bg-muted'}`} ref={whenRef}>
