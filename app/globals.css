@@ -130,6 +130,11 @@
   opacity: 0;
 }
 
+.mapboxgl-ctrl-top-right,
+.mapboxgl-ctrl-bottom-right,
+.mapboxgl-ctrl-bottom-left {
+  z-index: 0 !important;
+}
 
 @media (max-width: 768px) {
 
