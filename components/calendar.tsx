@@ -17,6 +17,10 @@ interface props {
 const Calendar: React.FC<props> = ({
   selDay, selMonth, selYear, setDay, setMonthSelected, setYearSelected, dateFrom, dateTo
 }) => {
+
+console.log(dateTo)
+
+
   const months: string[] = [
     "January", "February", "March", "April", "May", "June",
     "July", "August", "September", "October", "November", "December"
@@ -116,7 +120,7 @@ const Calendar: React.FC<props> = ({
           <button key={index} disabled={
             today.getMonth() === month && today.getFullYear() === year && index < today.getDate() + (theFirst.getDay() === 0 ? 6 : theFirst.getDay() - 1) - 1 || day == '' ||
             monthFrom === month && yearFrom === year && index < dayFrom + (theFirst.getDay() === 0 ? 6 : theFirst.getDay() - 1) - 1 ||
-            monthTo === month && yearTo === year && index > dayTo + (theFirst.getDay() === 0 ? 6 : theFirst.getDay() - 1) ||
+            monthTo === month && yearTo === year && index >= dayTo + (theFirst.getDay() === 0 ? 6 : theFirst.getDay() - 1) ||
             monthFrom > month && yearFrom === year || monthTo < month && yearTo === year
           }
             className={`
