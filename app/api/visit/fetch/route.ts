@@ -26,12 +26,7 @@ export async function GET() {
     }
 
     const { data: history, error: historyError } = await supabase
-      .from("history")
-      .select(`*,
-    exhibition:exhibition (
-      name, title, imgid, content, price, bookmark, bookmark_time, date_from, date_to
-    )
-  `).order('booking_time', { ascending: false })
+      .from("history").select(`*, exhibition:exhibition (*)`).order('booking_time', { ascending: false })
 
 
     const { data: booked, error: bookedError } = await supabase
