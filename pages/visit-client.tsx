@@ -21,7 +21,6 @@ export default function Visit() {
     const res = await fetch('/api/visit/fetch')
     const result = await res.json()
     if (result.success) {
-      console.log(result)
       setVisitData(result.history)
       setBookingData(result.booked)
     } else {
