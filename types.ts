@@ -46,5 +46,7 @@ export interface NotificationData {
   id: number
   created_at: Date
   activity: string
-  booking: BookingData | null
+  title: string
+  booking_time: string
+  who: number
 }

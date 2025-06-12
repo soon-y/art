@@ -5,7 +5,7 @@ export async function GET() {
   const supabase = await createClient()
 
   try {
-    const { data } = await supabase.from("notification").select(`*,booking (*,  exhibition (*))`).order("created_at", { ascending: true })
+    const { data } = await supabase.from("notification").select('*').order("created_at", { ascending: false })
 
     return NextResponse.json({ success: true, data })
   } catch (error) {

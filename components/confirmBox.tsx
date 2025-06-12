@@ -86,12 +86,20 @@ const ConfirmBox: React.FC<props> = ({ json, whenDay, whenMonth, whenYear, whenH
       booked_time: new Date(new Date().getTime() - (new Date().getTimezoneOffset() * 60000)).toISOString(),
     }
 
+    const notification = {
+      activity: 'book',
+      title: `${json.title} at ${json.name}`,
+      booking_time: `at ${whenHour}:00 on ${whenDay} ${months[whenMonth]} ${whenYear}`,
+      who: whoNum,
+    }
+
+
     const response = await fetch('/api/booking/insert', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ newBooking }),
+      body: JSON.stringify({ newBooking, notification }),
     })
 
     if (!response.ok) {
@@ -117,10 +125,13 @@ const ConfirmBox: React.FC<props> = ({ json, whenDay, whenMonth, whenYear, whenH
       who: whoNum,
     }
 
-    const notification = {
-      booking_id: bookingID,
+     const notification = {
       activity: 'update',
+      title: `${json.title} at ${json.name}`,
+      booking_time: `at ${whenHour}:00 on ${whenDay} ${months[whenMonth]} ${whenYear}`,
+      who: whoNum,
     }
+
 
     const response = await fetch('/api/booking/update', {
       method: 'POST',
@@ -140,9 +151,11 @@ const ConfirmBox: React.FC<props> = ({ json, whenDay, whenMonth, whenYear, whenH
   }
 
   const cancel = async (id: number) => {
-    const notification = {
-      booking_id: null,
-      activity: `${json.title} at ${json.name} on ${whenDay} ${months[whenMonth]} ${whenYear} at ${whenHour}:00 for ${whoNum} ${Number(whoNum) === 1 ? 'person' : 'people'}`,
+     const notification = {
+      activity: 'delete',
+      title: `${json.title} at ${json.name}`,
+      booking_time: `at ${whenHour}:00 on ${whenDay} ${months[whenMonth]} ${whenYear}`,
+      who: whoNum,
     }
 
     const response = await fetch('/api/booking/delete', {

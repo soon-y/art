@@ -2,7 +2,7 @@
 
 import { X, CalendarMinus, CalendarSync, CalendarPlus } from 'lucide-react'
 import Link from "next/link"
-import { useState, useEffect, ReactNode } from 'react'
+import { useState, useEffect } from 'react'
 import { NotificationData } from "@/types"
 import Alert from "@/components/alert"
 
@@ -53,28 +53,6 @@ export default function Home() {
     return fullDate
   }
 
-  const formatDateTime = (input: string): ReactNode => {
-    const date = new Date(input)
-
-    const datePart = date.toLocaleDateString("en-GB", {
-      day: "2-digit",
-      month: "short",
-      year: "numeric",
-    })
-
-    const timePart = date.toLocaleTimeString("en-GB", {
-      hour: "2-digit",
-      minute: "2-digit",
-      hour12: false,
-    })
-
-    return (
-      <>
-        at <span className='font-semibold'>{timePart}</span> on <span className='font-semibold'>{datePart}</span>
-      </>
-    )
-  }
-
   return (
     <div className='mb-6'>
       <div>
@@ -93,26 +71,21 @@ export default function Home() {
               <div>
                 {el.activity.includes('book') && <CalendarPlus className='w-6' strokeWidth={1.6} />}
                 {el.activity.includes('update') && <CalendarSync className='w-6' strokeWidth={1.6} />}
-                {el.activity.length > 6 && <CalendarMinus className='w-6' strokeWidth={1.6} />}
+                {el.activity.includes('delete') && <CalendarMinus className='w-6' strokeWidth={1.6} />}
               </div>
               <p className='text-sm'>{day(el.created_at.toString())}</p>
             </div>
-            {el.booking ? (
-              <Link href={`/visits/booking/${encodeURIComponent(el.booking.exhibition.title.replace(/ /g, "_"))}_${el.booking.id}`}>
-                {el.activity.includes('book') &&
-                  <p>
-                    <span className='font-semibold'>{el.booking.exhibition.title} </span>
-                    at {el.booking.exhibition.name} is booked for {el.booking.who} {el.booking.who === 1 ? 'person' : 'people'} {formatDateTime(el.booking.booking_time)}.
-                  </p>}
-                {el.activity.includes('update') &&
-                  <p>
-                    <span className='font-semibold'>{el.booking.exhibition.title} </span>
-                    at {el.booking.exhibition.name} is changed to {el.booking.who} {el.booking.who === 1 ? 'person' : 'people'} {formatDateTime(el.booking.booking_time)}.
-                  </p>}
-              </Link>
-            ) : (
-              <p>Your booking for {el.activity} has been cancelled.</p>
-            )}
+            <div className='mt-1'>
+              {el.activity.includes('book') &&
+                <p>{el.title} is booked for {el.who} {el.who === 1 ? 'person' : 'people'} {el.booking_time}.</p>
+              }
+              {el.activity.includes('update') &&
+                <p>{el.title} is changed to {el.who} {el.who === 1 ? 'person' : 'people'} {el.booking_time}.</p>
+              }
+              {el.activity.includes('delete') &&
+                <p>Your booking for {el.title} for {el.who} {el.who === 1 ? 'person' : 'people'} {el.booking_time} has been cancelled.</p>
+              }
+            </div>
           </div>
         ))
       ) : (
