@@ -1,6 +1,6 @@
 'use client'
 
-import { X } from 'lucide-react'
+import { X, CalendarMinus, CalendarSync, CalendarPlus } from 'lucide-react'
 import Link from "next/link"
 import { useState, useEffect, ReactNode } from 'react'
 import { NotificationData } from "@/types"
@@ -76,7 +76,7 @@ export default function Home() {
   }
 
   return (
-    <>
+    <div className='mb-6'>
       <div>
         <div className="py-4 flex justify-between items-center w-full">
           <h2 className="text-2xl font-bold">Notifications</h2>
@@ -88,8 +88,15 @@ export default function Home() {
 
       {data !== null ? (
         data.map((el: NotificationData) => (
-          <div key={el.id} className='mb-2 bg-gray-50 p-4 rounded-lg'>
-            <p className='text-gray-400 text-sm'>{day(el.created_at.toString())}</p>
+          <div key={el.id} className='mb-3 bg-gray-50 p-4 rounded-xl'>
+            <div className='flex place-content-between items-center text-gray-400 text-sm'>
+              <div>
+                {el.activity.includes('book') && <CalendarPlus className='w-6' strokeWidth={1.6} />}
+                {el.activity.includes('update') && <CalendarSync className='w-6' strokeWidth={1.6} />}
+                {el.activity.length > 6 && <CalendarMinus className='w-6' strokeWidth={1.6} />}
+              </div>
+              <p className='text-sm'>{day(el.created_at.toString())}</p>
+            </div>
             {el.booking ? (
               <Link href={`/visits/booking/${encodeURIComponent(el.booking.exhibition.title.replace(/ /g, "_"))}_${el.booking.id}`}>
                 {el.activity.includes('book') &&
@@ -110,8 +117,11 @@ export default function Home() {
         ))
       ) : (
         Array.from({ length: 20 }).map((_, i) => (
-          <div key={i} className='mb-2 bg-gray-50 p-4 rounded-lg'>
-            <div className="animate-pulse bg-gray-100 w-16 h-5 rounded-md mb-1"></div>
+          <div key={i} className='mb-3 bg-gray-50 p-4 rounded-lg'>
+            <div className='flex place-content-between items-center text-gray-400 mb-1'>
+              <div className="animate-pulse bg-gray-100 w-6 h-6 rounded-md"></div>
+              <div className="animate-pulse bg-gray-100 w-16 h-5 rounded-md"></div>
+            </div>
             <div className="animate-pulse bg-gray-100 w-full h-10 rounded-md md:h-5"></div>
           </div>
         ))
@@ -123,6 +133,6 @@ export default function Home() {
           Please try again.
         </>
       } />}
-    </>
+    </div>
   )
 }
