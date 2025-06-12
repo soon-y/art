@@ -16,7 +16,7 @@ export default function Home() {
         </Link>
       </div>
 
-      <div className="md:hidden grid grid-cols-[60px_1fr] gap-5 py-6 border-b items-center">
+      <div className="md:hidden grid grid-cols-[60px_1fr] gap-5 pb-6 border-b items-center">
         <div
           className="bg-cover bg-center w-full rounded-full aspect-[1]"
           style={{
@@ -32,13 +32,13 @@ export default function Home() {
       <div className="py-2 text-muted-foreground">
         <ul className="md:grid md:grid-cols-2 lg:grid-cols-3 gap-4">
           <List
-            link="/profile/personal"
+            link=""
             title="Personal Information"
             desc="Update your name, email, and contact details"
             icon={<CircleUserRound size={24} />}
           />
           <List
-            link="/profile/account"
+            link=""
             title="Account Settings"
             desc="Manage your password, security, and login options"
             icon={<Settings size={24} />}
@@ -50,13 +50,13 @@ export default function Home() {
       <div className="py-2 text-muted-foreground">
         <ul className="md:grid md:grid-cols-2 lg:grid-cols-3 gap-4">
           <List
-            link="/help"
+            link=""
             title="Help Center"
             desc="Browse FAQs or get in touch with support"
             icon={<CircleHelp size={24} />}
           />
           <List
-            link="/report-issue"
+            link=""
             title="Report a Problem"
             desc="Let us know if something isn’t working right"
             icon={<MessageCircleWarning size={24} />}
