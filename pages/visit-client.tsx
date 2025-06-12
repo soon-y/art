@@ -140,7 +140,7 @@ export default function Visit() {
         </> :
         <div className='mb-22 md:mb-0 py-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5'>
           {Array.from({ length: 6 }).map((_, i) => (
-            <div key={i} className="animate-pulse bg-gray-50 w-full rounded-2xl">
+            <div key={i} className="animate-pulse w-full rounded-2xl">
               <div className='grid grid-rows gap-3 border shadow-xl rounded-2xl overflow-hidden'>
                 <div className='w-full bg-gray-100 animate-pulse aspect-[2]'>
                   <span className="w-24 h-6 bg-background rounded-md absolute m-3"></span>
