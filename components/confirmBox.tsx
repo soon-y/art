@@ -7,6 +7,7 @@ import gsap from 'gsap'
 import { useGSAP } from '@gsap/react'
 import { ScrollTrigger } from "gsap/ScrollTrigger"
 import { ExhibitionData } from "@/types"
+import Alert from "@/components/alert"
 gsap.registerPlugin(ScrollTrigger, useGSAP)
 
 interface props {
@@ -20,9 +21,11 @@ interface props {
   bookedDate: string
   lat: number
   lon: number
+  addr: string
 }
 
-const ConfirmBox: React.FC<props> = ({ json, whenDay, whenMonth, whenYear, whenHour, whoNum, bookingID = 0, bookedDate = '', lat, lon }) => {
+const ConfirmBox: React.FC<props> = ({ json, whenDay, whenMonth, whenYear, whenHour, whoNum, bookingID = 0, bookedDate = '', lat, lon, addr = '' }) => {
+  const [error, setError] = useState<boolean>(false)
   const [isBookingPage, setIsBookingPage] = useState<boolean>(false)
   const pathname = usePathname()
   const router = useRouter()
@@ -78,7 +81,7 @@ const ConfirmBox: React.FC<props> = ({ json, whenDay, whenMonth, whenYear, whenH
       booking_time: parseFormattedDate(`${whenHour}:00, ${whenDay} ${months[whenMonth]} ${whenYear}`),
       booked_time: new Date(new Date().getTime() - (new Date().getTimezoneOffset() * 60000)).toISOString(),
       who: whoNum,
-      address: json.address,
+      address: isBookingPage ? json.address : json.address + ', ' + addr,
       latitude: lat,
       longitude: lon
     }
@@ -95,7 +98,8 @@ const ConfirmBox: React.FC<props> = ({ json, whenDay, whenMonth, whenYear, whenH
     if (result.success) {
       router.push('/visits')
     } else {
-      console.error("Error:", result.error)
+      setError(true)
+      setTimeout(() => setError(false), 3000)
     }
   }
 
@@ -106,30 +110,48 @@ const ConfirmBox: React.FC<props> = ({ json, whenDay, whenMonth, whenYear, whenH
       who: whoNum,
     }
 
+    const notification = {
+      booking_id: bookingID,
+      activity: 'update',
+    }
+
     const response = await fetch('/api/booking/update', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ id, newBooking }),
+      body: JSON.stringify({ id, newBooking, notification }),
     })
 
     const result = await response.json()
-    if (result.success) { router.push('/visits') }
-    console.log(result)
+    if (result.success) {
+      router.push('/visits')
+    } else {
+      setError(true)
+      setTimeout(() => setError(false), 3000)
+    }
   }
 
   const cancel = async (id: number) => {
+    const notification = {
+      booking_id: null,
+      activity: `${json.title} at ${json.name} on ${whenDay} ${months[whenMonth]} ${whenYear} at ${whenHour}:00 for ${whoNum} ${Number(whoNum) === 1 ? 'person' : 'people'}`,
+    }
+
     const response = await fetch('/api/booking/delete', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ id }),
+      body: JSON.stringify({ id, notification }),
     })
     const result = await response.json()
-    if (result.success) { router.push('/visits') }
-    console.log(result)
+    if (result.success) {
+      router.push('/visits')
+    } else {
+      setError(true)
+      setTimeout(() => setError(false), 3000)
+    }
   }
 
   return (
@@ -220,6 +242,12 @@ const ConfirmBox: React.FC<props> = ({ json, whenDay, whenMonth, whenYear, whenH
         }
       </div>
 
+      {error && <Alert msg={
+        <>
+          Something went wrong.<br />
+          Please try again.
+        </>
+      } />}
     </>
   )
 }

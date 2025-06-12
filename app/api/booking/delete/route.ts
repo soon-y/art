@@ -1,17 +1,28 @@
-import { NextResponse } from 'next/server'
+import { NextResponse, NextRequest } from 'next/server'
 import { createClient } from '@/utils/supabase/server'
 
-export async function POST(request: Request) {
-  const supabase = await createClient()
-  const { id } = await request.json()
+export async function POST(request: NextRequest) {
+  try {
+    const supabase = await createClient()
+    const { id, notification } = await request.json()
 
-  const { data, error } = await supabase
-    .from('booking')
-    .delete()
-    .eq('id', id)
+    const { data: bookingData, error: bookingError} = await supabase.from('booking').delete().eq('id', id)
+    const { data: notificationData, error: notificationError } = await supabase.from('notification').insert([notification])
 
-  if (error) {
-    return NextResponse.json({ success: false, error }, { status: 500 })
+    if (bookingError || notificationError) {
+      return NextResponse.json(
+        {
+          success: false,
+          error: {
+            booking: bookingError?.message,
+            notification: notificationError?.message,
+          },
+        },
+        { status: 500 }
+      )
+    }
+    return NextResponse.json({ success: true, bookingData, notificationData })
+  } catch {
+    return NextResponse.json({ success: false, error: 'Failed to delete' }, { status: 500 })
   }
-  return NextResponse.json({ success: true, data })
 }
