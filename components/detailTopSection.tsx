@@ -1,3 +1,5 @@
+"use client"
+
 import { useState, useEffect } from 'react'
 import { Bookmark, ChevronLeft, Share } from 'lucide-react'
 import { ExhibitionData } from "@/types"
@@ -11,29 +13,11 @@ gsap.registerPlugin(ScrollTrigger, useGSAP)
 export default function DetailTopSection({ id }: { id: string }) {
   const [data, setData] = useState<ExhibitionData | null>(null)
   const [isBookmarked, setIsBookmarked] = useState<boolean | null>(null)
-  const [size, setSize] = useState({ width: 0, height: 0 })
   const pathname = usePathname()
 
   useEffect(() => {
     fetchData()
   }, [])
-
-  useEffect(() => {
-    const header = document.querySelector('.mobileHeader') as HTMLElement
-    if (header) {
-      if (window.innerWidth < 768) header.style.opacity = '0'
-      else header.style.opacity = '1'
-    }
-    const handleResize = () => {
-      setSize({
-        width: window.innerWidth,
-        height: window.innerHeight
-      })
-    }
-
-    window.addEventListener('resize', handleResize)
-    return () => window.removeEventListener('resize', handleResize)
-  }, [size])
 
   const fetchData = async () => {
     const res = await fetch(`/api/home/${id}`)
@@ -79,10 +63,8 @@ export default function DetailTopSection({ id }: { id: string }) {
         scrub: true,
       }
     })
-    if (window.innerWidth < 768) {
-      sec1.from('.top-nav', { opacity: 0 })
-    }
-  }, [size])
+    sec1.from('.top-nav', { opacity: 0 })
+  }, [])
 
   return (
     <>
