@@ -53,7 +53,7 @@ export default function Home() {
   }
 
   return (
-    <div className='mb-6'>
+    <div className='mb-12'>
       <div>
         <div className="py-4 flex justify-between items-center w-full">
           <h2 className="text-2xl font-bold">Notifications</h2>
