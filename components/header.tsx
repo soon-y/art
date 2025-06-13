@@ -5,28 +5,40 @@ import { Account } from "@/components/account"
 import { ThemeSwitcher } from "@/components/theme-switcher"
 import { usePathname, useParams } from 'next/navigation'
 import Link from 'next/link'
-import { useEffect } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 export default function Header() {
+  const mobileHeader = useRef<HTMLDivElement>(null)
+  const searchbar = useRef<HTMLDivElement>(null)
   const pathname = usePathname()
   const params = useParams()
-  const id = params?.id 
-  const shouldHideHeader = pathname === `/bookmarks/${id}` || pathname === `/${id}` || pathname === '/docent/ar'
+  const id = params?.id
+  const [isDesktop, setIsDesktop] = useState<boolean>(false)
 
   useEffect(() => {
-    const mobileHeader = document.getElementById('mobileHeader') as HTMLElement
-    const placeholder = document.getElementById('searchbar-placeholder') as HTMLElement
-    if (mobileHeader) {
-      mobileHeader.style.opacity = shouldHideHeader ? '0' : '1'
+    const handleResize = () => {
+      const width = window.innerWidth
+      setIsDesktop(width >= 768 ? true : false)
     }
-    if (placeholder) {
-      placeholder.style.display = pathname === '/' ? 'block' : 'none'
+
+    handleResize()
+    window.addEventListener("resize", handleResize)
+
+    return () => window.removeEventListener("resize", handleResize)
+  }, [])
+
+  useEffect(() => {
+    if (mobileHeader.current) {
+      mobileHeader.current.style.opacity = (pathname === `/bookmarks/${id}` || pathname === `/visits/booking/${id}` || pathname === `/${id}` || pathname === '/docent/ar') && !isDesktop ? '0' : '1'
     }
-  }, [pathname])
+    if (searchbar.current) {
+      searchbar.current.style.display = pathname === '/' ? 'block' : 'none'
+    }
+  }, [pathname, isDesktop])
 
   return (
     <>
-      <header id='mobileHeader' className='mobileHeader md:border-b z-10 fixed left-0 bg-background w-screen p-6 lg:px-20 xl:px-28'>
+      <header ref={mobileHeader} className='md:border-b z-10 fixed left-0 bg-background w-screen p-6 lg:px-20 xl:px-28'>
         <div className='h-[30x] grid grid-cols-[70px_1fr_40px_40px] gap-2 items-center'>
           <Link href={'/'} className='hidden md:block'>
             <ArtLogo />
@@ -39,7 +51,7 @@ export default function Header() {
             <Account />
           </span>
         </div>
-        <div id='searchbar-placeholder' className='w-full h-[72px]'></div>
+        <div ref={searchbar} className='w-full h-[72px]'></div>
       </header>
     </>
   )
