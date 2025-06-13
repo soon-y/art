@@ -45,10 +45,10 @@ const Exhibition: React.FC<props> = ({ json }) => {
         }}>
         </div>
         <div className='py-2'>
-          <h3 className='text-lg/7 font-bold'>{json.title}</h3>
-          <p className='font-medium text-sm/6'>{formatDate(json.date_from)} - {formatDate(json.date_to)}</p>
-          <p className='font-medium text-sm/6 text-muted-foreground'>{json.name}</p>
-          <p className='font-medium text-sm/6'>€ {json.price.toFixed(2)}</p>
+          <h3 className='text-lg/5 font-bold mt-1'>{json.title}</h3>
+          <p className='font-medium text-sm/5 mt-1'>{formatDate(json.date_from)} - {formatDate(json.date_to)}</p>
+          <p className='font-medium text-sm/5 mt-1 text-muted-foreground'>{json.name}</p>
+          <p className='font-medium text-sm/5 mt-1'>€ {json.price.toFixed(2)}</p>
           {pathname === '/bookmarks' &&
             <div className='flex items-center'>
               <Bookmark size={18} className='mr-1 text-muted-foreground' />
