@@ -3,18 +3,21 @@
 import ArtLogo from '@/components/logo/art-logo'
 import { Account } from "@/components/account"
 import { ThemeSwitcher } from "@/components/theme-switcher"
-import { usePathname } from 'next/navigation'
+import { usePathname, useParams } from 'next/navigation'
 import Link from 'next/link'
 import { useEffect } from 'react'
 
 export default function Header() {
   const pathname = usePathname()
+  const params = useParams()
+  const id = params?.id 
+  const shouldHideHeader = pathname === `/bookmarks/${id}` || pathname === `/${id}` || pathname === '/docent/ar'
 
   useEffect(() => {
     const mobileHeader = document.getElementById('mobileHeader') as HTMLElement
     const placeholder = document.getElementById('searchbar-placeholder') as HTMLElement
     if (mobileHeader) {
-      mobileHeader.style.opacity = pathname === '/docent/ar' ? '0' : '1'
+      mobileHeader.style.opacity = shouldHideHeader ? '0' : '1'
     }
     if (placeholder) {
       placeholder.style.display = pathname === '/' ? 'block' : 'none'
