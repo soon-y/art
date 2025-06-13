@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect } from 'react'
-import { Bookmark, ChevronLeft, Share } from 'lucide-react'
+import { Bookmark, ChevronLeft, ClipboardCopy } from 'lucide-react'
 import { ExhibitionData } from "@/types"
 import Link from 'next/link'
 import gsap from 'gsap'
@@ -13,6 +13,7 @@ gsap.registerPlugin(ScrollTrigger, useGSAP)
 export default function DetailTopSection({ id }: { id: string }) {
   const [data, setData] = useState<ExhibitionData | null>(null)
   const [isBookmarked, setIsBookmarked] = useState<boolean | null>(null)
+  const [copied, setCopied] = useState(false)
   const pathname = usePathname()
 
   useEffect(() => {
@@ -66,9 +67,16 @@ export default function DetailTopSection({ id }: { id: string }) {
     sec1.from('.top-nav', { opacity: 0 })
   }, [])
 
+  const copyCurrentLink = () => {
+    navigator.clipboard.writeText(window.location.href).then(() => {
+      setCopied(true)
+      setTimeout(() => setCopied(false), 2000)
+    })
+  }
+
   return (
     <>
-      <div className='mt-4 mb-6 hidden md:grid grid-cols-[1fr_24px_24px] md:grid-cols-[1fr_100px_150px] gap-5 items-center'>
+      <div className='mt-4 mb-6 hidden md:grid grid-cols-[1fr_24px_24px] md:grid-cols-[1fr_110px_110px] gap-5 items-center'>
         {data !== null ?
           <h3 className='text-2xl font-bold'>{data.title}</h3>
           :
@@ -76,9 +84,9 @@ export default function DetailTopSection({ id }: { id: string }) {
         }
 
         {data !== null ?
-          <div className='flex'>
-            <Share size={20} />
-            <span className='font-medium underline text-sm pl-2 cursor-pointer'>Share</span>
+          <div className='flex' onClick={copyCurrentLink}>
+            <ClipboardCopy size={20} />
+            <span className='font-medium underline text-sm pl-2 cursor-pointer'>{copied ? 'Link Copied!' : 'Share'}</span>
           </div>
           :
           <div className="animate-pulse bg-muted w-full h-8 rounded-lg"></div>
@@ -113,7 +121,7 @@ export default function DetailTopSection({ id }: { id: string }) {
 
         {data !== null ?
           <div className='bg-background rounded-full'>
-            <Share size={28} className='text-foreground p-1 bg-background rounded-full cursor-pointer' />
+            <ClipboardCopy size={28} className='text-foreground p-1 bg-background rounded-full cursor-pointer' onClick={copyCurrentLink} />
           </div>
           :
           <></>
@@ -127,5 +135,8 @@ export default function DetailTopSection({ id }: { id: string }) {
           <div></div>
         }
       </div>
-    </>)
+
+      {copied && <p className='md:hidden text-foreground px-3 py-[5px] bg-background rounded-2xl shadow-xl absolute top-[55px] right-[57px] text-sm z-10'>Copied</p>}
+    </>
+  )
 }
