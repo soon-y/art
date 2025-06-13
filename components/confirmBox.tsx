@@ -226,7 +226,7 @@ const ConfirmBox: React.FC<props> = ({ json, whenDay, whenMonth, whenYear, whenH
         </div>
       </div>
 
-      <div className='bg-muted fixed border-t bottom-0 left-0 bg-background w-[100vw] h-[80px] grid grid-cols-[1fr_170px] items-center px-6 gap-4 md:hidden'>
+      <div className='bg-muted fixed border-t bottom-0 left-0 bg-background w-full h-[90px] grid grid-cols-[1fr_170px] items-center px-6 pb-4 gap-4 md:hidden'>
         <div>
           <div className='flex items-center'>
             <Calendar1 className='pr-2 text-muted-foreground' />
