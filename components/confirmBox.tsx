@@ -26,6 +26,8 @@ interface props {
 
 const ConfirmBox: React.FC<props> = ({ json, whenDay, whenMonth, whenYear, whenHour, whoNum, bookingID = 0, bookedDate = '', lat, lon, addr = '' }) => {
   const [error, setError] = useState<boolean>(false)
+  const [openChange, setOpenChange] = useState<boolean>(false)
+  const [openCancel, setOpenCancel] = useState<boolean>(false)
   const [isBookingPage, setIsBookingPage] = useState<boolean>(false)
   const pathname = usePathname()
   const router = useRouter()
@@ -55,7 +57,7 @@ const ConfirmBox: React.FC<props> = ({ json, whenDay, whenMonth, whenYear, whenH
       pin: true,
       pinSpacing: false,
     })
-  })
+  }, [])
 
   const parseFormattedDate = (formatted: string): string => {
     const cleaned = formatted.replace(/\s+/g, ' ').trim()
@@ -93,7 +95,6 @@ const ConfirmBox: React.FC<props> = ({ json, whenDay, whenMonth, whenYear, whenH
       who: whoNum,
     }
 
-
     const response = await fetch('/api/booking/insert', {
       method: 'POST',
       headers: {
@@ -125,13 +126,12 @@ const ConfirmBox: React.FC<props> = ({ json, whenDay, whenMonth, whenYear, whenH
       who: whoNum,
     }
 
-     const notification = {
+    const notification = {
       activity: 'update',
       title: `${json.title} at ${json.name}`,
       booking_time: `at ${whenHour}:00 on ${whenDay} ${months[whenMonth]} ${whenYear}`,
       who: whoNum,
     }
-
 
     const response = await fetch('/api/booking/update', {
       method: 'POST',
@@ -151,7 +151,7 @@ const ConfirmBox: React.FC<props> = ({ json, whenDay, whenMonth, whenYear, whenH
   }
 
   const cancel = async (id: number) => {
-     const notification = {
+    const notification = {
       activity: 'delete',
       title: `${json.title} at ${json.name}`,
       booking_time: `at ${whenHour}:00 on ${whenDay} ${months[whenMonth]} ${whenYear}`,
@@ -249,10 +249,10 @@ const ConfirmBox: React.FC<props> = ({ json, whenDay, whenMonth, whenYear, whenH
         </div>
         {isBookingPage ?
           <div>
-            <Button disabled={whenHour === 0 || whenDay === 0} className="w-[80px]" onClick={() => update(bookingID)}>
+            <Button disabled={whenHour === 0 || whenDay === 0} className="w-[80px]" onClick={() => setOpenChange(true)}>
               <span className='font-semibold'>Change</span>
             </Button>
-            <Button variant={'outline'} className="w-[80px] ml-[10px]" onClick={() => cancel(bookingID)}>
+            <Button variant={'outline'} className="w-[80px] ml-[10px]" onClick={() => setOpenCancel(true)}>
               <span className='font-semibold'>Cancel</span>
             </Button>
           </div> :
@@ -261,6 +261,26 @@ const ConfirmBox: React.FC<props> = ({ json, whenDay, whenMonth, whenYear, whenH
           </Button>
         }
       </div>
+
+      {openChange && <Alert msg={
+        <>
+          <p className='mb-6'>Do you want to proceed with <br />changing your booking?</p>
+          <div className='flex w-full'>
+            <div className="cursor-pointer font-medium w-[50%] opacity-50" onClick={() => setOpenChange(false)}>No</div>
+            <div className="cursor-pointer font-medium w-[50%] text-primary" onClick={() => update(bookingID)}>Yes</div>
+          </div>
+        </>
+      } />}
+
+      {openCancel && <Alert msg={
+        <>
+          <p className='mb-6'>This will cancel your booking. <br />Are you sure?</p>
+          <div className='flex w-full'>
+            <div className="cursor-pointer font-medium w-[50%] opacity-50" onClick={() => setOpenCancel(false)}>No</div>
+            <div className="cursor-pointer font-medium w-[50%] text-primary" onClick={() => cancel(bookingID)}>Yes</div>
+          </div>
+        </>
+      } />}
 
       {error && <Alert msg={
         <>
