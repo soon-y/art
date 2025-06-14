@@ -212,10 +212,10 @@ const ConfirmBox: React.FC<props> = ({ json, whenDay, whenMonth, whenYear, whenH
           </div>
           {bookingID > 0 ?
             <>
-              <Button disabled={whenHour === 0 || whenDay === 0} className='w-full mt-4' onClick={() => update(bookingID)}>
+              <Button disabled={whenHour === 0 || whenDay === 0} className='w-full mt-4' onClick={() => setOpenChange(true)}>
                 <span className='font-semibold'>Change</span>
               </Button>
-              <Button variant={'outline'} className='w-full mt-4' onClick={() => cancel(bookingID)}>
+              <Button variant={'outline'} className='w-full mt-4' onClick={() => setOpenCancel(true)}>
                 <span className='font-semibold'>Cancel</span>
               </Button>
             </> :
