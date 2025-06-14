@@ -9,7 +9,7 @@ This project is a demonstration of an application designed to enhance accessibil
 See more details on https://soonyoung.vercel.app/art
 
 ## Features
-* pre-recorded sign language interpretation for artworks and exhibitions, delivered contextually via beacon technology and Augmented Reality (AR).
+* Pre-recorded sign language interpretation for artworks and exhibitions, delivered contextually via beacon technology and Augmented Reality (AR).
 * A clean, user-friendly interface built with accessibility in mind.
 * Ability to book a sign language docent for a personalized guided tour experience.
 * A commitment to inclusivity, ensuring that art is accessible and meaningful to all visitors.
