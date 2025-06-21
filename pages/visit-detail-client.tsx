@@ -51,11 +51,16 @@ export default function VisitDetailPage({ id }: { id: string }) {
         <div className='grid grid-cols-1 md:grid-cols-[1fr_1fr] md:gap-10'>
           <div>
             <div className='mb-4'>
-
-              <h3 className='font-medium text-2xl mb-2 flex'>You visited
+              <h3 className='font-medium text-2xl mb-2 flex'>
                 {data !== null ?
-                  <span className='font-bold ml-2'>{data.exhibition.title}.</span> :
-                  <div className='animate-pulse bg-gray-100 w-48 h-8 rounded-lg m-auto ml-2'></div>}
+                  <span>You visited
+                    <span className='font-bold ml-2'>{data.exhibition.title}.</span>
+                  </span>
+                  :
+                  <div className='flex w-full'>
+                    <span>You visited</span>
+                    <span className='inline-block animate-pulse bg-gray-100 w-[calc(100%-130px)] h-7 rounded-lg m-auto ml-2'></span>
+                  </div>}
               </h3>
               <div className='flex gap-2 items-center py-1'>
                 <Calendar1 size={18} color='gray' />
