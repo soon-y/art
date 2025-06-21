@@ -19,13 +19,19 @@ export default function Visit() {
 
   const fetchData = async () => {
     const res = await fetch('/api/visit/fetch')
-    const result = await res.json()
-    if (result.success) {
-      setVisitData(result.history)
-      setBookingData(result.booked)
-    } else {
+
+    if (!res.ok) {
       setError(true)
       setTimeout(() => setError(false), 3000)
+    } else {
+      const result = await res.json()
+      if (result.success) {
+        setVisitData(result.history)
+        setBookingData(result.booked)
+      } else {
+        setError(true)
+        setTimeout(() => setError(false), 3000)
+      }
     }
   }
 
