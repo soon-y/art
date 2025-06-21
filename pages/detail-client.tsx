@@ -9,9 +9,10 @@ import DetailTopSection from '@/components/detailTopSection'
 import { ExhibitionData, SearchItem } from "@/types"
 import Alert from "@/components/alert"
 import DetailDescription from '@/components/detailDescription'
-import { Calendar1, Clock3, UserRound } from 'lucide-react'
+import { Calendar1, Clock3, UserRound, LoaderCircle } from 'lucide-react'
 
 export default function DetailPage({ id }: { id: string }) {
+  const [loading, setLoading] = useState<boolean>(false)
   const [whenDay, setWhenDay] = useState<number>(0)
   const [whenMonth, setWhenMonth] = useState<number>(0)
   const [whenYear, setWhenYear] = useState<number>(0)
@@ -121,7 +122,7 @@ export default function DetailPage({ id }: { id: string }) {
 
           {search !== null && data !== null ?
             <ConfirmBox json={data} whenDay={whenDay} whenMonth={whenMonth} whenYear={whenYear} whenHour={whenHour} whoNum={whoNum}
-              bookingID={0} bookedDate='' lat={search.latitude} lon={search.longitude} addr={search.address} />
+              bookingID={0} bookedDate='' lat={search.latitude} lon={search.longitude} addr={search.address} setLoading={setLoading} />
             :
             <div>
               <div className="hidden md:block bg-muted w-full h-[350px] mx-auto my-1 shadow-xl my-10 p-6 rounded-xl">
@@ -162,6 +163,12 @@ export default function DetailPage({ id }: { id: string }) {
           }
         </div>
       </div>
+
+      {loading &&
+        <div className='fixed left-0 top-0 w-screen h-screen flex items-center justify-center backdrop-blur-sm z-10'>
+          <LoaderCircle className='animate-spin w-12 h-12' />
+        </div>
+      }
 
       {error && <Alert msg={
         <>

@@ -9,9 +9,10 @@ import DetailTopSection from '@/components/detailTopSection'
 import { BookingData } from "@/types"
 import Alert from "@/components/alert"
 import DetailDescription from '@/components/detailDescription'
-import { Calendar1, Clock3, UserRound } from 'lucide-react'
+import { Calendar1, Clock3, UserRound, LoaderCircle } from 'lucide-react'
 
 export default function BookingPage({ id }: { id: string }) {
+  const [loading, setLoading] = useState<boolean>(false)
   const [whenDay, setWhenDay] = useState<number>(0)
   const [whenMonth, setWhenMonth] = useState<number>(0)
   const [whenYear, setWhenYear] = useState<number>(0)
@@ -122,7 +123,7 @@ export default function BookingPage({ id }: { id: string }) {
 
           {data !== null ?
             <ConfirmBox json={data.exhibition} whenDay={whenDay} whenMonth={whenMonth} whenYear={whenYear} whenHour={whenHour} whoNum={whoNum}
-              bookingID={data.id} bookedDate={data.booked_time} lat={data.latitude} lon={data.longitude} addr='' />
+              bookingID={data.id} bookedDate={data.booked_time} lat={data.latitude} lon={data.longitude} addr='' setLoading={setLoading}/>
             :
             <div>
               <div className="hidden md:block bg-muted w-full h-[420px] mx-auto my-1 shadow-xl my-10 p-6 rounded-xl">
@@ -167,8 +168,13 @@ export default function BookingPage({ id }: { id: string }) {
             </div>
           }
         </div>
-
       </div>
+
+      {loading &&
+        <div className='fixed left-0 top-0 w-screen h-screen flex items-center justify-center backdrop-blur-sm z-10'>
+          <LoaderCircle className='animate-spin w-12 h-12' />
+        </div>
+      }
 
       {error && <Alert msg={
         <>

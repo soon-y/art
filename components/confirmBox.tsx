@@ -22,10 +22,11 @@ interface props {
   lat: number
   lon: number
   addr: string
+  setLoading: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-const ConfirmBox: React.FC<props> = ({ json, whenDay, whenMonth, whenYear, whenHour, whoNum, bookingID = 0, bookedDate = '', lat, lon, addr = '' }) => {
-  const [error, setError] = useState<boolean>(false)
+const ConfirmBox: React.FC<props> = ({ json, whenDay, whenMonth, whenYear, whenHour, whoNum, bookingID = 0, bookedDate = '', lat, lon, addr = '', setLoading }) => {
+  const [alert, setAlert] = useState<boolean>(false)
   const [openChange, setOpenChange] = useState<boolean>(false)
   const [openCancel, setOpenCancel] = useState<boolean>(false)
   const [isBookingPage, setIsBookingPage] = useState<boolean>(false)
@@ -78,6 +79,7 @@ const ConfirmBox: React.FC<props> = ({ json, whenDay, whenMonth, whenYear, whenH
   }
 
   const insert = async () => {
+    setLoading(true)
     const newBooking = {
       ex_id: json.id,
       address: isBookingPage ? json.address : json.address + ', ' + addr,
@@ -105,21 +107,23 @@ const ConfirmBox: React.FC<props> = ({ json, whenDay, whenMonth, whenYear, whenH
 
     if (!response.ok) {
       console.error("Server returned error:", response.status)
-      setError(true)
-      setTimeout(() => setError(false), 3000)
+      setAlert(true)
+      setTimeout(() => setAlert(false), 3000)
       return
     }
 
     const result = await response.json()
     if (result.success) {
+      setLoading(false)
       router.push('/visits')
     } else {
-      setError(true)
-      setTimeout(() => setError(false), 3000)
+      setAlert(true)
+      setTimeout(() => setAlert(false), 3000)
     }
   }
 
   const update = async (id: number) => {
+    setLoading(true)
     const newBooking = {
       booking_time: parseFormattedDate(`${whenHour}:00, ${whenDay} ${months[whenMonth]} ${whenYear}`),
       booked_time: new Date(new Date().getTime() - (new Date().getTimezoneOffset() * 60000)).toISOString(),
@@ -143,14 +147,16 @@ const ConfirmBox: React.FC<props> = ({ json, whenDay, whenMonth, whenYear, whenH
 
     const result = await response.json()
     if (result.success) {
+      setLoading(false)
       router.push('/visits')
     } else {
-      setError(true)
-      setTimeout(() => setError(false), 3000)
+      setAlert(true)
+      setTimeout(() => setAlert(false), 3000)
     }
   }
 
   const cancel = async (id: number) => {
+    setLoading(true)
     const notification = {
       activity: 'delete',
       title: `${json.title} at ${json.name}`,
@@ -167,10 +173,11 @@ const ConfirmBox: React.FC<props> = ({ json, whenDay, whenMonth, whenYear, whenH
     })
     const result = await response.json()
     if (result.success) {
+      setLoading(false)
       router.push('/visits')
     } else {
-      setError(true)
-      setTimeout(() => setError(false), 3000)
+      setAlert(true)
+      setTimeout(() => setAlert(false), 3000)
     }
   }
 
@@ -282,7 +289,7 @@ const ConfirmBox: React.FC<props> = ({ json, whenDay, whenMonth, whenYear, whenH
         </>
       } />}
 
-      {error && <Alert msg={
+      {alert && <Alert msg={
         <>
           Something went wrong.<br />
           Please try again.
