@@ -25,6 +25,7 @@ export default function DetailTopSection({ id }: { id: string }) {
     const result = await res.json()
     if (result.success) {
       setData(result.exhibition)
+      setIsBookmarked(result.exhibition.bookmark)
     }
   }
 
